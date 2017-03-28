@@ -11,19 +11,19 @@ Natural history museums and herbaria collectively hold hundreds of millions of z
 ###Input
 ######All these functions will create a LopodData object which will be a list of the original geographic structure of the data (Raster or Shape) and a list of data ready for Stan. In all Elements at least 1 element must have Y > 1 and in all of them N > Y.
 
-[ ] rasterLopodData(rasterN, rasterY, extSample, extDetection) *
+- [ ] rasterLopodData(rasterN, rasterY, extSample, extDetection) *
 
-[ ] xyLopodData(xyN, xyY,nCells, extSample, extDetection)
+- [ ] xyLopodData(xyN, xyY,nCells, extSample, extDetection)
 
-[ ] shapeLopodData(ShapeFile, fieldN, fieldY)
+- [ ] shapeLopodData(ShapeFile, fieldN, fieldY)
 
-[ ] dfLopodData(df, fieldN, fieldY, custW)
+- [ ] dfLopodData(df, fieldN, fieldY, custW)
 
 ### Model (and Stan Scripts)
 
 ######All Stan files will be called from the same function depending on the attributes. The result is a LopodModel object which is a list of the settings used to run the model,  Stan model output and the LopodData geo object.
 
-[ ] lopodModel(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000)*
+- [ ] lopodModel(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000)*
 
 ``` {r}
 
@@ -47,7 +47,7 @@ if (CAR == F) {
 ```
 ###### Global p and q estimated. Psy for each sampling unit.
 
-[ ] psyipq.stan *
+- [ ] psyipq.stan *
 
 
 ``` {r}
@@ -59,7 +59,7 @@ if (CAR == F) {
 ```
 ###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit.
 
-[ ] psyip.stan *
+- [ ] psyip.stan *
 
 ``` {r}
     }
@@ -71,7 +71,7 @@ if (CAR == F) {
 ```
 ###### Global q estimated. Psy and P for each sampling unit.
 
-[ ] psyipiq.stan *
+- [ ] psyipiq.stan *
 
 
 ``` {r}
@@ -83,7 +83,7 @@ if (CAR == F) {
 ```
 ###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).
 
-[ ] psyipi.stan *
+- [ ] psyipi.stan *
 
 ``` {r}
     }
@@ -101,7 +101,7 @@ if (CAR == T) {
 ```
 ###### Global p and q estimated. Psy for each sampling unit. Psy is spatially autocorrelated.
 
-[ ] psyipq_CAR.stan *
+- [ ] psyipq_CAR.stan *
 
 
 ``` {r}
@@ -113,7 +113,7 @@ if (CAR == T) {
 ```
 ###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially autocorrelated.
 
-[ ] psyip_CAR.stan *
+- [ ] psyip_CAR.stan *
 
 ``` {r}
     }
@@ -125,7 +125,7 @@ if (CAR == T) {
 ```
 ###### Global q estimated. Psy and P for each sampling unit. Psy is spatially autocorrelated.
 
-[ ] psyipiq_CAR.stan *
+- [ ] psyipiq_CAR.stan *
 
 
 ``` {r}
@@ -137,7 +137,7 @@ if (CAR == T) {
 ```
 ###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially autocorrelated.
 
-[ ] psyipi_CAR.stan *
+- [ ] psyipi_CAR.stan *
 
 ``` {r}
     }
@@ -149,29 +149,29 @@ if (CAR == T) {
 
 ###### Summary statistic of the output of the Stan models as well as occupancy models / CAR parameters depending on the model used.  
 
-[ ] lopodSummary(LopodModel) *
+- [ ] lopodSummary(LopodModel) *
 
 ###### Maps of the parameters estimated for each sampling unit. For shapes these will be added to the attribute table
 
-[ ] lopodRaster(LopodModel, par="psy", value="median") *
+- [ ] lopodRaster(LopodModel, par="psy", value="median") *
 
-[ ] lopodShape(shapefle, LopodModel, par="psy", value="median", fieldname = NULL)
+- [ ] lopodShape(shapefle, LopodModel, par="psy", value="median", fieldname = NULL)
 
 ###### Stacks/Shapefiles with the maps of the parameters estimated for each sampling unit per iteration.
 
-[ ] lopodRasterDist(LopodModel, par="psy", value="median", nIter = 100)
+- [ ] lopodRasterDist(LopodModel, par="psy", value="median", nIter = 100)
 
-[ ] lopodShapeDist(shapefle, LopodModel, par="psy", value="median", fieldname = NULL, nIter = 100)
-
-###### SpatialDataframe of XY with presence/absence or presence/background for other SDM programs based on a threshold.
-
-[ ] lopodPresAbs(LopodModel, par="psy", value="median", thresh=0.05)
-
-[ ] lopodPresBG(LopodModel, par="psy", value="median", thresh=0.05)
-
+- [ ] lopodShapeDist(shapefle, LopodModel, par="psy", value="median", fieldname = NULL, nIter = 100)
 
 ###### SpatialDataframe of XY with presence/absence or presence/background for other SDM programs based on a threshold.
 
-[ ] lopodPresAbsDist(LopodModel, par="psy", nIter = 100)
+- [ ] lopodPresAbs(LopodModel, par="psy", value="median", thresh=0.05)
 
-[ ] lopodPresBGDist(LopodModel, par="psy", nIter = 100)
+- [ ] lopodPresBG(LopodModel, par="psy", value="median", thresh=0.05)
+
+
+###### SpatialDataframe of XY with presence/absence or presence/background for other SDM programs based on a threshold.
+
+- [ ] lopodPresAbsDist(LopodModel, par="psy", nIter = 100)
+
+- [ ] lopodPresBGDist(LopodModel, par="psy", nIter = 100)
