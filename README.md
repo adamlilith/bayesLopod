@@ -47,7 +47,7 @@ if (CAR == F) {
 ```
 ###### Global p and q estimated. Psy for each sampling unit.
 
-- [ ] psyipq.stan *
+- [X] psyipq.stan *
 
 
 ``` {r}
@@ -59,7 +59,7 @@ if (CAR == F) {
 ```
 ###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit.
 
-- [ ] psyip.stan *
+- [X] psyip.stan *
 
 ``` {r}
     }
@@ -71,7 +71,7 @@ if (CAR == F) {
 ```
 ###### Global q estimated. Psy and P for each sampling unit.
 
-- [ ] psyipiq.stan *
+- [X] psyipiq.stan *
 
 
 ``` {r}
@@ -83,7 +83,7 @@ if (CAR == F) {
 ```
 ###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).
 
-- [ ] psyipi.stan *
+- [X] psyipi.stan *
 
 ``` {r}
     }
