@@ -1,7 +1,7 @@
 # bayesLopod
 ###### Bayes inference of Landscape Occupancy from Presence-Only Data
 
-Natural history museums and herbaria collectively hold hundreds of millions of zoological, botanical, and paleontological specimens. These collections serve as the foundation for understanding the distribution of life on Earth and the basis for addressing loss of biodiversity, emerging diseases, and other pressing global problems as well as important question in ecology and evolution. One of the short comings of these kind of data is that the lack of evidence of the presence of a species in a certain region does not mean the species is truly absent there. Likewise, specimens are often misidentified, and therefore the report of a species in a locality is not always evidence that a viable population occurs there. The goal of this project is to develop a method which could be used to estimate the probability of presence of a species in a certain study region based on certain sampling effort and presence reports. 
+Natural history museums and herbaria collectively hold hundreds of millions of zoological, botanical, and paleontological specimens. These collections serve as the foundation for understanding the distribution of life on Earth and the basis for addressing loss of biodiversity, emerging diseases, and other pressing global problems as well as important question in ecology and evolution. One of the short comings of these kind of data is that the lack of evidence of the presence of a species in a certain region does not mean the species is truly absent there. Likewise, specimens are often misidentified, and therefore the report of a species in a locality is not always evidence that a viable population occurs there. The goal of this project is to develop a method which could be used to estimate the probability of presence of a species in a certain study region based on certain sampling effort and presence reports.
 
 ***
 
@@ -101,7 +101,7 @@ if (CAR == T) {
 ```
 ###### Global p and q estimated. Psy for each sampling unit. Psy is spatially autocorrelated.
 
-- [ ] psyipq_CAR.stan *
+- [X] psyipq_CAR.stan *
 
 
 ``` {r}
@@ -113,7 +113,7 @@ if (CAR == T) {
 ```
 ###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially autocorrelated.
 
-- [ ] psyip_CAR.stan *
+- [X] psyip_CAR.stan *
 
 ``` {r}
     }
@@ -125,7 +125,7 @@ if (CAR == T) {
 ```
 ###### Global q estimated. Psy and P for each sampling unit. Psy is spatially autocorrelated.
 
-- [ ] psyipiq_CAR.stan *
+- [X] psyipiq_CAR.stan *
 
 
 ``` {r}
@@ -137,7 +137,7 @@ if (CAR == T) {
 ```
 ###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially autocorrelated.
 
-- [ ] psyipi_CAR.stan *
+- [X] psyipi_CAR.stan *
 
 ``` {r}
     }
