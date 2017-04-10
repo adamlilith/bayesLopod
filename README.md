@@ -11,7 +11,7 @@ Natural history museums and herbaria collectively hold hundreds of millions of z
 ### Input
 ###### All these functions will create a LopodData object which will be a list of the original geographic structure of the data (Raster or Shape) and a list of data ready for Stan. In all Elements at least 1 element must have Y > 1 and in all of them N > Y.
 
-- [ ] rasterLopodData(rasterN, rasterY, extSample, extDetection) *
+- [X] rasterLopodData(rasterN, rasterY, extSample, extDetection) *
 
 - [ ] xyLopodData(xyN, xyY,nCells, extSample, extDetection)
 
