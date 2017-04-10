@@ -1,11 +1,4 @@
 
-spData=stack("./simScenario/sim50Sampling_Biased.grd")
-
-rasterN = spData[["sampEff"]]
-rastery = spData[["totalDetVarP"]]
-
-
-
 rasterLopodData = function(rasterN, rasterY,Adjacency = T, extSample = 0.025, extDetection = 0.15){
 
 if (extent(rasterN) != extent(rastery) | ncell(rasterN) != ncell(rastery)){
@@ -38,9 +31,10 @@ if (Adjacency){
     
   }
 
-maxExtDistDect = maxDist * extDetection
 
 }
+
+maxExtDistDect = maxDist * extDetection
 
 
 DistSample = rasterN
@@ -63,6 +57,7 @@ rastery = rastery*StudyArea
 
 #Which cells have been sampled or not sampled
 whichSampledCells = which(rasterN[]>0)
+
 whichNotSampledCells = which(rasterN[]==0)
 
 whichNoNACells = which(is.na(rasterN[]) == F)
@@ -150,17 +145,17 @@ if (Adjacency){
   quadMatrix_sparse = crossprod_simple_triplet_matrix(crossprod_simple_triplet_matrix(w_sparse_mat,invsqrtD_SparseDiag),invsqrtD_SparseDiag)
   lambda_sparse = eigen(quadMatrix_sparse,only.values = T)
   
-  geoInfo = list(sampledId,notSampledId,W_sparse,D_sparse,lambda_sparse$values)
+  geoInfo = list(sampledId=sampledId,notSampledId=notSampledId,W_sparse=W_sparse,D_sparse=D_sparse,lambda_sparse=lambda_sparse$values)
   
 } else {
 
   sampledId = data.frame("cellRaster" = whichSampledCells, cellStan = 1:length(whichSampledCells))
   
-  geoInfo = list(sampledId)
+  geoInfo = list(sampledId=sampledId)
   
 }
 
-return(LopodData (geoDataObject = geoDataObject, geoInfo = geoInfo, geoType = "Raster" ))
+return(LopodData_Class (geoDataObject = geoDataObject, geoInfo = geoInfo, geoType = "Raster" ))
   
   
   

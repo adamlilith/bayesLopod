@@ -23,7 +23,7 @@ Natural history museums and herbaria collectively hold hundreds of millions of z
 
 ###### All Stan files will be called from the same function depending on the attributes. The result is a LopodModel object which is a list of the settings used to run the model,  Stan model output and the LopodData geo object.
 
-- [ ] lopodModel(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000)*
+- [X] modelLopod(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000)*
 
 ``` {r}
 
@@ -35,6 +35,27 @@ if (pmin<0  & pmin>1){
  message(pmin must be between 0 and 1")
 }
 ```
+
+#### Most parameterized stanData
+
+``` {r}
+stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                         sampledId = LopodData@geoInfo$sampledId$cellStan,
+                         nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                         notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                         n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
+                         W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                         W_sparse = LopodData@geoInfo$W_sparse,
+                         D_sparse = LopodData@geoInfo$D_sparse,
+                         lambda = LopodData@geoInfo$lambda_sparse,
+                         N = N,
+                         y = y,
+                         minP = pmin,
+                         q = q
+
+        )
+      ```
+
 
 #### Stan Files
 
