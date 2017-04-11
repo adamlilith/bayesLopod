@@ -36,7 +36,7 @@ lopodRaster =  function(LopodModel,param,extrapolate=T, metric = NULL, quant=0.5
     CellsID = rbind(LopodModel@LopodData@geoInfo$sampledId,LopodModel@LopodData@geoInfo$notSampledId)
     ParObjects=paste(param,"[",CellsID$cellStan,"]",sep="")
     
-    ParValues = summary(LopodModel@StanFit,pars=ParObjects,probs=probs)$summary[,columnName]
+    ParValues = summary(LopodModel@StanFit,pars=ParObjects,probs=probs, use_cache=FALSE)$summary[,columnName]
     finalRaster[CellsID$cellRaster] = ParValues
       
 
@@ -57,7 +57,7 @@ lopodRaster =  function(LopodModel,param,extrapolate=T, metric = NULL, quant=0.5
   }
     
   
-  ParValues = summary(LopodModel@StanFit,pars=ParObjects,probs=probs)$summary[,columnName]
+  ParValues = summary(LopodModel@StanFit,pars=ParObjects,probs=probs, use_cache=FALSE)$summary[,columnName]
   finalRaster[CellsID$cellRaster] = ParValues
   
   

@@ -3,6 +3,8 @@ library(rstan)
 library(emulator)
 library(slam)
 library(ggplot2)
+library(sp)
+library(rstantools)
 
 source("./RScripts/rasterLopodData.R")
 source("./RScripts/LopodData_class.R")
@@ -12,8 +14,6 @@ source("./RScripts/modelParams.R")
 source("./RScripts/lopodSummary.R")
 source("./RScripts/lopodDens.R")
 source("./RScripts/lopodRaster.R")
-
-
 
 
 
