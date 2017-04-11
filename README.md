@@ -54,127 +54,107 @@ stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
                          q = q
 
         )
-      ```
+
+```
 
 
 #### Stan Files
 
-``` {r}
-if (CAR == F) {
 
-  if (varP == F){
-
-    if (is.null(q)==T){
-```
 ###### Global p and q estimated. Psy for each sampling unit.
 
 - [X] psyipq.stan *
 
 
-``` {r}
-    }
-
-    if (is.null(q)==F) {  
-
-        pmin = q
-```
 ###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit.
 
 - [X] psyip.stan *
 
-``` {r}
-    }
-  }
 
-  if (varP == T){
-
-    if (is.null(q)==T){
-```
 ###### Global q estimated. Psy and P for each sampling unit.
 
 - [X] psyipiq.stan *
 
 
-``` {r}
-    }
-
-    if (is.null(q)==F) {  
-
-        pmin = q
-```
 ###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).
 
 - [X] psyipi.stan *
 
-``` {r}
-    }
-  }
-}
 
-if (CAR == T) {
-  if(is.null(LopodData$stanData$w)==T){
-    message("Cannot perform CAR analysis without adjacency matrix")
-  } else {
-
-  if (varP == F){
-
-    if (is.null(q)==T){
-```
 ###### Global p and q estimated. Psy for each sampling unit. Psy is spatially autocorrelated.
 
 - [X] psyipq_CAR.stan *
 
 
-``` {r}
-    }
-
-    if (is.null(q)==F) {  
-
-        pmin = q
-```
 ###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially autocorrelated.
 
 - [X] psyip_CAR.stan *
 
-``` {r}
-    }
-  }
 
-  if (varP == T){
-
-    if (is.null(q)==T){
-```
 ###### Global q estimated. Psy and P for each sampling unit. Psy is spatially autocorrelated.
 
 - [X] psyipiq_CAR.stan *
 
 
-``` {r}
-    }
-
-    if (is.null(q)==F) {  
-
-        pmin = q
-```
 ###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially autocorrelated.
 
 - [X] psyipi_CAR.stan *
 
-``` {r}
-    }
-  }
-  }
-}
-```
+
 ### Output
+
+####Conditionals for all settings combinations
+
+```{r}
+if (LopodModel@modelInfo$CAR == F) {
+
+   if (LopodModel@modelInfo$varP == F){
+
+     if (is.null(LopodModel@modelInfo$q)==T){
+
+     }
+
+     if (is.null(LopodModel@modelInfo$q)==F) {}
+   }
+
+   if (LopodModel@modelInfo$varP == T){
+
+     if (is.null(LopodModel@modelInfo$q)==T){}
+
+     if (is.null(LopodModel@modelInfo$q)==F) {}
+   }
+ }
+
+ if (LopodModel@modelInfo$CAR == T) {
+
+     if (LopodModel@modelInfo$varP == F){
+
+       if (is.null(LopodModel@modelInfo$q)==T){}
+
+       if (is.null(LopodModel@modelInfo$q)==F) {}
+     }
+
+     if (LopodModel@modelInfo$varP == T){
+
+       if (is.null(LopodModel@modelInfo$q)==T){}
+
+       if (is.null(LopodModel@modelInfo$q)==F) {}
+     }
+   }
+
+```
 
 ###### Summary statistic of the output of the Stan models as well as occupancy models / CAR parameters depending on the model used.  
 
-- [ ] lopodSummary(LopodModel) *
+- [X] lopodSummary(LopodModel, params) *
+
+###### Density distribution of occupancy models / CAR parameters depending on the model used.  
+
+- [X] lopodDens(LopodModel, params) *
 
 ###### Maps of the parameters estimated for each sampling unit. For shapes these will be added to the attribute table
 
-- [ ] lopodRaster(LopodModel, par="psy", value="median") *
+- [X] lopodRaster(LopodModel, par="psy", value="median") *
 
 - [ ] lopodShape(shapefle, LopodModel, par="psy", value="median", fieldname = NULL)
 
