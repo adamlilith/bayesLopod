@@ -1,2 +1,0 @@
-setClassUnion("spatialObjectsUnion", c("RasterStack", "SpatialPolygonsDataFrame"))
-LopodData_Class = setClass("LopodData",slots=c(geoDataObject = "spatialObjectsUnion", geoType = "character", geoInfo = "list" ) )
