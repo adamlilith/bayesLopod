@@ -27,7 +27,8 @@ lopodSummary =  function(LopodModel,params=NULL,  probs = c(0.05, 0.50, 0.95)){
 
   }
 
-  return(summary(LopodModel@StanFit, pars=sumPars, probs=probs, use_cache=FALSE)$summary)
+
+  return(rstan::summary(LopodModel@StanFit, pars=sumPars, probs=probs, use_cache=FALSE)$summary)
 
 }
 
