@@ -1,6 +1,5 @@
 exportPattern("^[[:alpha:]]+")
 exportClasses(
     "LopodModel",
-     "spatialObjectsUnion",
      "LopodData" 
 )
