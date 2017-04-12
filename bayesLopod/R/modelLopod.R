@@ -1,7 +1,20 @@
+#' Run a  Bayes inference of Landscape Occupancy from Presence-Only Data on Stan
+#'
+#' @param LopodData Obejct with the data to be used in the Model
+#' @param varP Boolean. If TRUE, detectability will vary across cells. If FALSE a global value for detectability will be estimated.
+#' @param CAR Boolean. If TRUE, (and if a adjancency matrix is included in the LopodData object) a conditional autoregression analysis will be performed for occupancy across units.
+#' @param pmin Number between 0 and 1. Minimum value for detectability in a unit in which the species occurs.
+#' @param q Number between 0 and 1 or NULL. Rate of false detections. If NULL the values will be estimated by the model.
+#' @return A LopodModel object.
+#' @examples
 
-stanFilesDir = "./exec/"
+
+
+
 
 modelLopod = function(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000, nCores=4){
+
+  stanFilesDir = "./exec/"
 
 #Check values anda data types
 

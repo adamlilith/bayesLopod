@@ -12,6 +12,3 @@ modelParams(ModLopod)
 lopodSummary(ModLopod, probs = NULL)
 lopodDens(ModLopod)
 spplot(lopodRaster(ModLopod, param="pp", metric="mean", extrapolate = F))
-
-ModLopod@StanFit@model_name
-ModLopod@modelInfo
