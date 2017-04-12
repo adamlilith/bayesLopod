@@ -2,7 +2,7 @@
 % Please edit documentation in R/lopodSummary.R
 \name{lopodSummary}
 \alias{lopodSummary}
-\title{Add together two numbers.}
+\title{Summary statistics for a LopodModel}
 \usage{
 lopodSummary(LopodModel, params = NULL, probs = c(0.05, 0.5, 0.95))
 }
@@ -17,7 +17,7 @@ lopodSummary(LopodModel, params = NULL, probs = c(0.05, 0.5, 0.95))
 Returns a dataframe which contain summaries for for all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.
 }
 \description{
-Add together two numbers.
+Summary statistics for a LopodModel
 }
 \examples{
 lopodSummary(LopodModel)

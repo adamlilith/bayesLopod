@@ -1,7 +1,7 @@
 Package: bayesLopod
 Type: Package
 Title: Bayes inference of Landscape Occupancy from Presence-Only Data
-Version: 1.0
+Version: 0.1
 Date: 2017-04-11
 Author: Camilo Sanin
 Maintainer: Camilo Sanin <camilosanin@gmail.com>
