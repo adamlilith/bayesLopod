@@ -1,5 +1,5 @@
 
-stanFilesDir = "./StanFiles/"
+stanFilesDir = "./exec/"
 
 modelLopod = function(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000, nCores=4){
 
