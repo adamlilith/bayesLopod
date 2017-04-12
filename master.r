@@ -1,23 +1,5 @@
-library(raster)
-library(rstan)
-library(emulator)
-library(slam)
-library(ggplot2)
-library(sp)
-library(rstantools)
 
-source("./RScripts/rasterLopodData.R")
-source("./RScripts/LopodData_class.R")
-source("./RScripts/LopodModel_class.R")
-source("./RScripts/modelLopod.R")
-source("./RScripts/modelParams.R")
-source("./RScripts/lopodSummary.R")
-source("./RScripts/lopodDens.R")
-source("./RScripts/lopodRaster.R")
-
-
-
-spData=stack("./simScenario/sim50Sampling_Biased.grd")
+spData=stack("C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased.grd")
 rasterN = spData[["sampEff"]]
 rastery = spData[["totalDetVarP"]]
 
