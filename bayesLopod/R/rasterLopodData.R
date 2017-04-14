@@ -12,7 +12,7 @@
 
 rasterLopodData = function(rasterN, rasterY,Adjacency = T, extSample = 0.025, extDetection = 0.15){
 
-rasterY = rastery
+rastery = rasterY
 
 if (extent(rasterN) != extent(rasterY) | ncell(rasterN) != ncell(rasterY)){
   stop ("Raster for sampling effort and for detections should have the same extent and resolution")
