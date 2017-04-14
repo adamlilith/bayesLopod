@@ -1,9 +1,12 @@
 
 spData=stack("C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased.grd")
-rasterN = spData[["sampEff"]]
-rastery = spData[["totalDetVarP"]]
+#writeRaster(spData[["sampEff"]], "C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased_SamEff.tif")
+#writeRaster(spData[["totalDetVarP"]], "C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased_totalDetVarP.tif")
 
-LopodObject = rasterLopodData(rasterN, rastery, Adjacency = T)
+rasterN = spData[["sampEff"]]
+rasterY = spData[["totalDetVarP"]]
+
+LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
 spplot(LopodObject@geoDataObject)
 
 ModLopod = modelLopod(LopodObject, varP = F, q = 0.01, CAR = T, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)

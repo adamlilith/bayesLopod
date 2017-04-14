@@ -12,12 +12,14 @@
 
 rasterLopodData = function(rasterN, rasterY,Adjacency = T, extSample = 0.025, extDetection = 0.15){
 
-if (extent(rasterN) != extent(rastery) | ncell(rasterN) != ncell(rastery)){
+rasterY = rastery
+
+if (extent(rasterN) != extent(rasterY) | ncell(rasterN) != ncell(rasterY)){
   stop ("Raster for sampling effort and for detections should have the same extent and resolution")
 
 }
 
-  if (min((rasterN - rastery)[], na.rm=T)<0 ){
+  if (min((rasterN - rasterY)[], na.rm=T)<0 ){
     stop ("Sampling effort must always be grater than number of detections")
 
   }
@@ -55,16 +57,16 @@ DistSample = distance(DistSample)
 DistSample[DistSample[]>maxExtDistSample] = NA
 DistSample[DistSample[]<=maxExtDistSample] = 1
 
-DistDetec = rastery
+DistDetec = rasterY
 DistDetec[] = NA
-DistDetec[rastery[]>0] = 1
+DistDetec[rasterY[]>0] = 1
 DistDetec = distance(DistDetec)
 DistDetec[DistDetec[]>maxExtDistDect] = NA
 DistDetec[DistDetec[]<=maxExtDistDect] = 1
 
 StudyArea = DistDetec*DistSample
 rasterN = rasterN*StudyArea
-rastery = rastery*StudyArea
+rastery = rasterY*StudyArea
 
 #Which cells have been sampled or not sampled
 whichSampledCells = which(rasterN[]>0)
