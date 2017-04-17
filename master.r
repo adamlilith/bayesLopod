@@ -9,7 +9,7 @@ rasterY = spData[["totalDetVarP"]]
 LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
 spplot(LopodObject@geoDataObject)
 
-ModLopod = modelLopod(LopodObject, varP = F, q = 0.01, CAR = T, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
 
 modelParams(ModLopod)
 lopodSummary(ModLopod, probs = NULL)

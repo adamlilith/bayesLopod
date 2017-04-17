@@ -54,8 +54,7 @@ if(LopodData@geoType == "Raster"){
         )
 
         message("Global p and q estimated. Psy for each sampling unit.")
-
-        StanModel = stan_model(file = paste(stanFilesDir,"psyipq.stan",sep=""))
+        StanModel = stanmodels$psyipq
 
 
       }
@@ -74,7 +73,7 @@ if(LopodData@geoType == "Raster"){
         )
 
         message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit.")
-        StanModel = stan_model(file = paste(stanFilesDir,"psyip.stan",sep=""))
+        StanModel = stanmodels$psyip
 
       }
     }
@@ -94,7 +93,7 @@ if(LopodData@geoType == "Raster"){
 
         message("Global q estimated. Psy and P for each sampling unit")
 
-          StanModel = stan_model(file = paste(stanFilesDir,"psyipiq.stan",sep=""))
+          StanModel = stanmodels$psyipiq
 
 
       }
@@ -113,8 +112,7 @@ if(LopodData@geoType == "Raster"){
         )
 
         message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).")
-
-        StanModel = stan_model(file = paste(stanFilesDir,"psyipi.stan",sep=""))
+        StanModel = stanmodels$psyipi
 
 
       }
@@ -145,8 +143,7 @@ if(LopodData@geoType == "Raster"){
           )
 
           message("Global p and q estimated. Psy for each sampling unit. Psy is spatially autocorrelated.")
-
-          StanModel = stan_model(file = paste(stanFilesDir,"psyipq_CAR.stan",sep=""))
+          StanModel = stanmodels$psyipq_CAR
 
         }
 
@@ -170,8 +167,7 @@ if(LopodData@geoType == "Raster"){
           )
 
           message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially autocorrelated.")
-
-          StanModel = stan_model(file = paste(stanFilesDir,"psyip_CAR.stan",sep=""))
+          StanModel = stanmodels$psyip_CAR
 
         }
       }
@@ -195,8 +191,7 @@ if(LopodData@geoType == "Raster"){
           )
 
           message("Global q estimated. Psy and P for each sampling unit. Psy is spatially autocorrelated.")
-
-          StanModel = stan_model(file = paste(stanFilesDir,"psyipiq_CAR.stan",sep=""))
+          StanModel = stanmodels$psyipiq_CAR
 
         }
 
@@ -220,7 +215,7 @@ if(LopodData@geoType == "Raster"){
           )
 
           message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially autocorrelated.")
-          StanModel = stan_model(file = paste(stanFilesDir,"psyipi_CAR.stan",sep=""))
+          StanModel = stanmodels$psyipi_CAR
 
         }
       }
