@@ -20,14 +20,14 @@ maxExtDistDect = maxDist * extDetection
 
 DistSample = DistStak[["DistSample"]]
 DistSample[] = NA
-DistSample[DistStak[["DistSample"]][]>0] = 1
+DistSample[DistStak[["DistSample"]][]==0] = 1
 DistSample = distance(DistSample)
 DistSample[DistSample[]>maxExtDistSample] = NA
 DistSample[DistSample[]<=maxExtDistSample] = 1
 
 DistDetec = DistStak[["DistDetec"]]
 DistDetec[] = NA
-DistDetec[DistStak[["DistDetec"]]>0] = 1
+DistDetec[DistStak[["DistDetec"]]==0] = 1
 DistDetec = distance(DistDetec)
 DistDetec[DistDetec[]>maxExtDistDect] = NA
 DistDetec[DistDetec[]<=maxExtDistDect] = 1

@@ -4,10 +4,12 @@
 \alias{rasterStudyArea}
 \title{Internal - Create a Raster object with Study Area from Raster data}
 \usage{
-rasterStudyArea(DistStak, extSample = 0.025, extDetection = 0.15)
+rasterStudyArea(DistStak, maxDist, extSample = 0.025, extDetection = 0.15)
 }
 \arguments{
 \item{DistStak}{Stack object distance to Sampled cells and detections (in that order).}
+
+\item{maxDist}{Maximun distance in Raster}
 
 \item{extSample}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to unsampled cells.}
 
