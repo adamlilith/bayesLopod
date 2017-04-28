@@ -6,6 +6,8 @@ spData=stack("C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased.grd")
 rasterN = spData[["sampEff"]]
 rasterY = spData[["totalDetVarP"]]
 
+spplot(rasterStudyArea(rasterDistToRecords(rasterN,rasterY)))
+
 LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
 spplot(LopodObject@geoDataObject)
 
