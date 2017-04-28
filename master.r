@@ -1,7 +1,7 @@
 
-spData=stack("C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased.grd")
-#writeRaster(spData[["sampEff"]], "C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased_SamEff.tif")
-#writeRaster(spData[["totalDetVarP"]], "C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased_totalDetVarP.tif")
+spData=stack("C:/GitHub/bayesLopod/simScenario/sim100Sampling_Biased.grd")
+writeRaster(spData[["sampEff"]], "C:/GitHub/bayesLopod/simScenario/sim100Sampling_Biased_SamEff.tif")
+writeRaster(spData[["totalDetVarP"]], "C:/GitHub/bayesLopod/simScenario/sim100Sampling_Biased_totalDetVarP.tif")
 
 rasterN = spData[["sampEff"]]
 rasterY = spData[["totalDetVarP"]]
@@ -19,6 +19,6 @@ lopodDens(ModLopod)
 spplot(lopodRaster(ModLopod, param="pp", metric="mean", extrapolate = F))
 
 
-
+devtools::document()
 
 devtools::install_github("camilosanin/bayesLopod/bayesLopod")
