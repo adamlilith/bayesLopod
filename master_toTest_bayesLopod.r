@@ -1,16 +1,18 @@
 #Install from github
-install.packages("devtools")
+
 devtools::install_github("camilosanin/bayesLopod/bayesLopod", dependencies = TRUE)
 library(bayesLopod)
 
 #Load testing rasters (any other can be used)
-spData=stack("C:/GitHub/bayesLopod/simScenario/sim50Sampling_Biased.grd")
+data(SimSp25sq, package = "bayesLopod")
+data(SimSp50sq, package = "bayesLopod")
+data(SimSp100sq, package = "bayesLopod")
 
 #Create Sampling effort raster object
-rasterN = spData[["sampEff"]]
+rasterN = SimSp50sq[["sampEff"]]
 
 #Create detectos raster object
-rasterY = spData[["totalDetVarP"]]
+rasterY = SimSp50sq[["totalDetVarP"]]
 
 # Create lopodObject
 LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
