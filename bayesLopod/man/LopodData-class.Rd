@@ -3,7 +3,6 @@
 \docType{class}
 \name{LopodData-class}
 \alias{LopodData-class}
-\alias{LopodData_Class}
 \title{An S4 class to contain data to be input into a bayesLopod model.}
 \description{
 An S4 class to contain data to be input into a bayesLopod model.
