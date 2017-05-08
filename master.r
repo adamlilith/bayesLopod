@@ -1,5 +1,12 @@
 
-spData=stack("C:/GitHub/bayesLopod/simScenario/sim100Sampling_Biased.grd")
+SimSp100sq=stack("C:/GitHub/bayesLopod/simScenario/sim100Sampling_Biased.grd")
+SimSp50sq=stack("C:/GitHub/bayesLopod/simScenario/sim50Sampling_Biased.grd")
+SimSp25sq=stack("C:/GitHub/bayesLopod/simScenario/sim25Sampling_Biased.grd")
+
+devtools::use_data(SimSp100sq,SimSp50sq,SimSp25sq,overwrite = T)
+
+
+
 writeRaster(spData[["sampEff"]], "C:/GitHub/bayesLopod/simScenario/sim100Sampling_Biased_SamEff.tif")
 writeRaster(spData[["totalDetVarP"]], "C:/GitHub/bayesLopod/simScenario/sim100Sampling_Biased_totalDetVarP.tif")
 
