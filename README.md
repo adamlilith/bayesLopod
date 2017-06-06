@@ -1,5 +1,5 @@
 # bayesLopod
-###### Bayes inference of Landscape Occupancy from Presence-Only Data
+###### Bayesian inference of Landscape Occupancy from Presence-Only Data
 
 Natural history museums and herbaria collectively hold hundreds of millions of zoological, botanical, and paleontological specimens. These collections serve as the foundation for understanding the distribution of life on Earth and the basis for addressing loss of biodiversity, emerging diseases, and other pressing global problems as well as important question in ecology and evolution. One of the short comings of these kind of data is that the lack of evidence of the presence of a species in a certain region does not mean the species is truly absent there. Likewise, specimens are often misidentified, and therefore the report of a species in a locality is not always evidence that a viable population occurs there. The goal of this project is to develop a method which could be used to estimate the probability of presence of a species in a certain study region based on certain sampling effort and presence reports.
 
@@ -15,7 +15,7 @@ Natural history museums and herbaria collectively hold hundreds of millions of z
 
 - [ ] xyLopodData(xyN, xyY,nCells, extSample, extDetection)
 
-- [ ] shapeLopodData(ShapeFile, fieldN, fieldY)
+- [X] shapeLopodData(ShapeFile, fieldN, fieldY)
 
 - [ ] dfLopodData(df, fieldN, fieldY, custW)
 
@@ -25,6 +25,9 @@ Natural history museums and herbaria collectively hold hundreds of millions of z
 
 - [X] modelLopod(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000)*
 
+- [X] For Rasters
+- [X] For Shapefiles
+- [ ] For DataFrames (Should this be implemented?)
 ``` {r}
 
 if (q<0  & q>1){

@@ -10,7 +10,7 @@
 
 
 
-
+LopodData = LopodObject
 
 modelLopod = function(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000, nCores=4){
 
@@ -33,7 +33,16 @@ if(LopodData@geoType == "Raster"){
   N = LopodData@geoDataObject[["samplingEffort"]][LopodData@geoInfo$sampledId$cellRaster]
   y = LopodData@geoDataObject[["Detections"]][LopodData@geoInfo$sampledId$cellRaster]
 
-}else{stop("Only Raster inputs are currently supported")}
+}
+if(LopodData@geoType == "Shapefile"){
+
+  N = LopodData@geoDataObject$sampEffort[LopodData@geoInfo$sampledId$featureShape]
+  y = LopodData@geoDataObject$detections[LopodData@geoInfo$sampledId$featureShape]
+
+}
+
+  if(LopodData@geoType != "Shapefile"&LopodData@geoType != "Raster"){
+    stop("Only Raster or Shapefiles inputs are currently supported")}
 
   modelInfo = list(varP = varP, q =  q, CAR = CAR)
 
@@ -45,13 +54,26 @@ if(LopodData@geoType == "Raster"){
 
       if (is.null(q)==T){
 
-        stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                         sampledId = LopodData@geoInfo$sampledId$cellStan,
-                         N = N,
-                         y = y,
-                         minP = pmin
 
-        )
+        if(LopodData@geoType == "Raster"){
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin
+          )
+
+        }
+        if(LopodData@geoType == "Shapefile"){
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin
+          )
+
+        }
+
 
         message("Global p and q estimated. Psy for each sampling unit.")
         StanModel = stanmodels$psyipq
@@ -63,14 +85,31 @@ if(LopodData@geoType == "Raster"){
 
         if (pmin < q) pmin = q
 
-        stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                         sampledId = LopodData@geoInfo$sampledId$cellStan,
-                         N = N,
-                         y = y,
-                         minP = pmin,
-                         q = q
+        if(LopodData@geoType == "Raster"){
 
-        )
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin,
+                           q = q
+
+          )
+
+        }
+        if(LopodData@geoType == "Shapefile"){
+
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin,
+                           q = q
+
+          )
+
+        }
+
 
         message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit.")
         StanModel = stanmodels$psyip
@@ -82,14 +121,27 @@ if(LopodData@geoType == "Raster"){
 
       if (is.null(q)==T){
 
+        if(LopodData@geoType == "Raster"){
 
-        stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                         sampledId = LopodData@geoInfo$sampledId$cellStan,
-                         N = N,
-                         y = y,
-                         minP = pmin
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin
+          )
 
-        )
+        }
+        if(LopodData@geoType == "Shapefile"){
+
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin
+          )
+
+        }
+
 
         message("Global q estimated. Psy and P for each sampling unit")
 
@@ -102,14 +154,31 @@ if(LopodData@geoType == "Raster"){
 
         if (pmin < q) pmin = q
 
-        stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                         sampledId = LopodData@geoInfo$sampledId$cellStan,
-                         N = N,
-                         y = y,
-                         minP = pmin,
-                         q = q
+        if(LopodData@geoType == "Raster"){
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin,
+                           q = q
+          )
 
-        )
+
+
+        }
+        if(LopodData@geoType == "Shapefile"){
+
+          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                           sampledId = LopodData@geoInfo$sampledId$cellStan,
+                           N = N,
+                           y = y,
+                           minP = pmin,
+                           q = q
+          )
+
+
+
+        }
 
         message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).")
         StanModel = stanmodels$psyipi
@@ -128,19 +197,40 @@ if(LopodData@geoType == "Raster"){
 
         if (is.null(q)==T){
 
-          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                           sampledId = LopodData@geoInfo$sampledId$cellStan,
-                           nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
-                           notSampledId = LopodData@geoInfo$notSampledId$cellStan,
-                           n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
-                           W_n = dim(LopodData@geoInfo$W_sparse)[1],
-                           W_sparse = LopodData@geoInfo$W_sparse,
-                           D_sparse = LopodData@geoInfo$D_sparse,
-                           lambda = LopodData@geoInfo$lambda_sparse,
-                           N = N,
-                           y = y,
-                           minP = pmin
-          )
+           if(LopodData@geoType == "Raster"){
+             stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                              sampledId = LopodData@geoInfo$sampledId$cellStan,
+                              nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                              notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                              n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
+                              W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                              W_sparse = LopodData@geoInfo$W_sparse,
+                              D_sparse = LopodData@geoInfo$D_sparse,
+                              lambda = LopodData@geoInfo$lambda_sparse,
+                              N = N,
+                              y = y,
+                              minP = pmin
+             )
+
+          }
+          if(LopodData@geoType == "Shapefile"){
+
+            stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                             sampledId = LopodData@geoInfo$sampledId$cellStan,
+                             nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                             notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                             n = length(LopodData@geoInfo$sampledId$featureShape)+length(LopodData@geoInfo$notSampledId$cellStan),
+                             W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                             W_sparse = LopodData@geoInfo$W_sparse,
+                             D_sparse = LopodData@geoInfo$D_sparse,
+                             lambda = LopodData@geoInfo$lambda_sparse,
+                             N = N,
+                             y = y,
+                             minP = pmin
+            )
+
+          }
+
 
           message("Global p and q estimated. Psy for each sampling unit. Psy is spatially autocorrelated.")
           StanModel = stanmodels$psyipq_CAR
@@ -151,20 +241,46 @@ if(LopodData@geoType == "Raster"){
 
           if (pmin < q) pmin = q
 
-          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                           sampledId = LopodData@geoInfo$sampledId$cellStan,
-                           nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
-                           notSampledId = LopodData@geoInfo$notSampledId$cellStan,
-                           n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
-                           W_n = dim(LopodData@geoInfo$W_sparse)[1],
-                           W_sparse = LopodData@geoInfo$W_sparse,
-                           D_sparse = LopodData@geoInfo$D_sparse,
-                           lambda = LopodData@geoInfo$lambda_sparse,
-                           N = N,
-                           y = y,
-                           minP = pmin,
-                           q = q
-          )
+          if(LopodData@geoType == "Raster"){
+
+            stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                             sampledId = LopodData@geoInfo$sampledId$cellStan,
+                             nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                             notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                             n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
+                             W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                             W_sparse = LopodData@geoInfo$W_sparse,
+                             D_sparse = LopodData@geoInfo$D_sparse,
+                             lambda = LopodData@geoInfo$lambda_sparse,
+                             N = N,
+                             y = y,
+                             minP = pmin,
+                             q = q
+            )
+
+
+          }
+          if(LopodData@geoType == "Shapefile"){
+
+            stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                             sampledId = LopodData@geoInfo$sampledId$cellStan,
+                             nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                             notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                             n = length(LopodData@geoInfo$sampledId$featureShape)+length(LopodData@geoInfo$notSampledId$cellStan),
+                             W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                             W_sparse = LopodData@geoInfo$W_sparse,
+                             D_sparse = LopodData@geoInfo$D_sparse,
+                             lambda = LopodData@geoInfo$lambda_sparse,
+                             N = N,
+                             y = y,
+                             minP = pmin,
+                             q = q
+            )
+
+
+          }
+
+
 
           message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially autocorrelated.")
           StanModel = stanmodels$psyip_CAR
@@ -176,19 +292,44 @@ if(LopodData@geoType == "Raster"){
 
         if (is.null(q)==T){
 
-          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                           sampledId = LopodData@geoInfo$sampledId$cellStan,
-                           nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
-                           notSampledId = LopodData@geoInfo$notSampledId$cellStan,
-                           n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
-                           W_n = dim(LopodData@geoInfo$W_sparse)[1],
-                           W_sparse = LopodData@geoInfo$W_sparse,
-                           D_sparse = LopodData@geoInfo$D_sparse,
-                           lambda = LopodData@geoInfo$lambda_sparse,
-                           N = N,
-                           y = y,
-                           minP = pmin
-          )
+          if(LopodData@geoType == "Raster"){
+
+            stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                             sampledId = LopodData@geoInfo$sampledId$cellStan,
+                             nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                             notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                             n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
+                             W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                             W_sparse = LopodData@geoInfo$W_sparse,
+                             D_sparse = LopodData@geoInfo$D_sparse,
+                             lambda = LopodData@geoInfo$lambda_sparse,
+                             N = N,
+                             y = y,
+                             minP = pmin
+            )
+
+
+          }
+
+          if(LopodData@geoType == "Shapefile"){
+
+            stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                             sampledId = LopodData@geoInfo$sampledId$cellStan,
+                             nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                             notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                             n = length(LopodData@geoInfo$sampledId$featureShape)+length(LopodData@geoInfo$notSampledId$cellStan),
+                             W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                             W_sparse = LopodData@geoInfo$W_sparse,
+                             D_sparse = LopodData@geoInfo$D_sparse,
+                             lambda = LopodData@geoInfo$lambda_sparse,
+                             N = N,
+                             y = y,
+                             minP = pmin
+            )
+
+
+          }
+
 
           message("Global q estimated. Psy and P for each sampling unit. Psy is spatially autocorrelated.")
           StanModel = stanmodels$psyipiq_CAR
@@ -199,20 +340,44 @@ if(LopodData@geoType == "Raster"){
 
           if (pmin < q) pmin = q
 
-          stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
-                           sampledId = LopodData@geoInfo$sampledId$cellStan,
-                           nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
-                           notSampledId = LopodData@geoInfo$notSampledId$cellStan,
-                           n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
-                           W_n = dim(LopodData@geoInfo$W_sparse)[1],
-                           W_sparse = LopodData@geoInfo$W_sparse,
-                           D_sparse = LopodData@geoInfo$D_sparse,
-                           lambda = LopodData@geoInfo$lambda_sparse,
-                           N = N,
-                           y = y,
-                           minP = pmin,
-                           q = q
-          )
+          if(LopodData@geoType == "Raster"){
+
+            stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
+                             sampledId = LopodData@geoInfo$sampledId$cellStan,
+                             nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                             notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                             n = length(LopodData@geoInfo$sampledId$cellRaster)+length(LopodData@geoInfo$notSampledId$cellStan),
+                             W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                             W_sparse = LopodData@geoInfo$W_sparse,
+                             D_sparse = LopodData@geoInfo$D_sparse,
+                             lambda = LopodData@geoInfo$lambda_sparse,
+                             N = N,
+                             y = y,
+                             minP = pmin,
+                             q = q
+            )
+
+
+          }
+          if(LopodData@geoType == "Shapefile"){
+
+            stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$featureShape),
+                             sampledId = LopodData@geoInfo$sampledId$cellStan,
+                             nNotSampled = length(LopodData@geoInfo$notSampledId$cellStan),
+                             notSampledId = LopodData@geoInfo$notSampledId$cellStan,
+                             n = length(LopodData@geoInfo$sampledId$featureShape)+length(LopodData@geoInfo$notSampledId$cellStan),
+                             W_n = dim(LopodData@geoInfo$W_sparse)[1],
+                             W_sparse = LopodData@geoInfo$W_sparse,
+                             D_sparse = LopodData@geoInfo$D_sparse,
+                             lambda = LopodData@geoInfo$lambda_sparse,
+                             N = N,
+                             y = y,
+                             minP = pmin,
+                             q = q
+            )
+
+
+          }
 
           message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially autocorrelated.")
           StanModel = stanmodels$psyipi_CAR
@@ -221,6 +386,7 @@ if(LopodData@geoType == "Raster"){
       }
     }
   }
+
 
   StanFittetModel = sampling(StanModel,
            data = stanData,              # named list of data

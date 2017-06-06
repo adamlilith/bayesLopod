@@ -1,7 +1,7 @@
 #Install from github
 
-devtools::install_github("camilosanin/bayesLopod/bayesLopod", dependencies = TRUE)
-library(bayesLopod)
+#devtools::install_github("camilosanin/bayesLopod/bayesLopod", dependencies = TRUE)
+#library(bayesLopod)
 
 #Load testing rasters (any other can be used)
 data(SimSp25sq, package = "bayesLopod")
@@ -9,10 +9,10 @@ data(SimSp50sq, package = "bayesLopod")
 data(SimSp100sq, package = "bayesLopod")
 
 #Create Sampling effort raster object
-rasterN = SimSp50sq[["sampEff"]]
+rasterN = SimSp25sq[["sampEff"]]
 
 #Create detectos raster object
-rasterY = SimSp50sq[["totalDetVarP"]]
+rasterY = SimSp25sq[["totalDetVarP"]]
 
 # Create lopodObject
 LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
@@ -20,7 +20,7 @@ LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
 spplot(LopodObject@geoDataObject)
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
 
 #What are the parameters calculated in this models?
 modelParams(ModLopod)

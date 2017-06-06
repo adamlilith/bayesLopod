@@ -1,7 +1,7 @@
 #Install from github
 
 #devtools::install_github("camilosanin/bayesLopod/bayesLopod", dependencies = TRUE)
-l#ibrary(bayesLopod)
+#library(bayesLopod)
 
 #Load testing rasters (any other can be used)
 AndroShape = shapefile("./data/Andro_US_Shape.shp")
@@ -10,10 +10,10 @@ AndroShape@data[,"Sampling"] = AndroShape@data[,"poaRec"] + AndroShape@data[,"an
 # Create lopodObject
 LopodObject = shapeLopodData(AndroShape, fieldN = "Sampling", fieldY = "anyAg1to3", Adjacency = T, keepFields = F)
 # Plot input data
-spplot(LopodObject@geoDataObject)
+spplot(LopodObject@geoDataObject, zcol ="FeatureID")
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
 
 #What are the parameters calculated in this models?
 modelParams(ModLopod)
