@@ -159,7 +159,7 @@ if (LopodModel@modelInfo$CAR == F) {
 
 - [X] lopodRaster(LopodModel, par="psy", value="median") *
 
-- [ ] lopodShape(shapefle, LopodModel, par="psy", value="median", fieldname = NULL)
+- [X] lopodShape(shapefle, LopodModel, par="psy", value="median", fieldname = NULL)
 
 ###### Stacks/Shapefiles with the maps of the parameters estimated for each sampling unit per iteration.
 

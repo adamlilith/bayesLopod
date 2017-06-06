@@ -13,8 +13,7 @@ LopodObject = shapeLopodData(AndroShape, fieldN = "Sampling", fieldY = "anyAg1to
 spplot(LopodObject@geoDataObject, zcol ="FeatureID")
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
-
+ModLopod = modelLopod(LopodObject, varP = T, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 1500, sampling = 500, nCores = 2)
 #What are the parameters calculated in this models?
 modelParams(ModLopod)
 
@@ -25,10 +24,10 @@ lopodSummary(ModLopod, probs = c(0.25,0.5,0.75))
 lopodDens(ModLopod)
 
 #Create a raster with the mean probability of presence (change parameters for other)
-meanPPPlot=lopodRaster(ModLopod, param="pp", metric="mean", extrapolate = T)
+meanPsyPlot=lopodShape(ModLopod, param="psy_i", metric="mean", extrapolate = T)
 
 #plot raster
-spplot(meanPPPlot)
+spplot(meanPsyPlot, zcol = "psy_i" )
 
 
 
