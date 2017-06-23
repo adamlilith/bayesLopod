@@ -49,6 +49,9 @@ if (Adjacency){
 
 maxExtDistDect = maxDist * extDetection
 
+baseNA = rasterN
+baseNA[] = 1
+baseNA[is.na(rasterN[])] = NA
 
 DistSample = rasterN
 DistSample[] = NA
@@ -64,7 +67,7 @@ DistDetec = distance(DistDetec)
 DistDetec[DistDetec[]>maxExtDistDect] = NA
 DistDetec[DistDetec[]<=maxExtDistDect] = 1
 
-StudyArea = DistDetec*DistSample
+StudyArea = DistDetec*DistSample*baseNA
 rasterN = rasterN*StudyArea
 rastery = rasterY*StudyArea
 

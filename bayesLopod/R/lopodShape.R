@@ -10,9 +10,6 @@
 #' lopodRaster(LopodModel, metric="pp", metric="mean")
 #' lopodRaster(LopodModel, metric="cellpres_i", quant=0.95)
 
-LopodModel = ModLopod
-param = "psy_i"
-
 lopodShape =  function(LopodModel,param,extrapolate=T, metric = NULL, quant=0.5){
 
   if (is.null(metric)){
