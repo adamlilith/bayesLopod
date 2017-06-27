@@ -17,10 +17,10 @@ samEffXYSpatial = SpatialPoints(samEffXYData[,c("Longitude", "Latitude")])
 range(spXYData[,c("Longitude")])
 range(spXYData[,c("Latitude")])
 
-testExtent = extent(c(-110,-58,18,60))
+testExtent = extent(c(-130,-100,18,60))
 
 spCount = xyToRaster(spXYSpatial,samEffXYSpatial,extent=testExtent, nrows=100)
-
+spplot(spCount)
 #Create Sampling effort raster object
 #rasterN = SimSp25sq[["sampEff"]]
 rasterN = spCount[["samplingEffort"]]
@@ -34,7 +34,7 @@ LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T, extDetec = 0.07)
 spplot(LopodObject@geoDataObject)
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 100, sampling = 100, nCores = 2)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 750, sampling = 500, nCores = 2)
 
 #What are the parameters calculated in this models?
 modelParams(ModLopod)

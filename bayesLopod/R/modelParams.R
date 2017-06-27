@@ -48,14 +48,14 @@ modelParams = function(LopodModel){
 
         if (is.null(LopodModel@modelInfo$q)==T){
           globalPars = c("psy","p","q","qRate","tau","alpha")
-          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y")
-          allCellsPars = c("psy_i","pp","cellpres_i")
+          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
+          allCellsPars = c("psy_i")
         }
 
         if (is.null(LopodModel@modelInfo$q)==F) {
           globalPars = c("psy","p","qRate","tau","alpha")
-          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y")
-          allCellsPars = c("psy_i","pp","cellpres_i")
+          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
+          allCellsPars = c("psy_i")
         }
       }
 
@@ -63,14 +63,14 @@ modelParams = function(LopodModel){
 
         if (is.null(LopodModel@modelInfo$q)==T){
           globalPars = c("psy","pmax","pmin","pRange","q","qRate","tau","alpha")
-          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y")
-          allCellsPars = c("psy_i","pp","cellpres_i")
+          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
+          allCellsPars = c("psy_i")
         }
 
         if (is.null(LopodModel@modelInfo$q)==F) {
           globalPars = c("psy","pmax","pmin","pRange","q","qRate","tau","alpha")
-          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y")
-          allCellsPars = c("psy_i","pp","cellpres_i")
+          sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
+          allCellsPars = c("psy_i")
         }
       }
   }
