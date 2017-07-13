@@ -56,14 +56,33 @@ baseNA[is.na(rasterN[])] = NA
 DistSample = rasterN
 DistSample[] = NA
 DistSample[rasterN[]>0] = 1
+if(sum(rasterN[]==0, na.rm = T)==0){
+
+DistSample[] = 0
+
+}else{
+
 DistSample = distance(DistSample)
+
+}
+
 DistSample[DistSample[]>maxExtDistSample] = NA
 DistSample[DistSample[]<=maxExtDistSample] = 1
 
 DistDetec = rasterY
 DistDetec[] = NA
 DistDetec[rasterY[]>0] = 1
-DistDetec = distance(DistDetec)
+
+if(sum(rasterY[]==0, na.rm = T)==0){
+
+  DistDetec[] = 0
+
+}else{
+
+  DistDetec = distance(DistDetec)
+
+}
+
 DistDetec[DistDetec[]>maxExtDistDect] = NA
 DistDetec[DistDetec[]<=maxExtDistDect] = 1
 
