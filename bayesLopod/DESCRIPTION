@@ -1,13 +1,13 @@
 Package: bayesLopod
 Type: Package
-Title: Bayesian inference of Landscape Occupancy from Presence-Only Data
-Version: 0.2
-Date: 2017-05-08
-Author: Camilo Sanin
-Maintainer: Camilo Sanin <camilosanin@gmail.com>
-Description: Natural history museums and herbaria collectively hold hundreds of millions of zoological, botanical, and paleontological specimens. These collections serve as the foundation for understanding the distribution of life on Earth and the basis for addressing loss of biodiversity, emerging diseases, and other pressing global problems as well as important question in ecology and evolution. One of the short comings of these kind of data is that the lack of evidence of the presence of a species in a certain region does not mean the species is truly absent there. Likewise, specimens are often misidentified, and therefore the report of a species in a locality is not always evidence that a viable population occurs there. The goal of this project is to develop a method which could be used to estimate the probability of presence of a species in a certain study region based on certain sampling effort and presence reports.
+Title: What the package does (short line)
+Version: 1.0
+Date: 2017-09-29
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
 License: What license is it under?
-Depends:  R (>= 3.0.2), Rcpp (>= 0.12.10), methods, rstan (>= 2.14.2), rstantools (>= 1.2.0), raster (>= 2.5-8), slam (>= 0.1-40), ggplot2 (>= 2.2.1), sp (>= 1.2-4), inline (>= 0.3.14), rgeos (>= 0.3-23)
-Imports:
-LinkingTo: StanHeaders (>= 2.14.0.1), rstan (>= 2.14.2), BH (>= 1.62.0.1), Rcpp (>= 0.12.10), RcppEigen (>= 0.3.2.9.1)
-RoxygenNote: 6.0.1
+Depends: methods
+Depends: R (>= 3.0.2), Rcpp (>= 0.12.12), methods, rstan (>= 2.14.2), rstantools (>= 1.2.0), raster (>= 2.5-8), slam (>= 0.1-40), ggplot2 (>= 2.2.1), sp (>= 1.2-4), inline (>= 0.3.14), rgeos (>= 0.3-23)
+Imports: rstan (>= 2.16.2), rstantools (>= 1.3.0)
+LinkingTo: StanHeaders (>= 2.16.0.1), rstan (>= 2.16.2), BH (>= 1.65.0.1), Rcpp (>= 0.12.12), RcppEigen (>= 0.3.3.3.0)

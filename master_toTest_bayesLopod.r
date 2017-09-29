@@ -1,12 +1,14 @@
 #Install from github
 
-devtools::install_github("camilosanin/bayesLopod/bayesLopod", dependencies = TRUE)
-library(bayesLopod)
+#devtools::install_github("camilosanin/bayesLopod/bayesLopod", dependencies = TRUE)
+#library(bayesLopod)
 
 #Load testing rasters (any other can be used)
 data(SimSp25sq, package = "bayesLopod")
 data(SimSp50sq, package = "bayesLopod")
 data(SimSp100sq, package = "bayesLopod")
+
+SimSp50sq = stack("c:/github/bayeslopod/simscenario/sim25Sampling_biased.grd")
 
 #Create Sampling effort raster object
 rasterN = SimSp50sq[["sampEff"]]
@@ -20,7 +22,7 @@ LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
 spplot(LopodObject@geoDataObject)
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 20, sampling = 10, nCores = 2)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 900, sampling = 100, nCores = 5)
 
 #What are the parameters calculated in this models?
 modelParams(ModLopod)
@@ -32,7 +34,7 @@ lopodSummary(ModLopod, probs = c(0.25,0.5,0.75))
 lopodDens(ModLopod)
 
 #Create a raster with the mean probability of presence (change parameters for other)
-meanPPPlot=lopodRaster(ModLopod, param="pp", metric="mean", extrapolate = T)
+meanPPPlot=lopodRaster(ModLopod, param="psy_i", metric="mean", extrapolate = T)
 
 #plot raster
 spplot(meanPPPlot)

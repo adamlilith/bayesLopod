@@ -398,3 +398,4 @@ if(LopodData@geoType == "Shapefile"){
   )
   return(LopodModel(LopodData = LopodData, StanFit = StanFittetModel, modelInfo = modelInfo))
 }
+

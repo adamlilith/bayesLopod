@@ -1,0 +1,1 @@
+#' @useDynLib bayesLopod, .registration = TRUE 

@@ -2,5 +2,6 @@ useDynLib(bayesLopod, .registration = TRUE)
 exportPattern("^[[:alpha:]]+")
 exportClasses(
     "LopodModel",
-     "LopodData"
+     "spatialObjectsUnion",
+     "LopodData" 
 )

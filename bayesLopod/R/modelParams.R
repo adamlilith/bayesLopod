@@ -11,7 +11,7 @@ modelParams = function(LopodModel){
 
       if (is.null(LopodModel@modelInfo$q)==T){
 
-        globalPars = c("psy","p","q","qRate")
+        globalPars = c("psy","p","q")
         sampledPars = c("psy_Sampled","pCorr","pp","cellpres_i","sim_y","sim_true_y","sim_false_y")
         allCellsPars = NULL
 
@@ -19,7 +19,7 @@ modelParams = function(LopodModel){
 
       if (is.null(LopodModel@modelInfo$q)==F) {
 
-        globalPars = c("psy","p","qRate")
+        globalPars = c("psy","p")
         sampledPars = c("psy_Sampled","pCorr","pp","cellpres_i","sim_y","sim_true_y","sim_false_y")
         allCellsPars = NULL
 
@@ -29,13 +29,13 @@ modelParams = function(LopodModel){
     if (LopodModel@modelInfo$varP == T){
 
       if (is.null(LopodModel@modelInfo$q)==T){
-        globalPars = c("psy","pmax","pmin","pRange","q","qRate")
+        globalPars = c("psy","pmax","pmin","pRange","q")
         sampledPars = c("psy_Sampled","pCorr","pp","cellpres_i","sim_y","sim_true_y","sim_false_y")
         allCellsPars = NULL
       }
 
       if (is.null(LopodModel@modelInfo$q)==F) {
-        globalPars = c("psy","pmax","pmin","pRange","qRate")
+        globalPars = c("psy","pmax","pmin","pRange")
         sampledPars = c("psy_Sampled","pCorr","pp","cellpres_i","sim_y","sim_true_y","sim_false_y")
         allCellsPars = NULL
       }
@@ -47,13 +47,13 @@ modelParams = function(LopodModel){
       if (LopodModel@modelInfo$varP == F){
 
         if (is.null(LopodModel@modelInfo$q)==T){
-          globalPars = c("psy","p","q","qRate","tau","alpha")
+          globalPars = c("psy","p","q","tau","alpha")
           sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
           allCellsPars = c("psy_i")
         }
 
         if (is.null(LopodModel@modelInfo$q)==F) {
-          globalPars = c("psy","p","qRate","tau","alpha")
+          globalPars = c("psy","p","tau","alpha")
           sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
           allCellsPars = c("psy_i")
         }
@@ -62,13 +62,13 @@ modelParams = function(LopodModel){
       if (LopodModel@modelInfo$varP == T){
 
         if (is.null(LopodModel@modelInfo$q)==T){
-          globalPars = c("psy","pmax","pmin","pRange","q","qRate","tau","alpha")
+          globalPars = c("psy","pmax","pmin","pRange","q","tau","alpha")
           sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
           allCellsPars = c("psy_i")
         }
 
         if (is.null(LopodModel@modelInfo$q)==F) {
-          globalPars = c("psy","pmax","pmin","pRange","q","qRate","tau","alpha")
+          globalPars = c("psy","pmax","pmin","pRange","q","tau","alpha")
           sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
           allCellsPars = c("psy_i")
         }
