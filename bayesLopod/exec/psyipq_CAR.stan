@@ -1,6 +1,6 @@
 functions {
   /**
-  * Return the log probability of a proper conditional autoregressive (CAR) prior 
+  * Return the log probability of a proper conditional autoregressive (CAR) prior
   * with a sparse representation for the adjacency matrix
   *
   * @param phi Vector containing the parameters with a CAR prior
@@ -15,19 +15,19 @@ functions {
   * @return Log probability density of CAR prior up to additive constant
   * FORM https://github.com/mbjoseph/CARstan/blob/master/stan/car_sparse.stan
   */
-  real sparse_car_lpdf(vector phi, real tau, real alpha, 
+  real sparse_car_lpdf(vector phi, real tau, real alpha,
     int[,] W_sparse, vector D_sparse, vector lambda, int n, int W_n) {
       row_vector[n] phit_D; // phi' * D
       row_vector[n] phit_W; // phi' * W
       vector[n] ldet_terms;
-    
+
       phit_D = (phi .* D_sparse)';
       phit_W = rep_row_vector(0, n);
       for (i in 1:W_n) {
         phit_W[W_sparse[i, 1]] = phit_W[W_sparse[i, 1]] + phi[W_sparse[i, 2]];
         phit_W[W_sparse[i, 2]] = phit_W[W_sparse[i, 2]] + phi[W_sparse[i, 1]];
       }
-    
+
       for (i in 1:n) ldet_terms[i] = log1m(alpha * lambda[i]);
       return 0.5 * (n * log(tau)
                     + sum(ldet_terms)
@@ -60,23 +60,23 @@ transformed data{
 parameters{
   vector <lower=0, upper=1> [nSampledCells] psy_Sampled; // Probability of occupancy sampled cell
   vector <lower=0, upper=1> [nNotSampled] psy_NotSampled; // Probability of occupancy per notSampled cell
-  real <lower=minP, upper=1> p;
   real <lower=0> tau;
   real <lower=0, upper=1> alpha;
-  real<lower=0,upper=1> q; // Values for rate of false positives
+  ordered [2] odds;
 
 }
 
 transformed parameters {
 
-  real <lower=0, upper= 1> qRate;
   vector <lower=0, upper=1> [n] psy_i;
+  real<lower=0,upper=1> q;
+  real <lower=minP, upper=1> p;
 
 
   psy_i[sampledId] = psy_Sampled;
   psy_i[notSampledId] = psy_NotSampled;
-  qRate = q/p;
-
+  q = inv_logit(odds[1]);
+  p = inv_logit(odds[2]);
 
 
 
@@ -86,40 +86,29 @@ transformed parameters {
 model
   {
 
-    
-    target += normal_lpdf(qRate | 0,0.05);
 
 
-    target += normal_lpdf(p | 1, 0.25);
-
-
-    target += beta_lpdf(psy_i | 0.5, 0.5);    
+    target += beta_lpdf(psy_i | 0.5, 0.5);
     target += gamma_lpdf(tau | 2, 2);
 
 
-    
-
-
-
-
-    
     for (cell in 1:nSampledCells){
-      
+
   target += log_mix(psy_Sampled[cell],binomial_lpmf(y[cell] | N[cell],p),
                               binomial_lpmf(y[cell] | N[cell] , q)
-                              
+
                             );
-  
+
     }
-    
+
    target += sparse_car_lpdf(psy_i | tau, alpha, W_sparse, D_sparse, lambda, n, W_n);
-    
+
   }
 
-generated quantities 
+generated quantities
   {
 
-    
+
 int<lower=0> sim_y[nSampledCells]; //Simulated Sampling
 int<lower=0> sim_true_y[nSampledCells]; //Simulated True Detections
 int<lower=0> sim_false_y[nSampledCells]; //Simulated False Detections
@@ -132,37 +121,37 @@ vector <lower=0, upper=1> [n] pp; //Probability of presence
 
 
 for (ncell in 1:nSampledCells ){
-  
+
     cell = sampledId[ncell];
-    pp[cell] = exp( 
-    log(psy_i[cell])+binomial_lpmf(y[ncell] | N[ncell],p) - 
+    pp[cell] = exp(
+    log(psy_i[cell])+binomial_lpmf(y[ncell] | N[ncell],p) -
     log_mix(psy_i[cell],binomial_lpmf(y[ncell] | N[ncell],p),
                               binomial_lpmf(y[ncell] | N[ncell] , q))
                               );  // Probability of presence
-  
-      if(bernoulli_rng(pp[cell])){        
+
+      if(bernoulli_rng(pp[cell])){
          cellpres_i[cell] = 1;
          pCorr[ncell] = p;
          sim_true_y[ncell]=binomial_rng(N[ncell],p);
-         sim_false_y[ncell]=0; 
-         
+         sim_false_y[ncell]=0;
+
       }else{
          cellpres_i[cell] = 0;
          pCorr[ncell] = 0;
          sim_true_y[ncell]=0;
          sim_false_y[ncell]=binomial_rng(N[ncell],q);
       }
-      
-  sim_y[ncell] = sim_true_y[ncell]+sim_false_y[ncell];    
+
+  sim_y[ncell] = sim_true_y[ncell]+sim_false_y[ncell];
 
   }
-  
+
  pp[notSampledId] = psy_i[notSampledId];
- 
+
  for (ncell in 1:nNotSampled){
    cell = notSampledId[ncell];
    cellpres_i[cell] = bernoulli_rng(pp[cell]);
-   
+
  }
 
  psy = sum(cellpres_i)/n;
