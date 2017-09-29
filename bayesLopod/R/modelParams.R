@@ -68,7 +68,7 @@ modelParams = function(LopodModel){
         }
 
         if (is.null(LopodModel@modelInfo$q)==F) {
-          globalPars = c("psy","pmax","pmin","pRange","q","tau","alpha")
+          globalPars = c("psy","pmax","pmin","pRange","tau","alpha")
           sampledPars = c("pCorr","sim_y","sim_true_y","sim_false_y","pp","cellpres_i")
           allCellsPars = c("psy_i")
         }
