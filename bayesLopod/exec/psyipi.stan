@@ -24,12 +24,14 @@ transformed parameters {
   vector<lower=0, upper=1> [nSampledCells] p;
   real <lower=fmax(minP,q), upper=1> pmax;
   real <lower=fmax(minP,q), upper=1> pmin;
+  real <lower=0, upper= 1> qRate;
 
   pmin = (inv_logit(odds[1]) * (1-fmax(minP,q)))+fmax(minP,q);
   pmax = (inv_logit(odds[2]) * (1-fmax(minP,q)))+fmax(minP,q);
 
 
   pRange = pmax-pmin;
+  qRate = q/pmin;
 
   p = (p_raw * pRange)+pmin;
 
@@ -41,6 +43,8 @@ transformed parameters {
 model
   {
 
+    target += normal_lpdf(qRate | 0,0.05);
+    target += normal_lpdf(pRange | 0,0.1);
 
     target += normal_lpdf(pmin | 0.5, 0.25);
     target += normal_lpdf(p_raw | 1, 0.25);

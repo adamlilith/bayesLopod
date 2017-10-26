@@ -17,6 +17,9 @@ parameters{
 }
 
 transformed parameters {
+  real <lower=0, upper= 1> qRate;
+
+  qRate = q/p;
 
 
 }
@@ -25,6 +28,7 @@ model
   {
 
 
+    target += normal_lpdf(qRate | 0,0.05);
 
 
     target += beta_lpdf(psy_Sampled | 0.5, 0.5);

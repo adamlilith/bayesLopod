@@ -27,7 +27,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyip");
-    reader.add_event(86, 86, "end", "model_psyip");
+    reader.add_event(90, 90, "end", "model_psyip");
     return reader;
 }
 
@@ -227,9 +227,16 @@ public:
 
 
         // transformed parameters
+        T__ qRate;
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, DUMMY_VAR__);
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
+            current_statement_begin__ = 22;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -237,19 +244,28 @@ public:
         }
 
         // validate transformed parameters
+        if (stan::math::is_uninitialized(qRate)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: qRate";
+            throw std::runtime_error(msg__.str());
+        }
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // model body
         try {
 
-            current_statement_begin__ = 30;
+            current_statement_begin__ = 31;
+            lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
+            current_statement_begin__ = 34;
             lp_accum__.add(beta_log(psy_Sampled,0.5,0.5));
-            current_statement_begin__ = 33;
+            current_statement_begin__ = 37;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
-                current_statement_begin__ = 35;
+                current_statement_begin__ = 39;
                 lp_accum__.add(log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
@@ -279,6 +295,7 @@ public:
         names__.resize(0);
         names__.push_back("psy_Sampled");
         names__.push_back("p");
+        names__.push_back("qRate");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
@@ -294,6 +311,8 @@ public:
         std::vector<size_t> dims__;
         dims__.resize(0);
         dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dimss__.push_back(dims__);
@@ -348,9 +367,16 @@ public:
         double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
         (void) DUMMY_VAR__;  // suppress unused var warning
 
+        double qRate(0.0);
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
+            current_statement_begin__ = 22;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -358,8 +384,11 @@ public:
         }
 
         // validate transformed parameters
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // write transformed parameters
+        vars__.push_back(qRate);
 
         if (!include_gqs__) return;
         // declare and define generated quantities
@@ -394,37 +423,37 @@ public:
 
 
         try {
-            current_statement_begin__ = 58;
+            current_statement_begin__ = 62;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 60;
+                current_statement_begin__ = 64;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 66;
+                current_statement_begin__ = 70;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 67;
+                    current_statement_begin__ = 71;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 68;
+                    current_statement_begin__ = 72;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 69;
+                    current_statement_begin__ = 73;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
-                    current_statement_begin__ = 70;
+                    current_statement_begin__ = 74;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 73;
+                    current_statement_begin__ = 77;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 74;
+                    current_statement_begin__ = 78;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 75;
+                    current_statement_begin__ = 79;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 76;
+                    current_statement_begin__ = 80;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 79;
+                current_statement_begin__ = 83;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 83;
+            current_statement_begin__ = 87;
             stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -515,6 +544,9 @@ public:
         param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__ && !include_tparams__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -567,6 +599,9 @@ public:
         param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__ && !include_tparams__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -635,7 +670,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyip_CAR");
-    reader.add_event(165, 165, "end", "model_psyip_CAR");
+    reader.add_event(168, 168, "end", "model_psyip_CAR");
     return reader;
 }
 
@@ -1098,19 +1133,26 @@ public:
 
         stan::math::initialize(psy_i, DUMMY_VAR__);
         stan::math::fill(psy_i,DUMMY_VAR__);
+        T__ qRate;
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, DUMMY_VAR__);
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 75;
+            current_statement_begin__ = 76;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
                         psy_Sampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 76;
+            current_statement_begin__ = 77;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         psy_NotSampled, 
                         "assigning variable psy_i");
+            current_statement_begin__ = 78;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -1125,26 +1167,35 @@ public:
                 throw std::runtime_error(msg__.str());
             }
         }
+        if (stan::math::is_uninitialized(qRate)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: qRate";
+            throw std::runtime_error(msg__.str());
+        }
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
         check_greater_or_equal(function__,"psy_i",psy_i,0);
         check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // model body
         try {
 
             current_statement_begin__ = 90;
+            lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
+            current_statement_begin__ = 93;
             lp_accum__.add(beta_log(psy_i,0.5,0.5));
-            current_statement_begin__ = 91;
+            current_statement_begin__ = 94;
             lp_accum__.add(gamma_log(tau,2,2));
-            current_statement_begin__ = 100;
+            current_statement_begin__ = 103;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
-                current_statement_begin__ = 102;
+                current_statement_begin__ = 105;
                 lp_accum__.add(log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
-            current_statement_begin__ = 109;
+            current_statement_begin__ = 112;
             lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -1177,6 +1228,7 @@ public:
         names__.push_back("tau");
         names__.push_back("alpha");
         names__.push_back("psy_i");
+        names__.push_back("qRate");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
@@ -1205,6 +1257,8 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(n);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
@@ -1273,19 +1327,26 @@ public:
 
         stan::math::initialize(psy_i, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(psy_i,DUMMY_VAR__);
+        double qRate(0.0);
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 75;
+            current_statement_begin__ = 76;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
                         psy_Sampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 76;
+            current_statement_begin__ = 77;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         psy_NotSampled, 
                         "assigning variable psy_i");
+            current_statement_begin__ = 78;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -1295,11 +1356,14 @@ public:
         // validate transformed parameters
         check_greater_or_equal(function__,"psy_i",psy_i,0);
         check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // write transformed parameters
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(psy_i[k_0__]);
         }
+        vars__.push_back(qRate);
 
         if (!include_gqs__) return;
         // declare and define generated quantities
@@ -1338,52 +1402,52 @@ public:
 
 
         try {
-            current_statement_begin__ = 128;
+            current_statement_begin__ = 131;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 130;
+                current_statement_begin__ = 133;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 131;
+                current_statement_begin__ = 134;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 137;
+                current_statement_begin__ = 140;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 138;
-                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 139;
-                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 140;
-                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
                     current_statement_begin__ = 141;
+                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
+                    current_statement_begin__ = 142;
+                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
+                    current_statement_begin__ = 143;
+                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
+                    current_statement_begin__ = 144;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 144;
-                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 145;
-                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 146;
-                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
                     current_statement_begin__ = 147;
+                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
+                    current_statement_begin__ = 148;
+                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
+                    current_statement_begin__ = 149;
+                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
+                    current_statement_begin__ = 150;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 150;
+                current_statement_begin__ = 153;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 154;
+            current_statement_begin__ = 157;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 156;
+            current_statement_begin__ = 159;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 157;
+                current_statement_begin__ = 160;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 158;
+                current_statement_begin__ = 161;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 162;
+            current_statement_begin__ = 165;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -1492,6 +1556,9 @@ public:
             param_name_stream__ << "psy_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -1563,6 +1630,9 @@ public:
             param_name_stream__ << "psy_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -1634,7 +1704,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipi");
-    reader.add_event(105, 105, "end", "model_psyipi");
+    reader.add_event(109, 109, "end", "model_psyipi");
     return reader;
 }
 
@@ -1883,16 +1953,23 @@ public:
 
         stan::math::initialize(pmin, DUMMY_VAR__);
         stan::math::fill(pmin,DUMMY_VAR__);
+        T__ qRate;
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, DUMMY_VAR__);
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 28;
-            stan::math::assign(pmin, ((inv_logit(get_base1(odds,1,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
             current_statement_begin__ = 29;
+            stan::math::assign(pmin, ((inv_logit(get_base1(odds,1,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
+            current_statement_begin__ = 30;
             stan::math::assign(pmax, ((inv_logit(get_base1(odds,2,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
-            current_statement_begin__ = 32;
+            current_statement_begin__ = 33;
             stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 34;
+            stan::math::assign(qRate, (q / pmin));
+            current_statement_begin__ = 36;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -1923,6 +2000,11 @@ public:
             msg__ << "Undefined transformed parameter: pmin";
             throw std::runtime_error(msg__.str());
         }
+        if (stan::math::is_uninitialized(qRate)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: qRate";
+            throw std::runtime_error(msg__.str());
+        }
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
@@ -1934,22 +2016,28 @@ public:
         check_less_or_equal(function__,"pmax",pmax,1);
         check_greater_or_equal(function__,"pmin",pmin,stan::math::fmax(minP,q));
         check_less_or_equal(function__,"pmin",pmin,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // model body
         try {
 
-            current_statement_begin__ = 45;
-            lp_accum__.add(normal_log(pmin,0.5,0.25));
             current_statement_begin__ = 46;
-            lp_accum__.add(normal_log(p_raw,1,0.25));
-            current_statement_begin__ = 48;
-            lp_accum__.add(normal_log(pmax,0.5,0.25));
+            lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
+            current_statement_begin__ = 47;
+            lp_accum__.add(normal_log(pRange,0,0.10000000000000001));
+            current_statement_begin__ = 49;
+            lp_accum__.add(normal_log(pmin,0.5,0.25));
             current_statement_begin__ = 50;
+            lp_accum__.add(normal_log(p_raw,1,0.25));
+            current_statement_begin__ = 52;
+            lp_accum__.add(normal_log(pmax,0.5,0.25));
+            current_statement_begin__ = 54;
             lp_accum__.add(beta_log(psy_Sampled,0.5,0.5));
-            current_statement_begin__ = 53;
+            current_statement_begin__ = 57;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
-                current_statement_begin__ = 55;
+                current_statement_begin__ = 59;
                 lp_accum__.add(log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
@@ -1984,6 +2072,7 @@ public:
         names__.push_back("p");
         names__.push_back("pmax");
         names__.push_back("pmin");
+        names__.push_back("qRate");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
@@ -2010,6 +2099,8 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dimss__.push_back(dims__);
@@ -2093,16 +2184,23 @@ public:
 
         stan::math::initialize(pmin, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pmin,DUMMY_VAR__);
+        double qRate(0.0);
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 28;
-            stan::math::assign(pmin, ((inv_logit(get_base1(odds,1,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
             current_statement_begin__ = 29;
+            stan::math::assign(pmin, ((inv_logit(get_base1(odds,1,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
+            current_statement_begin__ = 30;
             stan::math::assign(pmax, ((inv_logit(get_base1(odds,2,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
-            current_statement_begin__ = 32;
+            current_statement_begin__ = 33;
             stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 34;
+            stan::math::assign(qRate, (q / pmin));
+            current_statement_begin__ = 36;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -2119,6 +2217,8 @@ public:
         check_less_or_equal(function__,"pmax",pmax,1);
         check_greater_or_equal(function__,"pmin",pmin,stan::math::fmax(minP,q));
         check_less_or_equal(function__,"pmin",pmin,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // write transformed parameters
         vars__.push_back(pRange);
@@ -2127,6 +2227,7 @@ public:
         }
         vars__.push_back(pmax);
         vars__.push_back(pmin);
+        vars__.push_back(qRate);
 
         if (!include_gqs__) return;
         // declare and define generated quantities
@@ -2161,37 +2262,37 @@ public:
 
 
         try {
-            current_statement_begin__ = 77;
+            current_statement_begin__ = 81;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 79;
+                current_statement_begin__ = 83;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 85;
+                current_statement_begin__ = 89;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 86;
+                    current_statement_begin__ = 90;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 87;
+                    current_statement_begin__ = 91;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 88;
+                    current_statement_begin__ = 92;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 89;
+                    current_statement_begin__ = 93;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 92;
+                    current_statement_begin__ = 96;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 93;
+                    current_statement_begin__ = 97;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 94;
+                    current_statement_begin__ = 98;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 95;
+                    current_statement_begin__ = 99;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 98;
+                current_statement_begin__ = 102;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 102;
+            current_statement_begin__ = 106;
             stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -2303,6 +2404,9 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "pmin";
         param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -2376,6 +2480,9 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "pmin";
         param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -2444,7 +2551,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipi_CAR");
-    reader.add_event(178, 178, "end", "model_psyipi_CAR");
+    reader.add_event(182, 182, "end", "model_psyipi_CAR");
     return reader;
 }
 
@@ -2929,6 +3036,11 @@ public:
 
 
         // transformed parameters
+        T__ qRate;
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, DUMMY_VAR__);
+        stan::math::fill(qRate,DUMMY_VAR__);
         T__ pRange;
         (void) pRange;  // dummy to suppress unused var warning
 
@@ -2975,7 +3087,9 @@ public:
                         "assigning variable psy_i");
             current_statement_begin__ = 84;
             stan::math::assign(pRange, (pmax - pmin));
-            current_statement_begin__ = 86;
+            current_statement_begin__ = 85;
+            stan::math::assign(qRate, (q / pmin));
+            current_statement_begin__ = 88;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -2984,6 +3098,11 @@ public:
         }
 
         // validate transformed parameters
+        if (stan::math::is_uninitialized(qRate)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: qRate";
+            throw std::runtime_error(msg__.str());
+        }
         if (stan::math::is_uninitialized(pRange)) {
             std::stringstream msg__;
             msg__ << "Undefined transformed parameter: pRange";
@@ -3016,6 +3135,8 @@ public:
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
         check_greater_or_equal(function__,"pRange",pRange,0);
         check_less_or_equal(function__,"pRange",pRange,1);
         check_greater_or_equal(function__,"psy_i",psy_i,0);
@@ -3030,23 +3151,27 @@ public:
         // model body
         try {
 
-            current_statement_begin__ = 98;
-            lp_accum__.add(normal_log(pmin,0.5,0.25));
             current_statement_begin__ = 99;
-            lp_accum__.add(normal_log(p_raw,1,0.25));
-            current_statement_begin__ = 101;
-            lp_accum__.add(normal_log(pmax,0.5,0.25));
+            lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
+            current_statement_begin__ = 100;
+            lp_accum__.add(normal_log(pRange,0,0.10000000000000001));
+            current_statement_begin__ = 102;
+            lp_accum__.add(normal_log(pmin,0.5,0.25));
             current_statement_begin__ = 103;
+            lp_accum__.add(normal_log(p_raw,1,0.25));
+            current_statement_begin__ = 105;
+            lp_accum__.add(normal_log(pmax,0.5,0.25));
+            current_statement_begin__ = 107;
             lp_accum__.add(beta_log(psy_i,0.5,0.5));
-            current_statement_begin__ = 104;
+            current_statement_begin__ = 108;
             lp_accum__.add(gamma_log(tau,2,2));
-            current_statement_begin__ = 113;
+            current_statement_begin__ = 117;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
-                current_statement_begin__ = 115;
+                current_statement_begin__ = 119;
                 lp_accum__.add(log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
-            current_statement_begin__ = 122;
+            current_statement_begin__ = 126;
             lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -3079,6 +3204,7 @@ public:
         names__.push_back("tau");
         names__.push_back("alpha");
         names__.push_back("odds");
+        names__.push_back("qRate");
         names__.push_back("pRange");
         names__.push_back("psy_i");
         names__.push_back("p");
@@ -3113,6 +3239,8 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(2);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dimss__.push_back(dims__);
@@ -3193,6 +3321,11 @@ public:
         double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
         (void) DUMMY_VAR__;  // suppress unused var warning
 
+        double qRate(0.0);
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(qRate,DUMMY_VAR__);
         double pRange(0.0);
         (void) pRange;  // dummy to suppress unused var warning
 
@@ -3239,7 +3372,9 @@ public:
                         "assigning variable psy_i");
             current_statement_begin__ = 84;
             stan::math::assign(pRange, (pmax - pmin));
-            current_statement_begin__ = 86;
+            current_statement_begin__ = 85;
+            stan::math::assign(qRate, (q / pmin));
+            current_statement_begin__ = 88;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -3248,6 +3383,8 @@ public:
         }
 
         // validate transformed parameters
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
         check_greater_or_equal(function__,"pRange",pRange,0);
         check_less_or_equal(function__,"pRange",pRange,1);
         check_greater_or_equal(function__,"psy_i",psy_i,0);
@@ -3260,6 +3397,7 @@ public:
         check_less_or_equal(function__,"pmin",pmin,1);
 
         // write transformed parameters
+        vars__.push_back(qRate);
         vars__.push_back(pRange);
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(psy_i[k_0__]);
@@ -3307,52 +3445,52 @@ public:
 
 
         try {
-            current_statement_begin__ = 141;
+            current_statement_begin__ = 145;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 143;
+                current_statement_begin__ = 147;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 144;
+                current_statement_begin__ = 148;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 150;
+                current_statement_begin__ = 154;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 151;
+                    current_statement_begin__ = 155;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 152;
+                    current_statement_begin__ = 156;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 153;
+                    current_statement_begin__ = 157;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 154;
+                    current_statement_begin__ = 158;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 157;
+                    current_statement_begin__ = 161;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 158;
+                    current_statement_begin__ = 162;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 159;
+                    current_statement_begin__ = 163;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 160;
+                    current_statement_begin__ = 164;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 163;
+                current_statement_begin__ = 167;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 167;
+            current_statement_begin__ = 171;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 169;
+            current_statement_begin__ = 173;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 170;
+                current_statement_begin__ = 174;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 171;
+                current_statement_begin__ = 175;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 175;
+            current_statement_begin__ = 179;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -3464,6 +3602,9 @@ public:
 
         if (!include_gqs__ && !include_tparams__) return;
         param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
         param_name_stream__ << "pRange";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
@@ -3555,6 +3696,9 @@ public:
         }
 
         if (!include_gqs__ && !include_tparams__) return;
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
         param_name_stream__ << "pRange";
         param_names__.push_back(param_name_stream__.str());
@@ -3907,6 +4051,8 @@ public:
             stan::math::assign(pmax, inv_logit(get_base1(odds,3,"odds",1)));
             current_statement_begin__ = 33;
             stan::math::assign(pRange, (pmax - pmin));
+            current_statement_begin__ = 34;
+            stan::math::assign(qRate, (q / pmin));
             current_statement_begin__ = 35;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
@@ -4153,6 +4299,8 @@ public:
             stan::math::assign(pmax, inv_logit(get_base1(odds,3,"odds",1)));
             current_statement_begin__ = 33;
             stan::math::assign(pRange, (pmax - pmin));
+            current_statement_begin__ = 34;
+            stan::math::assign(qRate, (q / pmin));
             current_statement_begin__ = 35;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
@@ -4513,7 +4661,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipiq_CAR");
-    reader.add_event(176, 176, "end", "model_psyipiq_CAR");
+    reader.add_event(181, 181, "end", "model_psyipiq_CAR");
     return reader;
 }
 
@@ -5022,28 +5170,35 @@ public:
 
         stan::math::initialize(p, DUMMY_VAR__);
         stan::math::fill(p,DUMMY_VAR__);
+        T__ qRate;
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, DUMMY_VAR__);
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 77;
-            stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
-            current_statement_begin__ = 78;
-            stan::math::assign(pmin, inv_logit(get_base1(odds,2,"odds",1)));
             current_statement_begin__ = 79;
+            stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
+            current_statement_begin__ = 80;
+            stan::math::assign(pmin, inv_logit(get_base1(odds,2,"odds",1)));
+            current_statement_begin__ = 81;
             stan::math::assign(pmax, inv_logit(get_base1(odds,3,"odds",1)));
-            current_statement_begin__ = 82;
+            current_statement_begin__ = 84;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
                         psy_Sampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 83;
+            current_statement_begin__ = 85;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         psy_NotSampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 84;
-            stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 86;
+            stan::math::assign(pRange, (pmax - pmin));
+            current_statement_begin__ = 87;
+            stan::math::assign(qRate, (q / pmin));
+            current_statement_begin__ = 89;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5086,6 +5241,11 @@ public:
                 throw std::runtime_error(msg__.str());
             }
         }
+        if (stan::math::is_uninitialized(qRate)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: qRate";
+            throw std::runtime_error(msg__.str());
+        }
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
@@ -5101,23 +5261,29 @@ public:
         check_less_or_equal(function__,"psy_i",psy_i,1);
         check_greater_or_equal(function__,"p",p,0);
         check_less_or_equal(function__,"p",p,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // model body
         try {
 
-            current_statement_begin__ = 98;
+            current_statement_begin__ = 99;
+            lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
+            current_statement_begin__ = 100;
+            lp_accum__.add(normal_log(pRange,0,0.10000000000000001));
+            current_statement_begin__ = 103;
             lp_accum__.add(normal_log(p_raw,1,0.25));
-            current_statement_begin__ = 101;
+            current_statement_begin__ = 106;
             lp_accum__.add(beta_log(psy_i,0.5,0.5));
-            current_statement_begin__ = 102;
+            current_statement_begin__ = 107;
             lp_accum__.add(gamma_log(tau,2,2));
-            current_statement_begin__ = 111;
+            current_statement_begin__ = 116;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
-                current_statement_begin__ = 113;
+                current_statement_begin__ = 118;
                 lp_accum__.add(log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
-            current_statement_begin__ = 120;
+            current_statement_begin__ = 125;
             lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5156,6 +5322,7 @@ public:
         names__.push_back("pRange");
         names__.push_back("psy_i");
         names__.push_back("p");
+        names__.push_back("qRate");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
@@ -5199,6 +5366,8 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
@@ -5299,28 +5468,35 @@ public:
 
         stan::math::initialize(p, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(p,DUMMY_VAR__);
+        double qRate(0.0);
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 77;
-            stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
-            current_statement_begin__ = 78;
-            stan::math::assign(pmin, inv_logit(get_base1(odds,2,"odds",1)));
             current_statement_begin__ = 79;
+            stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
+            current_statement_begin__ = 80;
+            stan::math::assign(pmin, inv_logit(get_base1(odds,2,"odds",1)));
+            current_statement_begin__ = 81;
             stan::math::assign(pmax, inv_logit(get_base1(odds,3,"odds",1)));
-            current_statement_begin__ = 82;
+            current_statement_begin__ = 84;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
                         psy_Sampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 83;
+            current_statement_begin__ = 85;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         psy_NotSampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 84;
-            stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 86;
+            stan::math::assign(pRange, (pmax - pmin));
+            current_statement_begin__ = 87;
+            stan::math::assign(qRate, (q / pmin));
+            current_statement_begin__ = 89;
             stan::math::assign(p, add(multiply(p_raw,pRange),pmin));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5341,6 +5517,8 @@ public:
         check_less_or_equal(function__,"psy_i",psy_i,1);
         check_greater_or_equal(function__,"p",p,0);
         check_less_or_equal(function__,"p",p,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // write transformed parameters
         vars__.push_back(q);
@@ -5353,6 +5531,7 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(p[k_0__]);
         }
+        vars__.push_back(qRate);
 
         if (!include_gqs__) return;
         // declare and define generated quantities
@@ -5391,52 +5570,52 @@ public:
 
 
         try {
-            current_statement_begin__ = 139;
+            current_statement_begin__ = 144;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 141;
+                current_statement_begin__ = 146;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 142;
+                current_statement_begin__ = 147;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 148;
+                current_statement_begin__ = 153;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 149;
+                    current_statement_begin__ = 154;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 150;
+                    current_statement_begin__ = 155;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 151;
+                    current_statement_begin__ = 156;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 152;
+                    current_statement_begin__ = 157;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 155;
+                    current_statement_begin__ = 160;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 156;
+                    current_statement_begin__ = 161;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 157;
+                    current_statement_begin__ = 162;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 158;
+                    current_statement_begin__ = 163;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 161;
+                current_statement_begin__ = 166;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 165;
+            current_statement_begin__ = 170;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 167;
+            current_statement_begin__ = 172;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 168;
+                current_statement_begin__ = 173;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 169;
+                current_statement_begin__ = 174;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 173;
+            current_statement_begin__ = 178;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5569,6 +5748,9 @@ public:
             param_name_stream__ << "p" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -5664,6 +5846,9 @@ public:
             param_name_stream__ << "p" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -5735,7 +5920,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipq");
-    reader.add_event(89, 89, "end", "model_psyipq");
+    reader.add_event(93, 93, "end", "model_psyipq");
     return reader;
 }
 
@@ -5940,13 +6125,20 @@ public:
 
         stan::math::initialize(p, DUMMY_VAR__);
         stan::math::fill(p,DUMMY_VAR__);
+        T__ qRate;
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, DUMMY_VAR__);
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 22;
+            current_statement_begin__ = 24;
             stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
-            current_statement_begin__ = 23;
+            current_statement_begin__ = 25;
             stan::math::assign(p, inv_logit(get_base1(odds,2,"odds",1)));
+            current_statement_begin__ = 26;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -5964,6 +6156,11 @@ public:
             msg__ << "Undefined transformed parameter: p";
             throw std::runtime_error(msg__.str());
         }
+        if (stan::math::is_uninitialized(qRate)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: qRate";
+            throw std::runtime_error(msg__.str());
+        }
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
@@ -5971,16 +6168,20 @@ public:
         check_less_or_equal(function__,"q",q,1);
         check_greater_or_equal(function__,"p",p,minP);
         check_less_or_equal(function__,"p",p,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // model body
         try {
 
-            current_statement_begin__ = 33;
+            current_statement_begin__ = 35;
+            lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
+            current_statement_begin__ = 37;
             lp_accum__.add(beta_log(psy_Sampled,0.5,0.5));
-            current_statement_begin__ = 36;
+            current_statement_begin__ = 40;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
-                current_statement_begin__ = 38;
+                current_statement_begin__ = 42;
                 lp_accum__.add(log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
@@ -6012,6 +6213,7 @@ public:
         names__.push_back("odds");
         names__.push_back("q");
         names__.push_back("p");
+        names__.push_back("qRate");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
@@ -6030,6 +6232,8 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(2);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dimss__.push_back(dims__);
@@ -6098,13 +6302,20 @@ public:
 
         stan::math::initialize(p, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(p,DUMMY_VAR__);
+        double qRate(0.0);
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 22;
+            current_statement_begin__ = 24;
             stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
-            current_statement_begin__ = 23;
+            current_statement_begin__ = 25;
             stan::math::assign(p, inv_logit(get_base1(odds,2,"odds",1)));
+            current_statement_begin__ = 26;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -6116,10 +6327,13 @@ public:
         check_less_or_equal(function__,"q",q,1);
         check_greater_or_equal(function__,"p",p,minP);
         check_less_or_equal(function__,"p",p,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // write transformed parameters
         vars__.push_back(q);
         vars__.push_back(p);
+        vars__.push_back(qRate);
 
         if (!include_gqs__) return;
         // declare and define generated quantities
@@ -6154,37 +6368,37 @@ public:
 
 
         try {
-            current_statement_begin__ = 61;
+            current_statement_begin__ = 65;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 63;
+                current_statement_begin__ = 67;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 69;
+                current_statement_begin__ = 73;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 70;
+                    current_statement_begin__ = 74;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 71;
+                    current_statement_begin__ = 75;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 72;
+                    current_statement_begin__ = 76;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
-                    current_statement_begin__ = 73;
+                    current_statement_begin__ = 77;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 76;
+                    current_statement_begin__ = 80;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 77;
+                    current_statement_begin__ = 81;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 78;
+                    current_statement_begin__ = 82;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 79;
+                    current_statement_begin__ = 83;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 82;
+                current_statement_begin__ = 86;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 86;
+            current_statement_begin__ = 90;
             stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -6283,6 +6497,9 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "p";
         param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -6342,6 +6559,9 @@ public:
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
         param_name_stream__ << "p";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
         param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
@@ -6411,7 +6631,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipq_CAR");
-    reader.add_event(160, 160, "end", "model_psyipq_CAR");
+    reader.add_event(164, 164, "end", "model_psyipq_CAR");
     return reader;
 }
 
@@ -6879,23 +7099,30 @@ public:
 
         stan::math::initialize(p, DUMMY_VAR__);
         stan::math::fill(p,DUMMY_VAR__);
+        T__ qRate;
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, DUMMY_VAR__);
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 76;
+            current_statement_begin__ = 78;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
                         psy_Sampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 77;
+            current_statement_begin__ = 79;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         psy_NotSampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 78;
+            current_statement_begin__ = 80;
             stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
-            current_statement_begin__ = 79;
+            current_statement_begin__ = 81;
             stan::math::assign(p, inv_logit(get_base1(odds,2,"odds",1)));
+            current_statement_begin__ = 82;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -6920,6 +7147,11 @@ public:
             msg__ << "Undefined transformed parameter: p";
             throw std::runtime_error(msg__.str());
         }
+        if (stan::math::is_uninitialized(qRate)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: qRate";
+            throw std::runtime_error(msg__.str());
+        }
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
@@ -6929,21 +7161,25 @@ public:
         check_less_or_equal(function__,"q",q,1);
         check_greater_or_equal(function__,"p",p,minP);
         check_less_or_equal(function__,"p",p,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // model body
         try {
 
-            current_statement_begin__ = 91;
-            lp_accum__.add(beta_log(psy_i,0.5,0.5));
             current_statement_begin__ = 92;
-            lp_accum__.add(gamma_log(tau,2,2));
+            lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
             current_statement_begin__ = 95;
+            lp_accum__.add(beta_log(psy_i,0.5,0.5));
+            current_statement_begin__ = 96;
+            lp_accum__.add(gamma_log(tau,2,2));
+            current_statement_begin__ = 99;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
-                current_statement_begin__ = 97;
+                current_statement_begin__ = 101;
                 lp_accum__.add(log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
-            current_statement_begin__ = 104;
+            current_statement_begin__ = 108;
             lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -6978,6 +7214,7 @@ public:
         names__.push_back("psy_i");
         names__.push_back("q");
         names__.push_back("p");
+        names__.push_back("qRate");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
@@ -7007,6 +7244,8 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(n);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
         dims__.resize(0);
         dimss__.push_back(dims__);
@@ -7091,23 +7330,30 @@ public:
 
         stan::math::initialize(p, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(p,DUMMY_VAR__);
+        double qRate(0.0);
+        (void) qRate;  // dummy to suppress unused var warning
+
+        stan::math::initialize(qRate, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(qRate,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 76;
+            current_statement_begin__ = 78;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
                         psy_Sampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 77;
+            current_statement_begin__ = 79;
             stan::model::assign(psy_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         psy_NotSampled, 
                         "assigning variable psy_i");
-            current_statement_begin__ = 78;
+            current_statement_begin__ = 80;
             stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
-            current_statement_begin__ = 79;
+            current_statement_begin__ = 81;
             stan::math::assign(p, inv_logit(get_base1(odds,2,"odds",1)));
+            current_statement_begin__ = 82;
+            stan::math::assign(qRate, (q / p));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -7121,6 +7367,8 @@ public:
         check_less_or_equal(function__,"q",q,1);
         check_greater_or_equal(function__,"p",p,minP);
         check_less_or_equal(function__,"p",p,1);
+        check_greater_or_equal(function__,"qRate",qRate,0);
+        check_less_or_equal(function__,"qRate",qRate,1);
 
         // write transformed parameters
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
@@ -7128,6 +7376,7 @@ public:
         }
         vars__.push_back(q);
         vars__.push_back(p);
+        vars__.push_back(qRate);
 
         if (!include_gqs__) return;
         // declare and define generated quantities
@@ -7166,52 +7415,52 @@ public:
 
 
         try {
-            current_statement_begin__ = 123;
+            current_statement_begin__ = 127;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 125;
+                current_statement_begin__ = 129;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 126;
+                current_statement_begin__ = 130;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 132;
+                current_statement_begin__ = 136;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 133;
+                    current_statement_begin__ = 137;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 134;
+                    current_statement_begin__ = 138;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 135;
+                    current_statement_begin__ = 139;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
-                    current_statement_begin__ = 136;
+                    current_statement_begin__ = 140;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 139;
+                    current_statement_begin__ = 143;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 140;
+                    current_statement_begin__ = 144;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 141;
+                    current_statement_begin__ = 145;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 142;
+                    current_statement_begin__ = 146;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 145;
+                current_statement_begin__ = 149;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 149;
+            current_statement_begin__ = 153;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 151;
+            current_statement_begin__ = 155;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 152;
+                current_statement_begin__ = 156;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 153;
+                current_statement_begin__ = 157;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 157;
+            current_statement_begin__ = 161;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -7328,6 +7577,9 @@ public:
         param_name_stream__.str(std::string());
         param_name_stream__ << "p";
         param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -7406,6 +7658,9 @@ public:
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
         param_name_stream__ << "p";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "qRate";
         param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;

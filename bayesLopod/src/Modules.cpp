@@ -7,7 +7,7 @@ RCPP_MODULE(stan_fit4psyip_mod) {
 
     class_<rstan::stan_fit<model_psyip_namespace::model_psyip, boost::random::ecuyer1988> >("model_psyip")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyip_namespace::model_psyip, boost::random::ecuyer1988> ::call_sampler)
@@ -36,7 +36,7 @@ RCPP_MODULE(stan_fit4psyip_CAR_mod) {
 
     class_<rstan::stan_fit<model_psyip_CAR_namespace::model_psyip_CAR, boost::random::ecuyer1988> >("model_psyip_CAR")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyip_CAR_namespace::model_psyip_CAR, boost::random::ecuyer1988> ::call_sampler)
@@ -65,7 +65,7 @@ RCPP_MODULE(stan_fit4psyipi_mod) {
 
     class_<rstan::stan_fit<model_psyipi_namespace::model_psyipi, boost::random::ecuyer1988> >("model_psyipi")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyipi_namespace::model_psyipi, boost::random::ecuyer1988> ::call_sampler)
@@ -94,7 +94,7 @@ RCPP_MODULE(stan_fit4psyipi_CAR_mod) {
 
     class_<rstan::stan_fit<model_psyipi_CAR_namespace::model_psyipi_CAR, boost::random::ecuyer1988> >("model_psyipi_CAR")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyipi_CAR_namespace::model_psyipi_CAR, boost::random::ecuyer1988> ::call_sampler)
@@ -123,7 +123,7 @@ RCPP_MODULE(stan_fit4psyipiq_mod) {
 
     class_<rstan::stan_fit<model_psyipiq_namespace::model_psyipiq, boost::random::ecuyer1988> >("model_psyipiq")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyipiq_namespace::model_psyipiq, boost::random::ecuyer1988> ::call_sampler)
@@ -152,7 +152,7 @@ RCPP_MODULE(stan_fit4psyipiq_CAR_mod) {
 
     class_<rstan::stan_fit<model_psyipiq_CAR_namespace::model_psyipiq_CAR, boost::random::ecuyer1988> >("model_psyipiq_CAR")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyipiq_CAR_namespace::model_psyipiq_CAR, boost::random::ecuyer1988> ::call_sampler)
@@ -181,7 +181,7 @@ RCPP_MODULE(stan_fit4psyipq_mod) {
 
     class_<rstan::stan_fit<model_psyipq_namespace::model_psyipq, boost::random::ecuyer1988> >("model_psyipq")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyipq_namespace::model_psyipq, boost::random::ecuyer1988> ::call_sampler)
@@ -210,7 +210,7 @@ RCPP_MODULE(stan_fit4psyipq_CAR_mod) {
 
     class_<rstan::stan_fit<model_psyipq_CAR_namespace::model_psyipq_CAR, boost::random::ecuyer1988> >("model_psyipq_CAR")
 
-    .constructor<SEXP,SEXP>()
+    .constructor<SEXP,SEXP,SEXP>()
 
 
     .method("call_sampler", &rstan::stan_fit<model_psyipq_CAR_namespace::model_psyipq_CAR, boost::random::ecuyer1988> ::call_sampler)

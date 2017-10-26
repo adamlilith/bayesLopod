@@ -71,12 +71,15 @@ transformed parameters {
   vector <lower=0, upper=1> [n] psy_i;
   real<lower=0,upper=1> q;
   real <lower=minP, upper=1> p;
+  real <lower=0, upper= 1> qRate;
+
 
 
   psy_i[sampledId] = psy_Sampled;
   psy_i[notSampledId] = psy_NotSampled;
   q = inv_logit(odds[1]);
   p = inv_logit(odds[2]);
+  qRate = q/p;
 
 
 
@@ -86,6 +89,7 @@ transformed parameters {
 model
   {
 
+    target += normal_lpdf(qRate | 0,0.05);
 
 
     target += beta_lpdf(psy_i | 0.5, 0.5);

@@ -69,7 +69,7 @@ parameters{
 }
 
 transformed parameters {
-
+  real <lower=0, upper= 1> qRate;
   real <lower=0, upper= 1> pRange;
   vector <lower=0, upper=1> [n] psy_i;
   vector<lower=0, upper=1> [nSampledCells] p;
@@ -82,6 +82,8 @@ transformed parameters {
   psy_i[sampledId] = psy_Sampled;
   psy_i[notSampledId] = psy_NotSampled;
   pRange = pmax-pmin;
+  qRate = q/pmin;
+
 
   p = (p_raw * pRange)+pmin;
 
@@ -94,6 +96,8 @@ model
   {
 
 
+    target += normal_lpdf(qRate | 0,0.05);
+    target += normal_lpdf(pRange | 0,0.1);
 
     target += normal_lpdf(pmin | 0.5, 0.25);
     target += normal_lpdf(p_raw | 1, 0.25);

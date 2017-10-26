@@ -31,7 +31,7 @@ transformed parameters {
   pmax = inv_logit(odds[3]);
 
   pRange = pmax-pmin;
-
+  qRate = q/pmin;
   p = (p_raw * pRange)+pmin;
 
 

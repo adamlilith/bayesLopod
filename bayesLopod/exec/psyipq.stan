@@ -19,8 +19,11 @@ parameters{
 transformed parameters {
   real<lower=0,upper=1> q; // Values for rate of false positives
   real <lower=minP, upper=1> p;
+  real <lower=0, upper= 1> qRate;
+
   q = inv_logit(odds[1]);
   p = inv_logit(odds[2]);
+  qRate = q/p;
 
 }
 
@@ -29,6 +32,7 @@ model
 
 
 
+    target += normal_lpdf(qRate | 0,0.05);
 
     target += beta_lpdf(psy_Sampled | 0.5, 0.5);
 
