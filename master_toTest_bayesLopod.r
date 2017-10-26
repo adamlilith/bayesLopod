@@ -27,7 +27,7 @@ LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
 spplot(LopodObject@geoDataObject)
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 2, warmup = 900, sampling = 100, nCores = 2)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 2, warmup = 300, sampling = 100, nCores = 2)
 
 #What are the parameters calculated in this models?
 modelParams(ModLopod)
@@ -44,5 +44,5 @@ meanPPPlot=lopodRaster(ModLopod, param="psy_Sampled", metric="mean", extrapolate
 #plot raster
 spplot(meanPPPlot)
 
-
+stan_trace(ModLopod@StanFit, pars = "lp__")
 

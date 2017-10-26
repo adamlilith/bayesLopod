@@ -27,7 +27,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyip");
-    reader.add_event(90, 90, "end", "model_psyip");
+    reader.add_event(113, 113, "end", "model_psyip");
     return reader;
 }
 
@@ -303,6 +303,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -335,6 +341,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -420,40 +440,88 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 62;
+            current_statement_begin__ = 67;
+            stan::math::assign(npars, (nSampledCells + 1));
+            current_statement_begin__ = 69;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 71;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),p),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 78;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 79;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 82;
+            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 83;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 85;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 64;
+                current_statement_begin__ = 87;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 70;
+                current_statement_begin__ = 93;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 71;
+                    current_statement_begin__ = 94;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 72;
+                    current_statement_begin__ = 95;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 73;
+                    current_statement_begin__ = 96;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
-                    current_statement_begin__ = 74;
+                    current_statement_begin__ = 97;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 77;
+                    current_statement_begin__ = 100;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 78;
+                    current_statement_begin__ = 101;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 79;
+                    current_statement_begin__ = 102;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 80;
+                    current_statement_begin__ = 103;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 83;
+                current_statement_begin__ = 106;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 87;
+            current_statement_begin__ = 110;
             stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -504,6 +572,16 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -582,6 +660,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -637,6 +737,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model
@@ -670,7 +792,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyip_CAR");
-    reader.add_event(168, 168, "end", "model_psyip_CAR");
+    reader.add_event(192, 192, "end", "model_psyip_CAR");
     return reader;
 }
 
@@ -1237,6 +1359,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -1281,6 +1409,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(n);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -1399,55 +1541,103 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 131;
+            current_statement_begin__ = 136;
+            stan::math::assign(npars, ((((nSampledCells + nNotSampled) + 1) + 1) + 1));
+            current_statement_begin__ = 138;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 140;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),p),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 147;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 148;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 151;
+            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 152;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 155;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 133;
+                current_statement_begin__ = 157;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 134;
+                current_statement_begin__ = 158;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 140;
+                current_statement_begin__ = 164;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 141;
+                    current_statement_begin__ = 165;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 142;
+                    current_statement_begin__ = 166;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 143;
+                    current_statement_begin__ = 167;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
-                    current_statement_begin__ = 144;
+                    current_statement_begin__ = 168;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 147;
+                    current_statement_begin__ = 171;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 148;
+                    current_statement_begin__ = 172;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 149;
+                    current_statement_begin__ = 173;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 150;
+                    current_statement_begin__ = 174;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 153;
+                current_statement_begin__ = 177;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 157;
+            current_statement_begin__ = 181;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 159;
+            current_statement_begin__ = 183;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 160;
+                current_statement_begin__ = 184;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 161;
+                current_statement_begin__ = 185;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 165;
+            current_statement_begin__ = 189;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -1500,6 +1690,16 @@ public:
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -1597,6 +1797,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -1671,6 +1893,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model
@@ -1704,7 +1948,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipi");
-    reader.add_event(109, 109, "end", "model_psyipi");
+    reader.add_event(133, 133, "end", "model_psyipi");
     return reader;
 }
 
@@ -2080,6 +2324,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -2125,6 +2375,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -2259,40 +2523,88 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 81;
+            current_statement_begin__ = 86;
+            stan::math::assign(npars, ((nSampledCells + nSampledCells) + 2));
+            current_statement_begin__ = 88;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 90;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),get_base1(p,cell_gq,"p",1)),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 97;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 98;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 101;
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 102;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 105;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 83;
+                current_statement_begin__ = 107;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 89;
+                current_statement_begin__ = 113;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 90;
+                    current_statement_begin__ = 114;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 91;
+                    current_statement_begin__ = 115;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 92;
+                    current_statement_begin__ = 116;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 93;
+                    current_statement_begin__ = 117;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 96;
+                    current_statement_begin__ = 120;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 97;
+                    current_statement_begin__ = 121;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 98;
+                    current_statement_begin__ = 122;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 99;
+                    current_statement_begin__ = 123;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 102;
+                current_statement_begin__ = 126;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 106;
+            current_statement_begin__ = 130;
             stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -2343,6 +2655,16 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -2442,6 +2764,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -2518,6 +2862,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model
@@ -2551,7 +2917,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipi_CAR");
-    reader.add_event(182, 182, "end", "model_psyipi_CAR");
+    reader.add_event(206, 206, "end", "model_psyipi_CAR");
     return reader;
 }
 
@@ -3218,6 +3584,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -3275,6 +3647,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(n);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -3442,55 +3828,103 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 145;
+            current_statement_begin__ = 150;
+            stan::math::assign(npars, (((((nSampledCells + nNotSampled) + nSampledCells) + 1) + 1) + 2));
+            current_statement_begin__ = 152;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 154;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),get_base1(p,cell_gq,"p",1)),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 161;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 162;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 165;
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),stan::model::rvalue(p, stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), "p")),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 166;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 169;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 147;
+                current_statement_begin__ = 171;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 148;
+                current_statement_begin__ = 172;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 154;
+                current_statement_begin__ = 178;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 155;
+                    current_statement_begin__ = 179;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 156;
+                    current_statement_begin__ = 180;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 157;
+                    current_statement_begin__ = 181;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 158;
+                    current_statement_begin__ = 182;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 161;
+                    current_statement_begin__ = 185;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 162;
+                    current_statement_begin__ = 186;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 163;
+                    current_statement_begin__ = 187;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 164;
+                    current_statement_begin__ = 188;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 167;
+                current_statement_begin__ = 191;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 171;
+            current_statement_begin__ = 195;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 173;
+            current_statement_begin__ = 197;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 174;
+                current_statement_begin__ = 198;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 175;
+                current_statement_begin__ = 199;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 179;
+            current_statement_begin__ = 203;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -3543,6 +3977,16 @@ public:
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -3661,6 +4105,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -3756,6 +4222,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model
@@ -3789,7 +4277,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipiq");
-    reader.add_event(110, 110, "end", "model_psyipiq");
+    reader.add_event(134, 134, "end", "model_psyipiq");
     return reader;
 }
 
@@ -4172,6 +4660,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -4219,6 +4713,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -4363,40 +4871,88 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 82;
+            current_statement_begin__ = 87;
+            stan::math::assign(npars, ((nSampledCells + nSampledCells) + 3));
+            current_statement_begin__ = 89;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 91;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),get_base1(p,cell_gq,"p",1)),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 98;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 99;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 102;
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 103;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 106;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 84;
+                current_statement_begin__ = 108;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 90;
+                current_statement_begin__ = 114;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 91;
+                    current_statement_begin__ = 115;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 92;
+                    current_statement_begin__ = 116;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 93;
+                    current_statement_begin__ = 117;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 94;
+                    current_statement_begin__ = 118;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 97;
+                    current_statement_begin__ = 121;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 98;
+                    current_statement_begin__ = 122;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 99;
+                    current_statement_begin__ = 123;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 100;
+                    current_statement_begin__ = 124;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 103;
+                current_statement_begin__ = 127;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 107;
+            current_statement_begin__ = 131;
             stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -4447,6 +5003,16 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -4549,6 +5115,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -4628,6 +5216,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model
@@ -4661,7 +5271,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipiq_CAR");
-    reader.add_event(181, 181, "end", "model_psyipiq_CAR");
+    reader.add_event(205, 205, "end", "model_psyipiq_CAR");
     return reader;
 }
 
@@ -5331,6 +5941,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -5390,6 +6006,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(n);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -5567,55 +6197,103 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 144;
+            current_statement_begin__ = 149;
+            stan::math::assign(npars, (((((nSampledCells + nNotSampled) + nSampledCells) + 1) + 1) + 3));
+            current_statement_begin__ = 151;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 153;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),get_base1(p,cell_gq,"p",1)),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 160;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 161;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 164;
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),stan::model::rvalue(p, stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), "p")),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 165;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 168;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 146;
+                current_statement_begin__ = 170;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 147;
+                current_statement_begin__ = 171;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 153;
+                current_statement_begin__ = 177;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 154;
+                    current_statement_begin__ = 178;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 155;
+                    current_statement_begin__ = 179;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 156;
+                    current_statement_begin__ = 180;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 157;
+                    current_statement_begin__ = 181;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 160;
+                    current_statement_begin__ = 184;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 161;
+                    current_statement_begin__ = 185;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 162;
+                    current_statement_begin__ = 186;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 163;
+                    current_statement_begin__ = 187;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 166;
+                current_statement_begin__ = 190;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 170;
+            current_statement_begin__ = 194;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 172;
+            current_statement_begin__ = 196;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 173;
+                current_statement_begin__ = 197;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 174;
+                current_statement_begin__ = 198;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 178;
+            current_statement_begin__ = 202;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5668,6 +6346,16 @@ public:
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -5789,6 +6477,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -5887,6 +6597,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model
@@ -5920,7 +6652,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipq");
-    reader.add_event(93, 93, "end", "model_psyipq");
+    reader.add_event(117, 117, "end", "model_psyipq");
     return reader;
 }
 
@@ -6221,6 +6953,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -6258,6 +6996,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -6365,40 +7117,88 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 65;
+            current_statement_begin__ = 70;
+            stan::math::assign(npars, (nSampledCells + 2));
+            current_statement_begin__ = 72;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 74;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),p),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 81;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 82;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 85;
+            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 86;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 89;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 67;
+                current_statement_begin__ = 91;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 73;
+                current_statement_begin__ = 97;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 74;
+                    current_statement_begin__ = 98;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 75;
+                    current_statement_begin__ = 99;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 76;
+                    current_statement_begin__ = 100;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
-                    current_statement_begin__ = 77;
+                    current_statement_begin__ = 101;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 80;
+                    current_statement_begin__ = 104;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 81;
+                    current_statement_begin__ = 105;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 82;
+                    current_statement_begin__ = 106;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 83;
+                    current_statement_begin__ = 107;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 86;
+                current_statement_begin__ = 110;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 90;
+            current_statement_begin__ = 114;
             stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -6449,6 +7249,16 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -6535,6 +7345,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -6598,6 +7430,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model
@@ -6631,7 +7485,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psyipq_CAR");
-    reader.add_event(164, 164, "end", "model_psyipq_CAR");
+    reader.add_event(187, 187, "end", "model_psyipq_CAR");
     return reader;
 }
 
@@ -7223,6 +8077,12 @@ public:
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
+        names__.push_back("expRec");
+        names__.push_back("chi_sq");
+        names__.push_back("lLh_cell");
+        names__.push_back("npars");
+        names__.push_back("lLh");
+        names__.push_back("AIC");
     }
 
 
@@ -7272,6 +8132,20 @@ public:
         dimss__.push_back(dims__);
         dims__.resize(0);
         dims__.push_back(n);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(nSampledCells);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -7412,55 +8286,103 @@ public:
 
         stan::math::initialize(pp, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pp,DUMMY_VAR__);
+        validate_non_negative_index("expRec", "nSampledCells", nSampledCells);
+        vector_d expRec(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) expRec;  // dummy to suppress unused var warning
+
+        stan::math::initialize(expRec, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(expRec,DUMMY_VAR__);
+        double chi_sq(0.0);
+        (void) chi_sq;  // dummy to suppress unused var warning
+
+        stan::math::initialize(chi_sq, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(chi_sq,DUMMY_VAR__);
+        validate_non_negative_index("lLh_cell", "nSampledCells", nSampledCells);
+        vector_d lLh_cell(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        (void) lLh_cell;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh_cell, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh_cell,DUMMY_VAR__);
+        double npars(0.0);
+        (void) npars;  // dummy to suppress unused var warning
+
+        stan::math::initialize(npars, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(npars,DUMMY_VAR__);
+        double lLh(0.0);
+        (void) lLh;  // dummy to suppress unused var warning
+
+        stan::math::initialize(lLh, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(lLh,DUMMY_VAR__);
+        double AIC(0.0);
+        (void) AIC;  // dummy to suppress unused var warning
+
+        stan::math::initialize(AIC, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(AIC,DUMMY_VAR__);
 
 
         try {
-            current_statement_begin__ = 127;
+            current_statement_begin__ = 132;
+            stan::math::assign(npars, ((((nSampledCells + nNotSampled) + 1) + 1) + 2));
+            current_statement_begin__ = 134;
+            for (int cell_gq = 1; cell_gq <= nSampledCells; ++cell_gq) {
+
+                current_statement_begin__ = 136;
+                stan::math::assign(get_base1_lhs(lLh_cell,cell_gq,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell_gq,"psy_Sampled",1),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),p),binomial_log(get_base1(y,cell_gq,"y",1),get_base1(N,cell_gq,"N",1),q)));
+            }
+            current_statement_begin__ = 143;
+            stan::math::assign(lLh, sum(lLh_cell));
+            current_statement_begin__ = 144;
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            current_statement_begin__ = 146;
+            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 147;
+            stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
+            current_statement_begin__ = 150;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 129;
+                current_statement_begin__ = 152;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 130;
+                current_statement_begin__ = 153;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 136;
+                current_statement_begin__ = 159;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 137;
+                    current_statement_begin__ = 160;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 138;
+                    current_statement_begin__ = 161;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), p);
-                    current_statement_begin__ = 139;
+                    current_statement_begin__ = 162;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),p, base_rng__));
-                    current_statement_begin__ = 140;
+                    current_statement_begin__ = 163;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 143;
+                    current_statement_begin__ = 166;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 144;
+                    current_statement_begin__ = 167;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 145;
+                    current_statement_begin__ = 168;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 146;
+                    current_statement_begin__ = 169;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 149;
+                current_statement_begin__ = 172;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 153;
+            current_statement_begin__ = 176;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 155;
+            current_statement_begin__ = 178;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 156;
+                current_statement_begin__ = 179;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 157;
+                current_statement_begin__ = 180;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 161;
+            current_statement_begin__ = 184;
             stan::math::assign(psy, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -7513,6 +8435,16 @@ public:
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(pp[k_0__]);
         }
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(expRec[k_0__]);
+        }
+        vars__.push_back(chi_sq);
+        for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
+            vars__.push_back(lLh_cell[k_0__]);
+        }
+        vars__.push_back(npars);
+        vars__.push_back(lLh);
+        vars__.push_back(AIC);
 
     }
 
@@ -7618,6 +8550,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 
@@ -7700,6 +8654,28 @@ public:
             param_name_stream__ << "pp" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "expRec" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "chi_sq";
+        param_names__.push_back(param_name_stream__.str());
+        for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "lLh_cell" << '.' << k_0__;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "npars";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "lLh";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "AIC";
+        param_names__.push_back(param_name_stream__.str());
     }
 
 }; // model

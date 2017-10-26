@@ -77,6 +77,30 @@ real<lower=0, upper=1> psy; //Global Occupancy
 real<lower=0, upper=1> cellpres_i[nSampledCells];
 real<lower=0, upper=1> pCorr[nSampledCells];
 vector <lower=0, upper=1> [nSampledCells] pp; //Probability of presence
+vector [nSampledCells] expRec; //
+real chi_sq; //
+vector [nSampledCells] lLh_cell; //
+real npars;
+real lLh;
+real AIC;
+
+npars = nSampledCells + nSampledCells +  3;
+
+for (cell_gq in 1:nSampledCells){
+
+lLh_cell[cell_gq] = log_mix(psy_Sampled[cell_gq],binomial_lpmf(y[cell_gq] | N[cell_gq],p[cell_gq]),
+                              binomial_lpmf(y[cell_gq] | N[cell_gq] , q)
+
+                            );
+
+    }
+
+lLh = sum(lLh_cell);
+AIC = 2 * npars - 2 * lLh;
+
+
+expRec = (psy_Sampled .* to_vector(N)) .* p  + ((1-psy_Sampled) .* to_vector(N)) * q;
+chi_sq = sum(((expRec - to_vector(y)) .* (expRec - to_vector(y))) ./ expRec);
 
 
 for (ncell in 1:nSampledCells ){
