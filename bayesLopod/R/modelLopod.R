@@ -387,7 +387,7 @@ if(LopodData@geoType == "Shapefile"){
   }
 
 
-  StanFittetModel = sampling(StanModel,
+ modelArgs = list(object = StanModel,
            data = stanData,              # named list of data
            chains = nChains,                   # number of Markov chains
            warmup = warmup,               # number of warmup iterations per chain
@@ -396,6 +396,9 @@ if(LopodData@geoType == "Shapefile"){
            refresh = 2,                 # show progress every 'refresh' iterations
            control = list(adapt_delta  = 0.8)
   )
+
+ StanFittetModel = do.call("sampling", args = modelArgs, envir = .GlobalEnv)
+
   return(LopodModel(LopodData = LopodData, StanFit = StanFittetModel, modelInfo = modelInfo))
 }
 

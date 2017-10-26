@@ -3,5 +3,9 @@ exportPattern("^[[:alpha:]]+")
 exportClasses(
     "LopodModel",
      "spatialObjectsUnion",
-     "LopodData" 
+     "LopodData"
 )
+
+import(Rcpp)
+import(rstan)
+import(rstantools)
