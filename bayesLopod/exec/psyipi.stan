@@ -25,6 +25,7 @@ transformed parameters {
   real <lower=fmax(minP,q), upper=1> pmax;
   real <lower=fmax(minP,q), upper=1> pmin;
   real <lower=0, upper= 1> qRate;
+  vector [nSampledCells] lLh_cell;
 
   pmin = (inv_logit(odds[1]) * (1-fmax(minP,q)))+fmax(minP,q);
   pmax = (inv_logit(odds[2]) * (1-fmax(minP,q)))+fmax(minP,q);
@@ -36,6 +37,13 @@ transformed parameters {
   p = (p_raw * pRange)+pmin;
 
 
+for (cell in 1:nSampledCells){
+
+ lLh_cell[cell]  = log_mix(psy_Sampled[cell],binomial_lpmf(y[cell] | N[cell],p[cell]),
+                              binomial_lpmf(y[cell] | N[cell] , q)
+
+                            );
+    }
 
 
 }
@@ -53,14 +61,8 @@ model
 
     target += beta_lpdf(psy_Sampled | 0.5, 0.5);
 
+    target += lLh_cell;
 
-    for (cell in 1:nSampledCells){
-
-  target += log_mix(psy_Sampled[cell],binomial_lpmf(y[cell] | N[cell],p[cell]),
-                              binomial_lpmf(y[cell] | N[cell] , q)
-
-                            );
-    }
 
   }
 
@@ -78,24 +80,18 @@ real<lower=0, upper=1> pCorr[nSampledCells];
 vector <lower=0, upper=1> [nSampledCells] pp; //Probability of presence
 vector [nSampledCells] expRec; //
 real chi_sq; //
-vector [nSampledCells] lLh_cell; //
 real npars;
 real lLh;
 real AIC;
+real AICc;
+real bAIC;
 
 npars = nSampledCells  + nSampledCells + 2;
 
-for (cell_gq in 1:nSampledCells){
-
-lLh_cell[cell_gq] = log_mix(psy_Sampled[cell_gq],binomial_lpmf(y[cell_gq] | N[cell_gq],p[cell_gq]),
-                              binomial_lpmf(y[cell_gq] | N[cell_gq] , q)
-
-                            );
-
-    }
-
 lLh = sum(lLh_cell);
 AIC = 2 * npars - 2 * lLh;
+AICc = AIC + ((2*npars*(npars+1))/(nSampledCells-npars-1));
+bAIC = log(nSampledCells) * npars - 2 * lLh;
 
 
 expRec = (psy_Sampled .* to_vector(N)) .* p  + ((1-psy_Sampled) .* to_vector(N)) * q;

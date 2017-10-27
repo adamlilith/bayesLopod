@@ -27,7 +27,18 @@ LopodObject = rasterLopodData(rasterN, rasterY, Adjacency = T)
 spplot(LopodObject@geoDataObject)
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 2, warmup = 300, sampling = 100, nCores = 2)
+#ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 2, warmup = 300, sampling = 100, nCores = 2)
+
+ModLopod_psyip = modelLopod(LopodObject, varP = F, q = 0, CAR = F, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+ModLopod_psyipq = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+ModLopod_psyipi = modelLopod(LopodObject, varP = T, q = 0, CAR = F, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+ModLopod_psyipiq = modelLopod(LopodObject, varP = T, q = NULL, CAR = F, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+ModLopod_psyip_CAR = modelLopod(LopodObject, varP = F, q = 0, CAR = T, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+ModLopod_psyipq_CAR = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+ModLopod_psyipi_CAR = modelLopod(LopodObject, varP = T, q = 0, CAR = T, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+ModLopod_psyipiq_CAR = modelLopod(LopodObject, varP = T, q = NULL, CAR = T, pmin = 0, nChains = 2, warmup = 50, sampling = 20, nCores = 2)
+
+
 
 #What are the parameters calculated in this models?
 modelParams(ModLopod)
