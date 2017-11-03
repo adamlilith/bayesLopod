@@ -50,10 +50,10 @@ lopodSummary(ModLopod, probs = c(0.25,0.5,0.75))
 lopodDens(ModLopod)
 
 #Create a raster with the mean probability of presence (change parameters for other)
-meanPPPlot=lopodRaster(ModLopod, param="psy_Sampled", metric="mean", extrapolate = F)
+meanPPPlot=lopodRaster(ModLopod_psyipiq_CAR, param="psy_i", metric="mean", extrapolate = F)
+spplot(meanPPPlot)
 
 #plot raster
-spplot(meanPPPlot)
 
 stan_trace(ModLopod@StanFit, pars = "lp__")
 

@@ -57,17 +57,19 @@ lopodRaster =  function(LopodModel,param,extrapolate=T, metric = NULL, quant=0.5
     }
 
   if(extrapolate==F){
-  if((param %in% c(modelPar$allCellsPars,modelPar$sampledPars))==F) stop(paste("For this model only the following  parameters can be mapped:",toString(c(modelPar$allCellsPars,modelPar$sampledPars))))
 
     CellsID = LopodModel@LopodData@geoInfo$sampledId
+
+  if((param %in% c(modelPar$allCellsPars,modelPar$sampledPars))==F) stop(paste("For this model only the following  parameters can be mapped:",toString(c(modelPar$allCellsPars,modelPar$sampledPars))))
+
     ParObjects=paste(param,"[",CellsID$cellStan,"]",sep="")
 
 
-  if ((param %in% modelPar$sampledPars)&(LopodModel@modelInfo$CAR==T)){
+  #if ((param %in% modelPar$sampledPars)&(LopodModel@modelInfo$CAR==T)){
 
-  ParObjects=paste(param,"[",1:dim(CellsID)[1],"]",sep="")
+  #ParObjects=paste(param,"[",1:dim(CellsID)[1],"]",sep="")
 
-  }
+  #}
 
 
   ParValues = rstan::summary(LopodModel@StanFit,pars=ParObjects,probs=probs, use_cache=FALSE)$summary[,columnName]

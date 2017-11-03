@@ -58,24 +58,21 @@ transformed data{
 }
 
 parameters{
-  vector <lower=0, upper=1> [nSampledCells] psy_Sampled; // Probability of occupancy sampled cell
-  vector <lower=0, upper=1> [nNotSampled] psy_NotSampled; // Probability of occupancy per notSampled cell
-  real <lower=0> tau;
-  real <lower=0, upper=1> alpha;
+  vector <lower=0, upper=1> [nSampledCells] psy_Sampled; // Likelihood of occupancy in sampled cell
+  vector <lower=0, upper=1> [nNotSampled] psy_NotSampled; // Likelihood of occupancy in notSampled cell
+  real <lower=0> tau; // Autocorrelation dispersion
+  real <lower=0, upper=1> alpha;/// Strength of Autocorrelation
   ordered [2] odds;
 
 }
 
 transformed parameters {
 
-  vector <lower=0, upper=1> [n] psy_i;
-  real<lower=0,upper=1> q;
-  real <lower=minP, upper=1> p;
-  real <lower=0, upper= 1> qRate;
-  vector [nSampledCells] lLh_cell;
-
-
-
+  vector <lower=0, upper=1> [n] psy_i; // Likelihood of occupancy in cells
+  real<lower=0,upper=1> q; // Rate of false positives
+  real <lower=minP, upper=1> p; // Detectability
+  real <lower=0, upper= 1> qRate; // Rate of fase to true detections
+  vector [nSampledCells] lLh_cell; // Likelihood of presence given sampling pattern
 
   psy_i[sampledId] = psy_Sampled;
   psy_i[notSampledId] = psy_NotSampled;
@@ -88,7 +85,7 @@ transformed parameters {
    lLh_cell[cell]   = log_mix(psy_Sampled[cell],binomial_lpmf(y[cell] | N[cell],p),
                               binomial_lpmf(y[cell] | N[cell] , q)
 
-                            );
+                           );
 
     }
 
@@ -98,16 +95,14 @@ transformed parameters {
 
 model
   {
-
+// Priors
     target += normal_lpdf(qRate | 0,0.05);
-
-
     target += beta_lpdf(psy_i | 0.5, 0.5);
     target += gamma_lpdf(tau | 2, 2);
 
-
+// Model log probabilities
     target += lLh_cell;
-
+// Autocorrelation log probabilities
     target += sparse_car_lpdf(psy_i | tau, alpha, W_sparse, D_sparse, lambda, n, W_n);
 
   }
