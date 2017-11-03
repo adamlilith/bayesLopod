@@ -13,7 +13,7 @@ Natural history museums and herbaria collectively hold hundreds of millions of z
 
 - [X] rasterLopodData(rasterN, rasterY, extSample, extDetection) *
 
-- [ ] xyLopodData(xyN, xyY,nCells, extSample, extDetection)
+- [X] xyLopodData(xyN, xyY,nCells, extSample, extDetection)
 
 - [X] shapeLopodData(ShapeFile, fieldN, fieldY)
 
