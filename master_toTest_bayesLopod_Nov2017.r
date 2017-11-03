@@ -23,7 +23,7 @@ str(LopodObject, max.level = 3)
 spplot(LopodObject@geoDataObject)
 
 #Run bayesLopod model
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 4, warmup = 25, sampling = 25, nCores = 4)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 4, warmup = 50, sampling = 25, nCores = 4)
 str(ModLopod, max.level = 3)
 
 
