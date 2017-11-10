@@ -23,7 +23,9 @@ str(LopodObject, max.level = 3)
 spplot(LopodObject@geoDataObject)
 
 #Run bayesLopod model
-ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 4, warmup = 50, sampling = 25, nCores = 4)
+#ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 4, warmup = 50, sampling = 25, nCores = 4)
+ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = F, pmin = 0, nChains = 4, warmup = 100, sampling = 20, nCores = 4)
+
 str(ModLopod, max.level = 3)
 
 
@@ -38,10 +40,11 @@ lopodSummary(ModLopod, probs = c(0.25,0.5,0.75))
 lopodDens(ModLopod)
 
 #Create a raster with the posterior probability of presence given a sampling pattern
+#meanPPPlot=lopodRaster(ModLopod, param="pp", metric="mean", extrapolate = F)
 meanPPPlot=lopodRaster(ModLopod, param="pp", metric="mean", extrapolate = F)
 
 #Create a raster with the likelihood of presence (Psy)
-meanPsyPlot=lopodRaster(ModLopod, param="psy_i", metric="mean", extrapolate = T)
+meanPsyPlot=lopodRaster(ModLopod, param="psy_Sampled", metric="mean", extrapolate = F)
 
 
 spplot(stack(meanPsyPlot,meanPPPlot,SimSp25sq[["spOcc"]]) )
