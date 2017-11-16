@@ -64,11 +64,11 @@ lopodShape =  function(LopodModel,param,extrapolate=T, metric = NULL, quant=0.5)
     ParObjects=paste(param,"[",CellsID$cellStan,"]",sep="")
 
 
-  if ((param %in% modelPar$sampledPars)&(LopodModel@modelInfo$CAR==T)){
+    if ((is.null(LopodModel@LopodData@geoInfo$W_sparse)==F)&(LopodModel@modelInfo$CAR==F)){
 
-  ParObjects=paste(param,"[",1:dim(CellsID)[1],"]",sep="")
+   ParObjects=paste(param,"[",1:dim(CellsID)[1],"]",sep="")
 
-  }
+   }
 
 
   ParValues = rstan::summary(LopodModel@StanFit,pars=ParObjects,probs=probs, use_cache=FALSE)$summary[,columnName]
