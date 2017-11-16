@@ -155,7 +155,7 @@ AICc = AIC + ((2*npars*(npars+1))/(nSampledCells-npars-1));
 bAIC = log(nSampledCells) * npars - 2 * lLh;
 
 
-expRec = (psy_Sampled .* to_vector(N)) .* p[sampledId]  + ((1-psy_Sampled) .* to_vector(N)) * q;
+expRec = (psy_Sampled .* to_vector(N)) .* p  + ((1-psy_Sampled) .* to_vector(N)) * q;
 chi_sq = sum(((expRec - to_vector(y)) .* (expRec - to_vector(y))) ./ expRec);
 
 
