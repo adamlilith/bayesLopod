@@ -22,18 +22,18 @@ xyToRaster =   function(xyRecords, xySamplingEffort, nrows = 50, extentExpansion
   if (is.null(extent)){
 
 
-    yRange =  xyRecords@bbox["Latitude", "max"] - xyRecords@bbox["Latitude", "min"]
+    yRange =  xyRecords@bbox[2, "max"] - xyRecords@bbox[2, "min"]
     yExpandedRange = yRange * (1+extentExpansion)
     yExpansion = yRange * (extentExpansion/2)
     resolution =  yExpandedRange/nrows
 
-    xRange =  xyRecords@bbox["Longitude", "max"] - xyRecords@bbox["Longitude", "min"]
+    xRange =  xyRecords@bbox[1, "max"] - xyRecords@bbox[1, "min"]
     xExpandedRange = xRange * (1+extentExpansion)
     xExpansion = xRange * (extentExpansion/2)
     ncols = ceiling(xExpandedRange/resolution)
 
-    ymin = xyRecords@bbox["Latitude", "min"] - yExpansion
-    xmin = xyRecords@bbox["Longitude", "min"] - xExpansion
+    ymin = xyRecords@bbox[2, "min"] - yExpansion
+    xmin = xyRecords@bbox[1, "min"] - xExpansion
 
     ymax = ymin + nrows*resolution
     xmax = xmin + ncols*resolution
