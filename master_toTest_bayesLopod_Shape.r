@@ -5,12 +5,17 @@
 
 #Load testing rasters (any other can be used)
 AndroShape = shapefile("c:/GitHub/bayesLopod/AndropogonData/Andropogon_midUS.shp")
-AndroShape@data[,"Sampling"] = AndroShape@data[,"poaRec"] + AndroShape@data[,"anyAg1to3"]
+varData = rnorm(length(AndroShape), mean = 1, sd = 0.25)
+AndroShape@data[,"anyAG"] = round(varData * AndroShape@data[,"anyAG"])
+AndroShape@data[,"Sampling"] = round(AndroShape@data[,"poaRec"]*varData) + AndroShape@data[,"anyAG"]
 
 # Create lopodObject
 LopodObject = shapeLopodData(AndroShape, fieldN = "Sampling", fieldY = "anyAG", Adjacency = T, keepFields = F)
 # Plot input data
 spplot(LopodObject@geoDataObject, zcol ="FeatureID")
+
+Andropogon_shape = LopodObject@geoDataObject
+save("Andropogon_shape", file = "c:/GitHub/bayesLopod/Data/Andropogon_shape.rda")
 
 #Run bayesLopod model (change settings tu run it for longer chains or different settings)
 ModLopod = modelLopod(LopodObject, varP = F, q = NULL, CAR = T, pmin = 0, nChains = 1, warmup = 200, sampling = 100, nCores = 2)
