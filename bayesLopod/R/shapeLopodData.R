@@ -4,7 +4,7 @@
 #' @param fieldN Field in Shapefile corresponding to sampling effort (number of sampling events)in each feature.
 #' @param fieldY Field in Shapefile corresponding to number of detections in each feature.
 #' @param Adjacency Boolean. If TRUE, and adjancency matrix is computed.
-#' @param Adjacency Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.
+#' @param keepFields Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.
 #' @return A LopodData object to be used in modelLopod.
 #' @examples
 #' data("Andropogon_shape", package = "bayesLopod")

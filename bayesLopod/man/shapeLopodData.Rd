@@ -16,7 +16,7 @@ shapeLopodData(Shapefile, fieldN = "sampEffort", fieldY = "detections",
 
 \item{Adjacency}{Boolean. If TRUE, and adjancency matrix is computed.}
 
-\item{Adjacency}{Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.}
+\item{keepFields}{Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.}
 }
 \value{
 A LopodData object to be used in modelLopod.

@@ -5,6 +5,11 @@
 #' @param CAR Boolean. If TRUE, (and if a adjancency matrix is included in the LopodData object) a conditional autoregression analysis will be performed for occupancy across units.
 #' @param pmin Number between 0 and 1. Minimum value for detectability in a unit in which the species occurs.
 #' @param q Number between 0 and 1 or NULL. Rate of false detections. If NULL the values will be estimated by the model.
+#' @param nChains Number of Markov chains used by the Stan model.
+#' @param warmup Number of iterations for each chain to be discarted as warm-up.
+#' @param sampling Number of iterations for each chain to be sampled (after warm-up).
+#' @param nCores Number of cores to use when executing the chains in parallel.
+#'
 #' @return A LopodModel object.
 #' @examples
 #' data("simSpRecords", package = "bayesLopod")

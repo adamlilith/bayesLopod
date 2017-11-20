@@ -6,6 +6,12 @@
 \usage{
 modelParams(LopodModel)
 }
+\arguments{
+\item{LopodModel}{A LopodModel object}
+}
+\value{
+A a list of parameters.
+}
 \description{
 Internal funtion to extract parameters from a StanModel object
 }

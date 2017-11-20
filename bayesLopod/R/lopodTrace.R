@@ -5,7 +5,7 @@
 #' @param inc_warmup Boolean. If true, warm-up iterations are plotted. Default is FALSE.
 #' @return A ggplot object.
 #' @examples
-#' data("mLopodRaster", package = "bayesLopod"
+#' data("mLopodRaster", package = "bayesLopod")
 #' lopodTrace(mLopodRaster, inc_warmup = F, params = c("p","q"))
 #'
 #' data("mLopodShape", package = "bayesLopod")

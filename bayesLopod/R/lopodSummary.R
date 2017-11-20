@@ -5,7 +5,7 @@
 #' @param probs Quantiles to be estimated
 #' @return  Returns a dataframe which contain summaries for for all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.
 #' @examples
-#' data("mLopodRaster", package = "bayesLopod"
+#' data("mLopodRaster", package = "bayesLopod")
 #' lopodSummary(mLopodRaster, params = c("psy","p","q"))
 #'
 #' data("mLopodShape", package = "bayesLopod")

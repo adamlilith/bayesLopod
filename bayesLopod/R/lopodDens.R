@@ -4,7 +4,7 @@
 #' @param params Parameters to be plotted. Default is NULL, which plots all global parameters
 #' @return A ggplot object.
 #' @examples
-#' data("mLopodRaster", package = "bayesLopod"
+#' data("mLopodRaster", package = "bayesLopod")
 #' lopodDens(mLopodRaster, c("alpha", "tau"))
 #'
 #' data("mLopodShape", package = "bayesLopod")

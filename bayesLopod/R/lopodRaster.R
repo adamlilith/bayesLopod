@@ -7,7 +7,7 @@
 #' @param quant Resturns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL
 #' @return A Raster object.
 #' @examples
-#' data("mLopodRaster", package = "bayesLopod"
+#' data("mLopodRaster", package = "bayesLopod")
 #' psyRaster = lopodRaster(mLopodRaster, param = "psy_i", extrapolate = T, quant = 0.5)
 #' spplot(psyRaster)
 #'

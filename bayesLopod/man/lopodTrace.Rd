@@ -20,7 +20,7 @@ A ggplot object.
 Plots the values of model parameters for each chain across iterations
 }
 \examples{
-data("mLopodRaster", package = "bayesLopod"
+data("mLopodRaster", package = "bayesLopod")
 lopodTrace(mLopodRaster, inc_warmup = F, params = c("p","q"))
 
 data("mLopodShape", package = "bayesLopod")

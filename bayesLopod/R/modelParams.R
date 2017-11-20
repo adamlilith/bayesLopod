@@ -1,4 +1,8 @@
 #' Internal funtion to extract parameters from a StanModel object
+#' @param LopodModel A LopodModel object
+#' @return A a list of parameters.
+
+
 
 
 modelParams = function(LopodModel){

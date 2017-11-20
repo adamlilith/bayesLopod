@@ -17,6 +17,14 @@ modelLopod(LopodData, varP = F, q = NULL, pmin = 0, CAR = F,
 \item{pmin}{Number between 0 and 1. Minimum value for detectability in a unit in which the species occurs.}
 
 \item{CAR}{Boolean. If TRUE, (and if a adjancency matrix is included in the LopodData object) a conditional autoregression analysis will be performed for occupancy across units.}
+
+\item{nChains}{Number of Markov chains used by the Stan model.}
+
+\item{warmup}{Number of iterations for each chain to be discarted as warm-up.}
+
+\item{sampling}{Number of iterations for each chain to be sampled (after warm-up).}
+
+\item{nCores}{Number of cores to use when executing the chains in parallel.}
 }
 \value{
 A LopodModel object.

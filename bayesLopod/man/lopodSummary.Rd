@@ -20,7 +20,7 @@ Returns a dataframe which contain summaries for for all chains merged for the Gl
 Summary statistics for a LopodModel
 }
 \examples{
-data("mLopodRaster", package = "bayesLopod"
+data("mLopodRaster", package = "bayesLopod")
 lopodSummary(mLopodRaster, params = c("psy","p","q"))
 
 data("mLopodShape", package = "bayesLopod")
