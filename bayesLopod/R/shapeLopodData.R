@@ -5,6 +5,7 @@
 #' @param fieldY Field in Shapefile corresponding to number of detections in each feature.
 #' @param Adjacency Boolean. If TRUE, and adjancency matrix is computed.
 #' @param keepFields Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.
+#' @export
 #' @return A LopodData object to be used in modelLopod.
 #' @examples
 #' data("Andropogon_shape", package = "bayesLopod")
@@ -13,7 +14,6 @@
 #' \dontrun{
 #' data("Andropogon_shape", package = "bayesLopod")
 #' ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = T, keepFields = F)
-
 #' }
 
 

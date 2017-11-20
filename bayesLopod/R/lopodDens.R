@@ -1,7 +1,8 @@
 #' Kernel density estimates of global occupancy model parameters.
-#'
+#' @importFrom rstan stan_dens
 #' @param LopodModel A LopodModel object
 #' @param params Parameters to be plotted. Default is NULL, which plots all global parameters
+#' @export
 #' @return A ggplot object.
 #' @examples
 #' data("mLopodRaster", package = "bayesLopod")
@@ -14,7 +15,7 @@ lopodDens=  function(LopodModel,params=NULL){
 
   #Summary for all global parameters is return if params is NULL
 
-  if(class(LopodModel) != "LopodModel") stop("Obeject needs to be a LopdModel")
+  if(class(LopodModel) != "LopodModel") stop("Object needs to be a LopdModel")
 
   modelPar = modelParams(LopodModel)
   sumPars = modelPar$globalPars

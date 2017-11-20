@@ -1,5 +1,6 @@
 #' Internal - Create a Stack with distance matrices to sampled and detected cells
 #'
+#' @importFrom raster distance
 #' @param rasterN Raster object with sampling effort (number of sampling events)in each cell.
 #' @param rasterY Raster object with number of dectections in each cell.
 #' @return A Stack object with distance to sampled cells and distance to detections.

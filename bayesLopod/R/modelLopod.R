@@ -1,5 +1,9 @@
 #' Run a  Bayes inference of Landscape Occupancy from Presence-Only Data on Stan
-#'
+#' @useDynLib bayesLopod, .registration = TRUE
+#' @import Rcpp
+#' @import rstan
+#' @import rstantools
+#' @import raster
 #' @param LopodData Obejct with the data to be used in the Model
 #' @param varP Boolean. If TRUE, detectability will vary across cells. If FALSE a global value for detectability will be estimated.
 #' @param CAR Boolean. If TRUE, (and if a adjancency matrix is included in the LopodData object) a conditional autoregression analysis will be performed for occupancy across units.
@@ -9,7 +13,7 @@
 #' @param warmup Number of iterations for each chain to be discarted as warm-up.
 #' @param sampling Number of iterations for each chain to be sampled (after warm-up).
 #' @param nCores Number of cores to use when executing the chains in parallel.
-#'
+#' @export
 #' @return A LopodModel object.
 #' @examples
 #' data("simSpRecords", package = "bayesLopod")
@@ -33,6 +37,7 @@
 #' ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = T, keepFields = F)
 #' mLopodShape = modelLopod(LopodData = ld_Shape, varP = T, q = NULL, pmin = 0, CAR = T, nChains = 4,warmup = 500,sampling = 100,nCores =4)
 #' }
+
 
 modelLopod = function(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000, nCores=4){
 

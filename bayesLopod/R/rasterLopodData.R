@@ -1,10 +1,11 @@
 #' Create a LopodDAta object from Raster data
-#'
+#' @import raster
 #' @param rasterN Raster object with sampling effort (number of sampling events)in each cell.
 #' @param rasterY Raster object with number of dectections in each cell.
 #' @param Adjacency Boolean. If TRUE, and adjancency matrix is computed.
 #' @param extSample Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to unsampled cells.
 #' @param extDetection Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to unsampled cells.
+#' @export
 #' @return A LopodData object to be used in modelLopod.
 #' @examples
 #' data("simSpRecords", package = "bayesLopod")
@@ -18,6 +19,7 @@
 #' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
 #' ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = T )
 #' }
+
 
 
 rasterLopodData = function(rasterN, rasterY,Adjacency = T, extSample = 0.025, extDetection = 0.15){

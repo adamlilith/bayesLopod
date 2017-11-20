@@ -1,5 +1,7 @@
+
 #' An S4 class to contain data to be input into a bayesLopod model.
-#'
+#' @importClassesFrom raster RasterStack
+#' @importClassesFrom sp SpatialPolygonsDataFrame
 #' @slot geoDataObject Spatial object supported by bayesLopod
 #' @slot geoType Type of geographical data (Only rasters supported for now)
 #' @slot geoInfo Additional spatal information to be passsed to modelLopod
