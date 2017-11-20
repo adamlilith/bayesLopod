@@ -7,9 +7,14 @@
 #' @param q Number between 0 and 1 or NULL. Rate of false detections. If NULL the values will be estimated by the model.
 #' @return A LopodModel object.
 #' @examples
-
-
-
+#' lopodSummary(LopodModel, probs = NULL)
+#'
+#' \dontrun{
+#' geocode("3817 Spruce St, Philadelphia, PA 19104")
+#' geocode("Philadelphia, PA")
+#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
+#' geocode(dat)
+#' }
 
 modelLopod = function(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000, nCores=4){
 

@@ -20,6 +20,12 @@ Returns a dataframe which contain summaries for for all chains merged for the Gl
 Summary statistics for a LopodModel
 }
 \examples{
-lopodSummary(LopodModel)
 lopodSummary(LopodModel, probs = NULL)
+
+\dontrun{
+geocode("3817 Spruce St, Philadelphia, PA 19104")
+geocode("Philadelphia, PA")
+dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
+geocode(dat)
+}
 }

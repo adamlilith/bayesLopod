@@ -8,8 +8,14 @@
 #' @param basemap Object of class Raster in which cell with NA values will not be included. If NULL, all cells in the raster will be included.
 #' @return A Stack object with a layer for the number of records per cell and anotherone with the number of sampling events.
 #' @examples
-#' lopodRaster(LopodModel, metric="pp", metric="mean")
-#' lopodRaster(LopodModel, metric="cellpres_i", quant=0.95)
+#' lopodSummary(LopodModel, probs = NULL)
+#'
+#' \dontrun{
+#' geocode("3817 Spruce St, Philadelphia, PA 19104")
+#' geocode("Philadelphia, PA")
+#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
+#' geocode(dat)
+#' }
 
 xyToRaster =   function(xyRecords, xySamplingEffort, nrows = 50, extentExpansion = 0.1, extent = NULL, basemap = getData("worldclim", var="alt", res=10) ){
 

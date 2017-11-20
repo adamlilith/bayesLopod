@@ -4,8 +4,14 @@
 #' @param params Parameters to be plotted. Default is NULL, which plots all global parameters
 #' @return A ggplot object.
 #' @examples
-#' lopodDens(LopodModel)
-
+#' lopodSummary(LopodModel, probs = NULL)
+#'
+#' \dontrun{
+#' geocode("3817 Spruce St, Philadelphia, PA 19104")
+#' geocode("Philadelphia, PA")
+#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
+#' geocode(dat)
+#' }
 
 lopodDens=  function(LopodModel,params=NULL){
 

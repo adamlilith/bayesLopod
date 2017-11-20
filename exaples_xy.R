@@ -41,13 +41,13 @@ mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = T, q = NULL, pm
 #Run:
 
 data("mLopodRaster", package = "bayesLopod")
-lopodTrace(mLopodRaster, inc_warmup = T)
+lopodTrace(mLopodRaster, inc_warmup = F, params = c("p","q"))
 
 #lopodDens
 #Run:
 
 data("mLopodRaster", package = "bayesLopod")
-lopodDens(mLopodRaster)
+lopodDens(mLopodRaster, c("alpha", "tau"))
 
 
 #lopodSummary

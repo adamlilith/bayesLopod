@@ -7,7 +7,14 @@
 #' @param Adjacency Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.
 #' @return A LopodData object to be used in modelLopod.
 #' @examples
-
+#' lopodSummary(LopodModel, probs = NULL)
+#'
+#' \dontrun{
+#' geocode("3817 Spruce St, Philadelphia, PA 19104")
+#' geocode("Philadelphia, PA")
+#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
+#' geocode(dat)
+#' }
 
 
 shapeLopodData = function(Shapefile,fieldN="sampEffort", fieldY="detections",Adjacency = T, keepFields = T){

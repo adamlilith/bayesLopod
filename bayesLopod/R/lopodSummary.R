@@ -5,8 +5,15 @@
 #' @param probs Quantiles to be estimated
 #' @return  Returns a dataframe which contain summaries for for all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.
 #' @examples
-#' lopodSummary(LopodModel)
 #' lopodSummary(LopodModel, probs = NULL)
+#'
+#' \dontrun{
+#' geocode("3817 Spruce St, Philadelphia, PA 19104")
+#' geocode("Philadelphia, PA")
+#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
+#' geocode(dat)
+#' }
+
 
 
 lopodSummary =  function(LopodModel,params=NULL,  probs = c(0.05, 0.50, 0.95)){
