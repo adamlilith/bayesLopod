@@ -1,5 +1,7 @@
-#' Create a LopodDAta object from Raster data
-#' @import raster
+#' Create a LopodData object from Raster data
+#' @importFrom raster raster stack extent ncell distanceFromPoints distance xyFromCell adjacent
+#' @importFrom slam  as.simple_triplet_matrix simple_triplet_diag_matrix crossprod_simple_triplet_matrix
+#' @importFrom  rgeos gTouches
 #' @param rasterN Raster object with sampling effort (number of sampling events)in each cell.
 #' @param rasterY Raster object with number of dectections in each cell.
 #' @param Adjacency Boolean. If TRUE, and adjancency matrix is computed.
@@ -10,14 +12,18 @@
 #' @examples
 #' data("simSpRecords", package = "bayesLopod")
 #' data("simSpSamplingEffort", package = "bayesLopod")
-#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 10, extentExpansion = 0)
-#' ld_Raster = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = F )
+#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,
+#' basemap = NULL, nrows = 10, extentExpansion = 0)
+#' ld_Raster = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
+#' rasterY = simSpRasters[["spDetections"]], Adjacency = FALSE )
 
 #' \dontrun{
 #' data("simSpRecords", package = "bayesLopod")
 #' data("simSpSamplingEffort", package = "bayesLopod")
-#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
-#' ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = T )
+#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,
+#' basemap = NULL, nrows = 50, extentExpansion = 0)
+#' ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
+#' rasterY = simSpRasters[["spDetections"]], Adjacency = TRUE )
 #' }
 
 

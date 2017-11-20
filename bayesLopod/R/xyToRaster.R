@@ -1,5 +1,6 @@
 #' Crate Shape obejct for a parameter estimated in a LopodModel
 #' @importClassesFrom sp SpatialPoints SpatialPointsDataFrame
+#' @importFrom raster getData rasterize resample
 #' @param xyRecords Object of class SpatialPoints or SpatialPointsDataFrame with the locality-records of the species.
 #' @param xySamplingEffort Object of class SpatialPoints or SpatialPointsDataFrame with the coordinates of all sampling events (including those in which the species was found).
 #' @param nrows Number of rows that the final Raster wil have. It will be use to determine its resolution.
@@ -11,7 +12,8 @@
 #' @examples
 #' data("simSpRecords", package = "bayesLopod")
 #' data("simSpSamplingEffort", package = "bayesLopod")
-#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
+#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,
+#' basemap = NULL, nrows = 50, extentExpansion = 0)
 
 
 

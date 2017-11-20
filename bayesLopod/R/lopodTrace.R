@@ -7,10 +7,10 @@
 #' @return A ggplot object.
 #' @examples
 #' data("mLopodRaster", package = "bayesLopod")
-#' lopodTrace(mLopodRaster, inc_warmup = F, params = c("p","q"))
+#' lopodTrace(mLopodRaster, inc_warmup = FALSE, params = c("p","q"))
 #'
 #' data("mLopodShape", package = "bayesLopod")
-#' lopodTrace(mLopodShape, inc_warmup = T)
+#' lopodTrace(mLopodShape, inc_warmup = TRUE)
 
 
 

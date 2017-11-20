@@ -25,9 +25,7 @@ Crate Shape obejct for a parameter estimated in a LopodModel
 }
 \examples{
 data("mLopodShape", package = "bayesLopod")
-psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = F,  quant = 0.95)
-spplot(psyShape, zcol = "psy_i")
+psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = FALSE,  quant = 0.95)
 
-psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = T, quant = 0.05)
-spplot(psyShape, zcol = "psy_i")
+psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = TRUE, quant = 0.05)
 }

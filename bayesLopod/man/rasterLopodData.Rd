@@ -2,7 +2,7 @@
 % Please edit documentation in R/rasterLopodData.R
 \name{rasterLopodData}
 \alias{rasterLopodData}
-\title{Create a LopodDAta object from Raster data}
+\title{Create a LopodData object from Raster data}
 \usage{
 rasterLopodData(rasterN, rasterY, Adjacency = T, extSample = 0.025,
   extDetection = 0.15)
@@ -22,17 +22,21 @@ rasterLopodData(rasterN, rasterY, Adjacency = T, extSample = 0.025,
 A LopodData object to be used in modelLopod.
 }
 \description{
-Create a LopodDAta object from Raster data
+Create a LopodData object from Raster data
 }
 \examples{
 data("simSpRecords", package = "bayesLopod")
 data("simSpSamplingEffort", package = "bayesLopod")
-simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 10, extentExpansion = 0)
-ld_Raster = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = F )
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,
+basemap = NULL, nrows = 10, extentExpansion = 0)
+ld_Raster = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
+rasterY = simSpRasters[["spDetections"]], Adjacency = FALSE )
 \dontrun{
 data("simSpRecords", package = "bayesLopod")
 data("simSpSamplingEffort", package = "bayesLopod")
-simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
-ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = T )
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,
+basemap = NULL, nrows = 50, extentExpansion = 0)
+ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
+rasterY = simSpRasters[["spDetections"]], Adjacency = TRUE )
 }
 }

@@ -29,5 +29,6 @@ Crate Shape obejct for a parameter estimated in a LopodModel
 \examples{
 data("simSpRecords", package = "bayesLopod")
 data("simSpSamplingEffort", package = "bayesLopod")
-simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,
+basemap = NULL, nrows = 50, extentExpansion = 0)
 }

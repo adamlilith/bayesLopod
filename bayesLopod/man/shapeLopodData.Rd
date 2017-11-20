@@ -2,7 +2,7 @@
 % Please edit documentation in R/shapeLopodData.R
 \name{shapeLopodData}
 \alias{shapeLopodData}
-\title{Create a LopodDAta object from Raster data}
+\title{Create a LopodData object from Raster data}
 \usage{
 shapeLopodData(Shapefile, fieldN = "sampEffort", fieldY = "detections",
   Adjacency = T, keepFields = T)
@@ -22,14 +22,16 @@ shapeLopodData(Shapefile, fieldN = "sampEffort", fieldY = "detections",
 A LopodData object to be used in modelLopod.
 }
 \description{
-Create a LopodDAta object from Raster data
+Create a LopodData object from Raster data
 }
 \examples{
 data("Andropogon_shape", package = "bayesLopod")
-ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = F, keepFields = F)
+ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",
+fieldY = "detections",  Adjacency = FALSE, keepFields = FALSE)
 
 \dontrun{
 data("Andropogon_shape", package = "bayesLopod")
-ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = T, keepFields = F)
+ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",
+fieldY = "detections",  Adjacency = TRUE, keepFields = TRUE)
 }
 }

@@ -1,5 +1,6 @@
-#' Create a LopodDAta object from Raster data
-#'
+#' Create a LopodData object from Raster data
+#' @importFrom slam  as.simple_triplet_matrix simple_triplet_diag_matrix crossprod_simple_triplet_matrix
+#' @importFrom  rgeos gTouches
 #' @param Shapefile SpatialPolygonsDataFrame Object with at least two Fields corresponding to sampling effort and number of detections in each feature
 #' @param fieldN Field in Shapefile corresponding to sampling effort (number of sampling events)in each feature.
 #' @param fieldY Field in Shapefile corresponding to number of detections in each feature.
@@ -9,11 +10,13 @@
 #' @return A LopodData object to be used in modelLopod.
 #' @examples
 #' data("Andropogon_shape", package = "bayesLopod")
-#' ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = F, keepFields = F)
+#' ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",
+#' fieldY = "detections",  Adjacency = FALSE, keepFields = FALSE)
 #'
 #' \dontrun{
 #' data("Andropogon_shape", package = "bayesLopod")
-#' ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = T, keepFields = F)
+#' ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",
+#' fieldY = "detections",  Adjacency = TRUE, keepFields = TRUE)
 #' }
 
 
