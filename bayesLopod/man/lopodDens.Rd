@@ -18,5 +18,9 @@ A ggplot object.
 Kernel density estimates of global occupancy model parameters.
 }
 \examples{
-lopodDens(LopodModel)
+data("mLopodRaster", package = "bayesLopod"
+lopodDens(mLopodRaster, c("alpha", "tau"))
+
+data("mLopodShape", package = "bayesLopod")
+lopodDens(mLopodShape, c("q", "pmin", "pmax"))
 }

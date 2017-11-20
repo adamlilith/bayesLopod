@@ -24,6 +24,10 @@ A Raster object.
 Crate Shape obejct for a parameter estimated in a LopodModel
 }
 \examples{
-lopodRaster(LopodModel, metric="pp", metric="mean")
-lopodRaster(LopodModel, metric="cellpres_i", quant=0.95)
+data("mLopodShape", package = "bayesLopod")
+psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = F,  quant = 0.95)
+spplot(psyShape, zcol = "psy_i")
+
+psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = T, quant = 0.05)
+spplot(psyShape, zcol = "psy_i")
 }

@@ -20,12 +20,9 @@ Returns a dataframe which contain summaries for for all chains merged for the Gl
 Summary statistics for a LopodModel
 }
 \examples{
-lopodSummary(LopodModel, probs = NULL)
+data("mLopodRaster", package = "bayesLopod"
+lopodSummary(mLopodRaster, params = c("psy","p","q"))
 
-\dontrun{
-geocode("3817 Spruce St, Philadelphia, PA 19104")
-geocode("Philadelphia, PA")
-dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
-geocode(dat)
-}
+data("mLopodShape", package = "bayesLopod")
+lopodSummary(mLopodRaster)
 }

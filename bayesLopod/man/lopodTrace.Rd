@@ -2,21 +2,27 @@
 % Please edit documentation in R/lopodTrace.R
 \name{lopodTrace}
 \alias{lopodTrace}
-\title{Trace}
+\title{Plots the values of model parameters for each chain across iterations}
 \usage{
 lopodTrace(LopodModel, params = "lp__", inc_warmup = FALSE)
 }
 \arguments{
 \item{LopodModel}{A LopodModel object}
 
-\item{params}{Parameters to be plotted. Default is NULL, which plots all global parameters}
+\item{params}{Parameters to be plotted. Default is "lp__" which plots the log posterior probability}
+
+\item{inc_warmup}{Boolean. If true, warm-up iterations are plotted. Default is FALSE.}
 }
 \value{
 A ggplot object.
 }
 \description{
-Trace
+Plots the values of model parameters for each chain across iterations
 }
 \examples{
-lopodDens(LopodModel)
+data("mLopodRaster", package = "bayesLopod"
+lopodTrace(mLopodRaster, inc_warmup = F, params = c("p","q"))
+
+data("mLopodShape", package = "bayesLopod")
+lopodTrace(mLopodShape, inc_warmup = T)
 }

@@ -5,14 +5,12 @@
 #' @param inc_warmup Boolean. If true, warm-up iterations are plotted. Default is FALSE.
 #' @return A ggplot object.
 #' @examples
-#' lopodSummary(LopodModel, probs = NULL)
+#' data("mLopodRaster", package = "bayesLopod"
+#' lopodTrace(mLopodRaster, inc_warmup = F, params = c("p","q"))
 #'
-#' \dontrun{
-#' geocode("3817 Spruce St, Philadelphia, PA 19104")
-#' geocode("Philadelphia, PA")
-#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
-#' geocode(dat)
-#' }
+#' data("mLopodShape", package = "bayesLopod")
+#' lopodTrace(mLopodShape, inc_warmup = T)
+
 
 
 lopodTrace=  function(LopodModel,params="lp__", inc_warmup = FALSE){

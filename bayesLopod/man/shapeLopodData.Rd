@@ -24,3 +24,12 @@ A LopodData object to be used in modelLopod.
 \description{
 Create a LopodDAta object from Raster data
 }
+\examples{
+data("Andropogon_shape", package = "bayesLopod")
+ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = F, keepFields = F)
+
+\dontrun{
+data("Andropogon_shape", package = "bayesLopod")
+ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = T, keepFields = F)
+}
+}

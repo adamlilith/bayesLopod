@@ -7,14 +7,13 @@
 #' @param quant Resturns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL
 #' @return A Raster object.
 #' @examples
-#' lopodSummary(LopodModel, probs = NULL)
+#' data("mLopodShape", package = "bayesLopod")
+#' psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = F,  quant = 0.95)
+#' spplot(psyShape, zcol = "psy_i")
 #'
-#' \dontrun{
-#' geocode("3817 Spruce St, Philadelphia, PA 19104")
-#' geocode("Philadelphia, PA")
-#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
-#' geocode(dat)
-#' }
+#' psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = T, quant = 0.05)
+#' spplot(psyShape, zcol = "psy_i")
+
 
 lopodShape =  function(LopodModel,param,extrapolate=T, metric = NULL, quant=0.5){
 

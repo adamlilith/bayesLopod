@@ -24,3 +24,15 @@ A LopodData object to be used in modelLopod.
 \description{
 Create a LopodDAta object from Raster data
 }
+\examples{
+data("simSpRecords", package = "bayesLopod")
+data("simSpSamplingEffort", package = "bayesLopod")
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 10, extentExpansion = 0)
+ld_Raster = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = F )
+\dontrun{
+data("simSpRecords", package = "bayesLopod")
+data("simSpSamplingEffort", package = "bayesLopod")
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
+ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = T )
+}
+}

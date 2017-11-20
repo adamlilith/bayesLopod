@@ -7,13 +7,16 @@
 #' @param extDetection Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to unsampled cells.
 #' @return A LopodData object to be used in modelLopod.
 #' @examples
-#' lopodSummary(LopodModel, probs = NULL)
-#'
+#' data("simSpRecords", package = "bayesLopod")
+#' data("simSpSamplingEffort", package = "bayesLopod")
+#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 10, extentExpansion = 0)
+#' ld_Raster = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = F )
+
 #' \dontrun{
-#' geocode("3817 Spruce St, Philadelphia, PA 19104")
-#' geocode("Philadelphia, PA")
-#' dat <- data.frame(value=runif(3),address=c("3817 Spruce St, Philadelphia, PA 19104","Philadelphia, PA","Neverneverland"))
-#' geocode(dat)
+#' data("simSpRecords", package = "bayesLopod")
+#' data("simSpSamplingEffort", package = "bayesLopod")
+#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
+#' ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = T )
 #' }
 
 

@@ -24,3 +24,26 @@ A LopodModel object.
 \description{
 Run a  Bayes inference of Landscape Occupancy from Presence-Only Data on Stan
 }
+\examples{
+data("simSpRecords", package = "bayesLopod")
+data("simSpSamplingEffort", package = "bayesLopod")
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 10, extentExpansion = 0)
+ld_Raster = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = F )
+mLopodRaster = modelLopod(LopodData = ld_Raster, varP = T, q = NULL, pmin = 0, CAR = F, nChains = 1,warmup = 10,sampling = 10,nCores = 1)
+
+data("Andropogon_shape", package = "bayesLopod")
+ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = F, keepFields = F)
+mLopodShape = modelLopod(LopodData = ld_Shape, varP = F, q = NULL, pmin = 0, CAR = F, nChains = 1,warmup = 5,sampling = 5,nCores = 1)
+
+\dontrun{
+data("simSpRecords", package = "bayesLopod")
+data("simSpSamplingEffort", package = "bayesLopod")
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
+ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]], rasterY = simSpRasters[["spDetections"]], Adjacency = T )
+mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = T, q = NULL, pmin = 0.1, CAR = F,nChains = 4,warmup = 500,sampling = 100,nCores = 4)
+
+data("Andropogon_shape", package = "bayesLopod")
+ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = T, keepFields = F)
+mLopodShape = modelLopod(LopodData = ld_Shape, varP = T, q = NULL, pmin = 0, CAR = T, nChains = 4,warmup = 500,sampling = 100,nCores =4)
+}
+}

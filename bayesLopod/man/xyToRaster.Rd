@@ -27,6 +27,7 @@ A Stack object with a layer for the number of records per cell and anotherone wi
 Crate Shape obejct for a parameter estimated in a LopodModel
 }
 \examples{
-lopodRaster(LopodModel, metric="pp", metric="mean")
-lopodRaster(LopodModel, metric="cellpres_i", quant=0.95)
+data("simSpRecords", package = "bayesLopod")
+data("simSpSamplingEffort", package = "bayesLopod")
+simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,basemap = NULL, nrows = 50, extentExpansion = 0)
 }
