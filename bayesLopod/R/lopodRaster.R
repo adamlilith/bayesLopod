@@ -9,8 +9,10 @@
 #' @examples
 #' data("mLopodRaster", package = "bayesLopod")
 #' psyRaster = lopodRaster(mLopodRaster, param = "psy_i", extrapolate = TRUE, quant = 0.5)
+#' sp::spplot(psyRaster)
 #'
 #' ppRaster = lopodRaster(mLopodRaster, param = "pp", extrapolate = FALSE, metric = "mean")
+#' sp::spplot(ppRaster)
 
 
 

@@ -19,7 +19,7 @@ mLopodShape = modelLopod(LopodData = ld_Shape, varP = F, q = NULL, pmin = 0, CAR
 #Do not Run:
 data("Andropogon_shape", package = "bayesLopod")
 ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort", fieldY = "detections",  Adjacency = T, keepFields = F)
-mLopodShape = modelLopod(LopodData = ld_Shape, varP = T, q = NULL, pmin = 0, CAR = T, nChains = 4,warmup = 500,sampling = 100,nCores =4)
+mLopodShape = modelLopod(LopodData = ld_Shape, varP = T, q = NULL, pmin = 0, CAR = T, nChains = 4,warmup = 50,sampling = 25,nCores =4)
 
 #lopodTrace
 #Run:
@@ -38,17 +38,17 @@ lopodDens(mLopodShape, c("q", "pmin", "pmax"))
 #Run:
 
 data("mLopodShape", package = "bayesLopod")
-lopodSummary(mLopodRaster)
+lopodSummary(mLopodShape)
 
 #lopodShape
 #Run:
 
 data("mLopodShape", package = "bayesLopod")
 psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = F,  quant = 0.95)
-spplot(psyShape, zcol = "psy_i")
+sp::spplot(psyShape, zcol = "psy_i")
 
 
 data("mLopodShape", package = "bayesLopod")
 psyShape = lopodShape(mLopodShape, "psy_i", extrapolate = T, quant = 0.05)
-spplot(psyShape, zcol = "psy_i")
+sp::spplot(psyShape, zcol = "psy_i")
 
