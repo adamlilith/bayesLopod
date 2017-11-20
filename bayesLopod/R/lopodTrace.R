@@ -24,7 +24,7 @@ lopodTrace=  function(LopodModel,params="lp__", inc_warmup = FALSE){
 
   }
 
-  stan_trace(LopodModel@StanFit, pars=sumPars, inc_warmup = FALSE)
+  stan_trace(LopodModel@StanFit, pars=sumPars, inc_warmup = inc_warmup)
 
 }
 

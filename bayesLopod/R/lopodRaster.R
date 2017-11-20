@@ -23,7 +23,7 @@ lopodRaster =  function(LopodModel,param,extrapolate=T, metric = NULL, quant=0.5
     if((metric %in% c("mean", "sd"))==F)stop("metric can only be mean or sd")
 
     columnName=metric
-    probs = NULL
+    probs = NA
 
     message(paste(metric,"will be returned. Value in quant (if any) will be ignored"))
 
