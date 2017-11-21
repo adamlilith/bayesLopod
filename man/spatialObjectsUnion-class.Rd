@@ -14,6 +14,6 @@ An S4 class to contain data to be input into a bayesLopod model.
 
 \item{\code{geoType}}{Type of geographical data (Only rasters supported for now)}
 
-\item{\code{geoInfo}}{Additional spatal information to be passsed to modelLopod}
+\item{\code{geoInfo}}{Additional spatial information to be passed to modelLopod}
 }}
 

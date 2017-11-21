@@ -1,13 +1,13 @@
-#' Internal funtion to extract parameters from a StanModel object
+#' Internal function to extract parameters from a StanModel object
 #' @param LopodModel A LopodModel object
-#' @return A a list of parameters.
+#' @return A  list of parameters.
 
 
 
 
 modelParams = function(LopodModel){
 
-  if(class(LopodModel) != "LopodModel") stop("Obeject needs to be a LopdModel")
+  if(class(LopodModel) != "LopodModel") stop("Object needs to be a LopdModel")
 
   if (LopodModel@modelInfo$CAR == F) {
 
@@ -82,6 +82,3 @@ modelParams = function(LopodModel){
   return(list(globalPars=globalPars,sampledPars=sampledPars,allCellsPars=allCellsPars))
 
   }
-
-
-

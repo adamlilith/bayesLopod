@@ -3,7 +3,7 @@
 #' @param LopodModel A LopodModel object
 #' @param params Parameters to be plotted. Default is NULL, which plots all global parameters
 #' @param probs Quantiles to be estimated
-#' @return  Returns a dataframe which contain summaries for for all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.
+#' @return  Returns a dataframe which contain summaries for  all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.
 #' @export
 #' @examples
 #' data("mLopodRaster", package = "bayesLopod")
@@ -14,11 +14,11 @@
 
 
 
-lopodSummary =  function(LopodModel,params=NULL,  probs = c(0.05, 0.50, 0.95)){
+lopodSummary =  function(LopodModel, params=NULL,  probs = c(0.05, 0.50, 0.95)){
 
   #Summary for all global parameters is return if params is NULL
 
-  if(class(LopodModel) != "LopodModel") stop("Obeject needs to be a LopdModel")
+  if(class(LopodModel) != "LopodModel") stop("Object needs to be a LopdModel")
 
   modelPar = modelParams(LopodModel)
   sumPars = modelPar$globalPars
@@ -36,4 +36,3 @@ lopodSummary =  function(LopodModel,params=NULL,  probs = c(0.05, 0.50, 0.95)){
   return(rstan::summary(LopodModel@StanFit, pars=sumPars, probs=probs, use_cache=FALSE)$summary)
 
 }
-

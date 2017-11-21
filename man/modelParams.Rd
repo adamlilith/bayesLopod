@@ -2,7 +2,7 @@
 % Please edit documentation in R/modelParams.R
 \name{modelParams}
 \alias{modelParams}
-\title{Internal funtion to extract parameters from a StanModel object}
+\title{Internal function to extract parameters from a StanModel object}
 \usage{
 modelParams(LopodModel)
 }
@@ -10,8 +10,8 @@ modelParams(LopodModel)
 \item{LopodModel}{A LopodModel object}
 }
 \value{
-A a list of parameters.
+A  list of parameters.
 }
 \description{
-Internal funtion to extract parameters from a StanModel object
+Internal function to extract parameters from a StanModel object
 }

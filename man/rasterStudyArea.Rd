@@ -11,9 +11,9 @@ rasterStudyArea(DistStak, maxDist, extSample = 0.025, extDetection = 0.15)
 
 \item{maxDist}{Maximun distance in Raster}
 
-\item{extSample}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to unsampled cells.}
+\item{extSample}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to not-sampled cells.}
 
-\item{extDetection}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to unsampled cells.}
+\item{extDetection}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to no-sampled cells.}
 }
 \value{
 A Raster object with Study Area.

@@ -9,7 +9,7 @@ rasterDistToRecords(rasterN, rasterY)
 \arguments{
 \item{rasterN}{Raster object with sampling effort (number of sampling events)in each cell.}
 
-\item{rasterY}{Raster object with number of dectections in each cell.}
+\item{rasterY}{Raster object with number of detections in each cell.}
 }
 \value{
 A Stack object with distance to sampled cells and distance to detections.

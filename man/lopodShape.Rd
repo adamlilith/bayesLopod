@@ -2,7 +2,7 @@
 % Please edit documentation in R/lopodShape.R
 \name{lopodShape}
 \alias{lopodShape}
-\title{Crate Shape obejct for a parameter estimated in a LopodModel}
+\title{Crate Shape object for a parameter estimated in a LopodModel}
 \usage{
 lopodShape(LopodModel, param, extrapolate = T, metric = NULL, quant = 0.5)
 }
@@ -15,13 +15,13 @@ lopodShape(LopodModel, param, extrapolate = T, metric = NULL, quant = 0.5)
 
 \item{metric}{"mean" or "sd". Plots the mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.}
 
-\item{quant}{Resturns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL}
+\item{quant}{Returns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL}
 }
 \value{
 A Raster object.
 }
 \description{
-Crate Shape obejct for a parameter estimated in a LopodModel
+Crate Shape object for a parameter estimated in a LopodModel
 }
 \examples{
 data("mLopodShape", package = "bayesLopod")

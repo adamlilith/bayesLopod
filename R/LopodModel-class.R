@@ -1,7 +1,7 @@
 #' An S4 class containing a LopodModel.
 #' @import methods
 #' @importClassesFrom rstan stanfit
-#' @slot LopodData The LopodData object used to buid the LopodModel
+#' @slot LopodData The LopodData object used to build the LopodModel
 #' @slot StanFit stanfit object with the run model
 #' @slot modelInfo List of settings used to run the LopodModel
 

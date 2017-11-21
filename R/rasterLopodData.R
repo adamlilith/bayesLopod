@@ -3,10 +3,10 @@
 #' @importFrom slam  as.simple_triplet_matrix simple_triplet_diag_matrix crossprod_simple_triplet_matrix
 #' @importFrom  rgeos gTouches
 #' @param rasterN Raster object with sampling effort (number of sampling events)in each cell.
-#' @param rasterY Raster object with number of dectections in each cell.
-#' @param Adjacency Boolean. If TRUE, and adjancency matrix is computed.
-#' @param extSample Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to unsampled cells.
-#' @param extDetection Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to unsampled cells.
+#' @param rasterY Raster object with number of detections in each cell.
+#' @param Adjacency Boolean. If TRUE, and adjacency matrix is computed.
+#' @param extSample Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to not sampled cells.
+#' @param extDetection Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to not sampled cells.
 #' @export
 #' @return A LopodData object to be used in modelLopod.
 #' @examples
@@ -43,7 +43,7 @@ if (extent(rasterN) != extent(rasterY) | ncell(rasterN) != ncell(rasterY)){
   }
 
   if ( extSample>1 |extSample<0 |  extDetection>1 |extDetection<0 ){
-    stop ("The extrapolation from sampled cells and those in which the speces has been detected must be between 0 and 1, the value is relative to the maximum distance in the raster")
+    stop ("The extrapolation from sampled cells and those in which the species has been detected must be between 0 and 1, the value is relative to the maximum distance in the raster")
 
   }
 
@@ -58,7 +58,7 @@ if (Adjacency){
 
   maxExtDistSample = 0
   if (extSample != 0){
-    message ("No extrapolation to unsampled cells can be performed without adjacency matrix")
+    message ("Extrapolation into not-sampled cells cannot be performed without an adjacency matrix ")
 
   }
 
@@ -114,7 +114,7 @@ whichSampledCells = which(rasterN[]>0)
 whichNotSampledCells = which(rasterN[]==0)
 
 whichNoNACells = which(is.na(rasterN[]) == F)
-message(paste(sum(is.na(rasterN[])),"cells are NA - Dropped from analysis"))
+if(sum(is.na(rasterN[])) > 0) message(paste(sum(is.na(rasterN[])),"cells are NA - Dropped from analysis"))
 
 geoDataObject = stack(StudyArea,rasterN,rastery)
 names(geoDataObject) = c("studyArea", "samplingEffort", "Detections")
@@ -144,7 +144,7 @@ if (Adjacency){
     AdMAtrix = AdMAtrix[,-noNeighboursCells]
   }
 
-  message(paste(length(noNeighboursCells),"cells have no neighbours - Dropped from analysis"))
+  if(length(noNeighboursCells) > 0) message(paste(length(noNeighboursCells),"cells have no neighbors - Dropped from analysis"))
 
 
   nPairs = sum(AdMAtrix)/2

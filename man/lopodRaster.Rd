@@ -2,7 +2,7 @@
 % Please edit documentation in R/lopodRaster.R
 \name{lopodRaster}
 \alias{lopodRaster}
-\title{Crate raster obejct for a parameter estimated in a LopodModel}
+\title{Crate raster object for a parameter estimated in a LopodModel}
 \usage{
 lopodRaster(LopodModel, param, extrapolate = T, metric = NULL,
   quant = 0.5)
@@ -16,13 +16,13 @@ lopodRaster(LopodModel, param, extrapolate = T, metric = NULL,
 
 \item{metric}{"mean" or "sd". Plots the mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.}
 
-\item{quant}{Resturns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL}
+\item{quant}{Returns the raster for a given quantile of the posterior distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL}
 }
 \value{
 A Raster object.
 }
 \description{
-Crate raster obejct for a parameter estimated in a LopodModel
+Crate raster object for a parameter estimated in a LopodModel
 }
 \examples{
 data("mLopodRaster", package = "bayesLopod")

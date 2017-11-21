@@ -14,7 +14,7 @@ lopodSummary(LopodModel, params = NULL, probs = c(0.05, 0.5, 0.95))
 \item{probs}{Quantiles to be estimated}
 }
 \value{
-Returns a dataframe which contain summaries for for all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.
+Returns a dataframe which contain summaries for  all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.
 }
 \description{
 Summary statistics for a LopodModel

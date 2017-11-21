@@ -8,7 +8,7 @@ modelLopod(LopodData, varP = F, q = NULL, pmin = 0, CAR = F,
   nChains = 4, warmup = 2000, sampling = 1000, nCores = 4)
 }
 \arguments{
-\item{LopodData}{Obejct with the data to be used in the Model}
+\item{LopodData}{Object with the data to be used in the Model}
 
 \item{varP}{Boolean. If TRUE, detectability will vary across cells. If FALSE a global value for detectability will be estimated.}
 
@@ -16,11 +16,11 @@ modelLopod(LopodData, varP = F, q = NULL, pmin = 0, CAR = F,
 
 \item{pmin}{Number between 0 and 1. Minimum value for detectability in a unit in which the species occurs.}
 
-\item{CAR}{Boolean. If TRUE, (and if a adjancency matrix is included in the LopodData object) a conditional autoregression analysis will be performed for occupancy across units.}
+\item{CAR}{Boolean. If TRUE, (and if a adjacency matrix is included in the LopodData object) a conditional auto-regression analysis will be performed for occupancy across units.}
 
 \item{nChains}{Number of Markov chains used by the Stan model.}
 
-\item{warmup}{Number of iterations for each chain to be discarted as warm-up.}
+\item{warmup}{Number of iterations for each chain to be discarded as warm-up.}
 
 \item{sampling}{Number of iterations for each chain to be sampled (after warm-up).}
 
@@ -56,7 +56,7 @@ basemap = NULL, nrows = 50, extentExpansion = 0)
 ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
 rasterY = simSpRasters[["spDetections"]], Adjacency = TRUE )
 mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = TRUE, q = NULL,
-pmin = 0.1, CAR = FALSE,nChains = 4,warmup = 500,sampling = 100,nCores = 4)
+pmin = 0.1, CAR = FALSE, nChains = 4,warmup = 500,sampling = 100,nCores = 4)
 
 data("Andropogon_shape", package = "bayesLopod")
 ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",

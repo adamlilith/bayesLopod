@@ -3,13 +3,13 @@
 #' @import Rcpp
 #' @import rstan
 #' @import rstantools
-#' @param LopodData Obejct with the data to be used in the Model
+#' @param LopodData Object with the data to be used in the Model
 #' @param varP Boolean. If TRUE, detectability will vary across cells. If FALSE a global value for detectability will be estimated.
-#' @param CAR Boolean. If TRUE, (and if a adjancency matrix is included in the LopodData object) a conditional autoregression analysis will be performed for occupancy across units.
+#' @param CAR Boolean. If TRUE, (and if a adjacency matrix is included in the LopodData object) a conditional auto-regression analysis will be performed for occupancy across units.
 #' @param pmin Number between 0 and 1. Minimum value for detectability in a unit in which the species occurs.
 #' @param q Number between 0 and 1 or NULL. Rate of false detections. If NULL the values will be estimated by the model.
 #' @param nChains Number of Markov chains used by the Stan model.
-#' @param warmup Number of iterations for each chain to be discarted as warm-up.
+#' @param warmup Number of iterations for each chain to be discarded as warm-up.
 #' @param sampling Number of iterations for each chain to be sampled (after warm-up).
 #' @param nCores Number of cores to use when executing the chains in parallel.
 #' @export
@@ -38,7 +38,7 @@
 #' ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
 #' rasterY = simSpRasters[["spDetections"]], Adjacency = TRUE )
 #' mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = TRUE, q = NULL,
-#' pmin = 0.1, CAR = FALSE,nChains = 4,warmup = 500,sampling = 100,nCores = 4)
+#' pmin = 0.1, CAR = FALSE, nChains = 4,warmup = 500,sampling = 100,nCores = 4)
 #'
 #' data("Andropogon_shape", package = "bayesLopod")
 #' ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",
@@ -78,7 +78,7 @@ if(LopodData@geoType == "Shapefile"){
 }
 
   if(LopodData@geoType != "Shapefile"&LopodData@geoType != "Raster"){
-    stop("Only Raster or Shapefiles inputs are currently supported")}
+    stop("Only Raster or Shapefiles formats are currently supported")}
 
   modelInfo = list(varP = varP, q =  q, CAR = CAR)
 
@@ -268,7 +268,7 @@ if(LopodData@geoType == "Shapefile"){
           }
 
 
-          message("Global p and q estimated. Psy for each sampling unit. Psy is spatially autocorrelated.")
+          message("Global p and q estimated. Psy for each sampling unit. Psy is spatially auto-correlated.")
           StanModel = stanmodels$psyipq_CAR
 
         }
@@ -318,7 +318,7 @@ if(LopodData@geoType == "Shapefile"){
 
 
 
-          message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially autocorrelated.")
+          message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially auto-correlated.")
           StanModel = stanmodels$psyip_CAR
 
         }
@@ -367,7 +367,7 @@ if(LopodData@geoType == "Shapefile"){
           }
 
 
-          message("Global q estimated. Psy and P for each sampling unit. Psy is spatially autocorrelated.")
+          message("Global q estimated. Psy and P for each sampling unit. Psy is spatially auto-correlated.")
           StanModel = stanmodels$psyipiq_CAR
 
         }
@@ -415,7 +415,7 @@ if(LopodData@geoType == "Shapefile"){
 
           }
 
-          message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially autocorrelated.")
+          message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially auto-correlated.")
           StanModel = stanmodels$psyipi_CAR
 
         }
@@ -438,4 +438,3 @@ if(LopodData@geoType == "Shapefile"){
 
   return(LopodModel(LopodData = LopodData, StanFit = StanFittetModel, modelInfo = modelInfo))
 }
-

@@ -10,13 +10,13 @@ rasterLopodData(rasterN, rasterY, Adjacency = T, extSample = 0.025,
 \arguments{
 \item{rasterN}{Raster object with sampling effort (number of sampling events)in each cell.}
 
-\item{rasterY}{Raster object with number of dectections in each cell.}
+\item{rasterY}{Raster object with number of detections in each cell.}
 
-\item{Adjacency}{Boolean. If TRUE, and adjancency matrix is computed.}
+\item{Adjacency}{Boolean. If TRUE, and adjacency matrix is computed.}
 
-\item{extSample}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to unsampled cells.}
+\item{extSample}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to not sampled cells.}
 
-\item{extDetection}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to unsampled cells.}
+\item{extDetection}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to not sampled cells.}
 }
 \value{
 A LopodData object to be used in modelLopod.

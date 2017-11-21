@@ -4,7 +4,7 @@
 #' @param Shapefile SpatialPolygonsDataFrame Object with at least two Fields corresponding to sampling effort and number of detections in each feature
 #' @param fieldN Field in Shapefile corresponding to sampling effort (number of sampling events)in each feature.
 #' @param fieldY Field in Shapefile corresponding to number of detections in each feature.
-#' @param Adjacency Boolean. If TRUE, and adjancency matrix is computed.
+#' @param Adjacency Boolean. If TRUE, and adjacency matrix is computed.
 #' @param keepFields Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.
 #' @export
 #' @return A LopodData object to be used in modelLopod.
@@ -20,7 +20,7 @@
 #' }
 
 
-shapeLopodData = function(Shapefile,fieldN="sampEffort", fieldY="detections",Adjacency = T, keepFields = T){
+shapeLopodData = function(Shapefile,fieldN="sampEffort", fieldY="detections", Adjacency = T, keepFields = T){
 
   if (class(Shapefile) != "SpatialPolygonsDataFrame"){
     stop ("Shapefile should be a SpatialPolygonsDataFrame Object")
@@ -41,7 +41,8 @@ whichSampledCells = which(Shapefile@data[,fieldN]>0)
 whichNotSampledCells = which(Shapefile@data[,fieldN]==0)
 
 whichNoNACells = which(is.na(Shapefile@data[,fieldN]) == F)
-message(paste(sum(is.na(Shapefile@data[,fieldN])),"cells are NA - Dropped from analysis"))
+
+if(sum(is.na(Shapefile@data[,fieldN]) > 0)) message(paste(sum(is.na(Shapefile@data[,fieldN])),"features are NA - Dropped from analysis"))
 
 geoDataObject = Shapefile
 
@@ -92,7 +93,7 @@ if (Adjacency){
     AdMAtrix = AdMAtrix[,-noNeighboursCells]
   }
 
-  message(paste(length(noNeighboursCells),"features have no neighbours - Dropped from analysis"))
+    if(length(noNeighboursCells) > 0) message(paste(length(noNeighboursCells),"features have no neighbors - Dropped from analysis"))
 
 
   nPairs = sum(AdMAtrix)/2

@@ -11,7 +11,7 @@ An S4 class containing a LopodModel.
 \section{Slots}{
 
 \describe{
-\item{\code{LopodData}}{The LopodData object used to buid the LopodModel}
+\item{\code{LopodData}}{The LopodData object used to build the LopodModel}
 
 \item{\code{StanFit}}{stanfit object with the run model}
 
