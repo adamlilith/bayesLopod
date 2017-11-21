@@ -27,8 +27,11 @@ Crate raster object for a parameter estimated in a LopodModel
 \examples{
 data("mLopodRaster", package = "bayesLopod")
 psyRaster = lopodRaster(mLopodRaster, param = "psy_i", extrapolate = TRUE, quant = 0.5)
-sp::spplot(psyRaster)
-
 ppRaster = lopodRaster(mLopodRaster, param = "pp", extrapolate = FALSE, metric = "mean")
+
+\dontrun{
+#Visualize results
+sp::spplot(psyRaster)
 sp::spplot(ppRaster)
+}
 }
