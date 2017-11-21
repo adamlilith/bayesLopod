@@ -9,7 +9,7 @@ rasterStudyArea(DistStak, maxDist, extSample = 0.025, extDetection = 0.15)
 \arguments{
 \item{DistStak}{Stack object distance to Sampled cells and detections (in that order).}
 
-\item{maxDist}{Maximun distance in Raster}
+\item{maxDist}{Maximum distance in Raster}
 
 \item{extSample}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to not-sampled cells.}
 

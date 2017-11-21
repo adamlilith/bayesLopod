@@ -3,12 +3,12 @@
 \docType{data}
 \name{mLopodShape}
 \alias{mLopodShape}
-\title{bayesLopod model for Andropogo gerardii in a Shapefile}
+\title{bayesLopod model for Andropogon gerardii in a Shapefile}
 \format{An object of class \code{LopodModel} of length 1.}
 \usage{
 mLopodShape
 }
 \description{
-bayesLopod model for Andropogo gerardii in a Shapefile
+bayesLopod model for Andropogon gerardii in a Shapefile
 }
 \keyword{datasets}

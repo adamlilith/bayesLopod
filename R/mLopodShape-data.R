@@ -1,3 +1,3 @@
-#' bayesLopod model for Andropogo gerardii in a Shapefile
+#' bayesLopod model for Andropogon gerardii in a Shapefile
 
 "mLopodShape"

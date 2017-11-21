@@ -1,7 +1,7 @@
 #' Internal - Create a Raster object with Study Area from Raster data
 #'
 #' @param DistStak Stack object distance to Sampled cells and detections (in that order).
-#' @param maxDist Maximun distance in Raster
+#' @param maxDist Maximum distance in Raster
 #' @param extSample Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to not-sampled cells.
 #' @param extDetection Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to no-sampled cells.
 #' @return A Raster object with Study Area.
