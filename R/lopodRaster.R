@@ -7,12 +7,21 @@
 #' @return A Raster object.
 #' @export
 #' @examples
-#' data("mLopodRaster", package = "bayesLopod")
+
+#' \dontrun{
+#' data("simSpRecords", package = "bayesLopod")
+#' data("simSpSamplingEffort", package = "bayesLopod")
+#' simSpRasters = xyToRaster(xyRecords = simSpRecords,xySamplingEffort = simSpSamplingEffort,
+#' basemap = NULL, nrows = 50, extentExpansion = 0)
+#' ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
+#' rasterY = simSpRasters[["spDetections"]], Adjacency = TRUE )
+#' mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = TRUE, q = NULL,
+#' pmin = 0.1, CAR = FALSE, nChains = 4,warmup = 500,sampling = 100,nCores = 4)
+#'
 #' psyRaster = lopodRaster(mLopodRaster, param = "psy_i", extrapolate = TRUE, quant = 0.5)
 #' ppRaster = lopodRaster(mLopodRaster, param = "pp", extrapolate = FALSE, metric = "mean")
 #'
-#' \dontrun{
-#' #Visualize results
+#' Visualize results
 #' sp::spplot(psyRaster)
 #' sp::spplot(ppRaster)
 #' }

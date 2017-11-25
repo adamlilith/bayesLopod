@@ -24,13 +24,15 @@ A Raster object.
 Crate Shape object for a parameter estimated in a LopodModel
 }
 \examples{
-data("mLopodShape", package = "bayesLopod")
-psyShape_95 = lopodShape(mLopodShape, "psy_i", extrapolate = FALSE,  quant = 0.95)
-
-psyShape_05 = lopodShape(mLopodShape, "psy_i", extrapolate = TRUE, quant = 0.05)
-
 \dontrun{
-#Visualize results
+data("Andropogon_shape", package = "bayesLopod")
+ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",
+fieldY = "detections",  Adjacency = TRUE, keepFields = FALSE)
+mLopodShape = modelLopod(LopodData = ld_Shape, varP = TRUE, q = NULL,
+pmin = 0, CAR = TRUE, nChains = 4,warmup = 500,sampling = 100,nCores =4)
+psyShape_95 = lopodShape(mLopodShape, "psy_i", extrapolate = FALSE,  quant = 0.95)
+psyShape_05 = lopodShape(mLopodShape, "psy_i", extrapolate = TRUE, quant = 0.05)
+ #Visualize results
 sp::spplot(psyShape_05, zcol = "psy_i")
 sp::spplot(psyShape_95, zcol = "psy_i")
 }
