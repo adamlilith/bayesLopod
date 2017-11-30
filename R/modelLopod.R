@@ -49,8 +49,8 @@
 
 
 modelLopod = function(LopodData, varP = F, q =  NULL, pmin = 0, CAR = F, nChains = 4, warmup = 2000, sampling = 1000, nCores=4){
-
-  stanFilesDir = "./exec/"
+  # This is the location of .stan files. Donnot use to call stan models, use the stanmodels$ list. 
+  # stanFilesDir = "./exec/"
 
 #Check values anda data types
 
@@ -112,6 +112,7 @@ if(LopodData@geoType == "Shapefile"){
 
 
         message("Global p and q estimated. Psy for each sampling unit.")
+        # .stan files are incorporated into a list named "stanmodels", so this function just says which model to use
         StanModel = stanmodels$psyipq
 
 
