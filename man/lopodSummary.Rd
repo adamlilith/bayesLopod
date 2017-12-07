@@ -30,7 +30,7 @@ ld_Raster_adMatrix = rasterLopodData(rasterN = simSpRasters[["samplingEffort"]],
 rasterY = simSpRasters[["spDetections"]], Adjacency = TRUE )
 mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = TRUE, q = NULL,
 pmin = 0.1, CAR = FALSE, nChains = 4,warmup = 500,sampling = 100,nCores = 4)
-lopodSummary(mLopodRaster, params = c("psy","p","q"))
+lopodSummary(mLopodRaster, params = c("psi","p","q"))
 
 data("Andropogon_shape", package = "bayesLopod")
 ld_Shape = shapeLopodData(Shapefile = Andropogon_shape, fieldN = "sampEffort",

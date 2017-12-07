@@ -10,9 +10,9 @@ lopodRaster(LopodModel, param, extrapolate = T, metric = NULL,
 \arguments{
 \item{LopodModel}{A LopodModel object}
 
-\item{param}{Unit-level model parameter to be mapped. Values "psy_Sampled" can be mapped for models without CAR analyses, "psy_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.}
+\item{param}{Unit-level model parameter to be mapped. Values "psi_Sampled" can be mapped for models without CAR analyses, "psi_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.}
 
-\item{extrapolate}{Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psy_i", "pp" and, "cellpres_i".}
+\item{extrapolate}{Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psi_i", "pp" and, "cellpres_i".}
 
 \item{metric}{"mean" or "sd". Plots the mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.}
 
@@ -35,11 +35,11 @@ rasterY = simSpRasters[["spDetections"]], Adjacency = TRUE )
 mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = TRUE, q = NULL,
 pmin = 0.1, CAR = FALSE, nChains = 4,warmup = 500,sampling = 100,nCores = 4)
 
-psyRaster = lopodRaster(mLopodRaster, param = "psy_i", extrapolate = TRUE, quant = 0.5)
+psiRaster = lopodRaster(mLopodRaster, param = "psi_i", extrapolate = TRUE, quant = 0.5)
 ppRaster = lopodRaster(mLopodRaster, param = "pp", extrapolate = FALSE, metric = "mean")
 
 Visualize results
-sp::spplot(psyRaster)
+sp::spplot(psiRaster)
 sp::spplot(ppRaster)
 }
 }

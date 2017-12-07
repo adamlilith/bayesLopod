@@ -1,7 +1,7 @@
 Package: bayesLopod
 Type: Package
 Title: Bayesian Inference of Landscape Occupancy from Presence-Only Data
-Version: 1.0.0
+Version: 1.0.1
 Date: 2017-11-26
 Authors@R: c(
     person(given = "Camilo", family= "Sanin", email= "camilosanin@gmail.com", role = c("aut", "cre", "cph")),
