@@ -64,44 +64,44 @@ stanData = list( nSampledCells = length(LopodData@geoInfo$sampledId$cellRaster),
 #### Stan Files
 
 
-###### Global p and q estimated. Psy for each sampling unit.
+###### Global p and q estimated. Psi for each sampling unit.
 
-- [X] psyipq.stan *
-
-
-###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit.
-
-- [X] psyip.stan *
+- [X] psiipq.stan *
 
 
-###### Global q estimated. Psy and P for each sampling unit.
+###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psi estimated for each sampling unit.
 
-- [X] psyipiq.stan *
-
-
-###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).
-
-- [X] psyipi.stan *
+- [X] psiip.stan *
 
 
-###### Global p and q estimated. Psy for each sampling unit. Psy is spatially autocorrelated.
+###### Global q estimated. Psi and P for each sampling unit.
 
-- [X] psyipq_CAR.stan *
-
-
-###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially autocorrelated.
-
-- [X] psyip_CAR.stan *
+- [X] psiipiq.stan *
 
 
-###### Global q estimated. Psy and P for each sampling unit. Psy is spatially autocorrelated.
+###### Psi and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).
 
-- [X] psyipiq_CAR.stan *
+- [X] psiipi.stan *
 
 
-###### Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially autocorrelated.
+###### Global p and q estimated. Psi for each sampling unit. Psi is spatially autocorrelated.
 
-- [X] psyipi_CAR.stan *
+- [X] psiipq_CAR.stan *
+
+
+###### Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psi estimated for each sampling unit. Psi is spatially autocorrelated.
+
+- [X] psiip_CAR.stan *
+
+
+###### Global q estimated. Psi and P for each sampling unit. Psi is spatially autocorrelated.
+
+- [X] psiipiq_CAR.stan *
+
+
+###### Psi and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psi is spatially autocorrelated.
+
+- [X] psiipi_CAR.stan *
 
 
 ### Output
@@ -157,25 +157,25 @@ if (LopodModel@modelInfo$CAR == F) {
 
 ###### Maps of the parameters estimated for each sampling unit. For shapes these will be added to the attribute table
 
-- [X] lopodRaster(LopodModel, par="psy", value="median") *
+- [X] lopodRaster(LopodModel, par="psi", value="median") *
 
-- [X] lopodShape(shapefle, LopodModel, par="psy", value="median", fieldname = NULL)
+- [X] lopodShape(shapefle, LopodModel, par="psi", value="median", fieldname = NULL)
 
 ###### Stacks/Shapefiles with the maps of the parameters estimated for each sampling unit per iteration.
 
-- [ ] lopodRasterDist(LopodModel, par="psy", value="median", nIter = 100)
+- [ ] lopodRasterDist(LopodModel, par="psi", value="median", nIter = 100)
 
-- [ ] lopodShapeDist(shapefle, LopodModel, par="psy", value="median", fieldname = NULL, nIter = 100)
-
-###### SpatialDataframe of XY with presence/absence or presence/background for other SDM programs based on a threshold.
-
-- [ ] lopodPresAbs(LopodModel, par="psy", value="median", thresh=0.05)
-
-- [ ] lopodPresBG(LopodModel, par="psy", value="median", thresh=0.05)
-
+- [ ] lopodShapeDist(shapefle, LopodModel, par="psi", value="median", fieldname = NULL, nIter = 100)
 
 ###### SpatialDataframe of XY with presence/absence or presence/background for other SDM programs based on a threshold.
 
-- [ ] lopodPresAbsDist(LopodModel, par="psy", nIter = 100)
+- [ ] lopodPresAbs(LopodModel, par="psi", value="median", thresh=0.05)
 
-- [ ] lopodPresBGDist(LopodModel, par="psy", nIter = 100)
+- [ ] lopodPresBG(LopodModel, par="psi", value="median", thresh=0.05)
+
+
+###### SpatialDataframe of XY with presence/absence or presence/background for other SDM programs based on a threshold.
+
+- [ ] lopodPresAbsDist(LopodModel, par="psi", nIter = 100)
+
+- [ ] lopodPresBGDist(LopodModel, par="psi", nIter = 100)

@@ -1,8 +1,8 @@
 #' Crate Shape object for a parameter estimated in a LopodModel
 #'
 #' @param LopodModel A LopodModel object
-#' @param param Unit-level model parameter to be mapped. Values "psy_Sampled" can be mapped for models without CAR analyses, "psy_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.
-#' @param extrapolate Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psy_i", "pp" and, "cellpres_i".
+#' @param param Unit-level model parameter to be mapped. Values "psi_Sampled" can be mapped for models without CAR analyses, "psi_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.
+#' @param extrapolate Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psi_i", "pp" and, "cellpres_i".
 #' @param metric "mean" or "sd". Plots the mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.
 #' @param quant Returns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL
 #' @export
@@ -14,11 +14,11 @@
 #' fieldY = "detections",  Adjacency = TRUE, keepFields = FALSE)
 #' mLopodShape = modelLopod(LopodData = ld_Shape, varP = TRUE, q = NULL,
 #' pmin = 0, CAR = TRUE, nChains = 4,warmup = 500,sampling = 100,nCores =4)
-#' psyShape_95 = lopodShape(mLopodShape, "psy_i", extrapolate = FALSE,  quant = 0.95)
-#' psyShape_05 = lopodShape(mLopodShape, "psy_i", extrapolate = TRUE, quant = 0.05)
+#' psiShape_95 = lopodShape(mLopodShape, "psi_i", extrapolate = FALSE,  quant = 0.95)
+#' psiShape_05 = lopodShape(mLopodShape, "psi_i", extrapolate = TRUE, quant = 0.05)
 #'  #Visualize results
-#' sp::spplot(psyShape_05, zcol = "psy_i")
-#' sp::spplot(psyShape_95, zcol = "psy_i")
+#' sp::spplot(psiShape_05, zcol = "psi_i")
+#' sp::spplot(psiShape_95, zcol = "psi_i")
 #' }
 
 

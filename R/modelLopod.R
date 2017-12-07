@@ -111,8 +111,8 @@ if(LopodData@geoType == "Shapefile"){
         }
 
 
-        message("Global p and q estimated. Psy for each sampling unit.")
-        StanModel = stanmodels$psyipq
+        message("Global p and q estimated. Psi for each sampling unit.")
+        StanModel = stanmodels$psiipq
 
 
       }
@@ -147,8 +147,8 @@ if(LopodData@geoType == "Shapefile"){
         }
 
 
-        message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit.")
-        StanModel = stanmodels$psyip
+        message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psi estimated for each sampling unit.")
+        StanModel = stanmodels$psiip
 
       }
     }
@@ -179,9 +179,9 @@ if(LopodData@geoType == "Shapefile"){
         }
 
 
-        message("Global q estimated. Psy and P for each sampling unit")
+        message("Global q estimated. Psi and P for each sampling unit")
 
-          StanModel = stanmodels$psyipiq
+          StanModel = stanmodels$psiipiq
 
 
       }
@@ -216,8 +216,8 @@ if(LopodData@geoType == "Shapefile"){
 
         }
 
-        message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).")
-        StanModel = stanmodels$psyipi
+        message("Psi and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections).")
+        StanModel = stanmodels$psiipi
 
 
       }
@@ -268,8 +268,8 @@ if(LopodData@geoType == "Shapefile"){
           }
 
 
-          message("Global p and q estimated. Psy for each sampling unit. Psy is spatially auto-correlated.")
-          StanModel = stanmodels$psyipq_CAR
+          message("Global p and q estimated. Psi for each sampling unit. Psi is spatially auto-correlated.")
+          StanModel = stanmodels$psiipq_CAR
 
         }
 
@@ -318,8 +318,8 @@ if(LopodData@geoType == "Shapefile"){
 
 
 
-          message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy estimated for each sampling unit. Psy is spatially auto-correlated.")
-          StanModel = stanmodels$psyip_CAR
+          message("Global p estimated assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psi estimated for each sampling unit. Psi is spatially auto-correlated.")
+          StanModel = stanmodels$psiip_CAR
 
         }
       }
@@ -367,8 +367,8 @@ if(LopodData@geoType == "Shapefile"){
           }
 
 
-          message("Global q estimated. Psy and P for each sampling unit. Psy is spatially auto-correlated.")
-          StanModel = stanmodels$psyipiq_CAR
+          message("Global q estimated. Psi and P for each sampling unit. Psi is spatially auto-correlated.")
+          StanModel = stanmodels$psiipiq_CAR
 
         }
 
@@ -415,8 +415,8 @@ if(LopodData@geoType == "Shapefile"){
 
           }
 
-          message("Psy and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psy is spatially auto-correlated.")
-          StanModel = stanmodels$psyipi_CAR
+          message("Psi and p estimated for each sampling unit assuming p is larger than the given q (which can be 0, in which case there are no false detections). Psi is spatially auto-correlated.")
+          StanModel = stanmodels$psiipi_CAR
 
         }
       }

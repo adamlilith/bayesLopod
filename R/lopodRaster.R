@@ -1,7 +1,7 @@
 #' Crate raster object for a parameter estimated in a LopodModel
 #' @param LopodModel A LopodModel object
-#' @param param Unit-level model parameter to be mapped. Values "psy_Sampled" can be mapped for models without CAR analyses, "psy_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.
-#' @param extrapolate Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psy_i", "pp" and, "cellpres_i".
+#' @param param Unit-level model parameter to be mapped. Values "psi_Sampled" can be mapped for models without CAR analyses, "psi_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.
+#' @param extrapolate Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psi_i", "pp" and, "cellpres_i".
 #' @param metric "mean" or "sd". Plots the mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.
 #' @param quant Returns the raster for a given quantile of the posterior distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL
 #' @return A Raster object.
@@ -18,11 +18,11 @@
 #' mLopodRaster = modelLopod(LopodData = ld_Raster_adMatrix, varP = TRUE, q = NULL,
 #' pmin = 0.1, CAR = FALSE, nChains = 4,warmup = 500,sampling = 100,nCores = 4)
 #'
-#' psyRaster = lopodRaster(mLopodRaster, param = "psy_i", extrapolate = TRUE, quant = 0.5)
+#' psiRaster = lopodRaster(mLopodRaster, param = "psi_i", extrapolate = TRUE, quant = 0.5)
 #' ppRaster = lopodRaster(mLopodRaster, param = "pp", extrapolate = FALSE, metric = "mean")
 #'
 #' Visualize results
-#' sp::spplot(psyRaster)
+#' sp::spplot(psiRaster)
 #' sp::spplot(ppRaster)
 #' }
 

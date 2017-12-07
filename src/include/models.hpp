@@ -7,7 +7,7 @@
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyip_namespace {
+namespace model_psiip_namespace {
 
 using std::istream;
 using std::string;
@@ -26,12 +26,12 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyip");
-    reader.add_event(112, 112, "end", "model_psyip");
+    reader.add_event(0, 0, "start", "model_psiip");
+    reader.add_event(112, 112, "end", "model_psiip");
     return reader;
 }
 
-class model_psyip : public prob_grad {
+class model_psiip : public prob_grad {
 private:
     int nSampledCells;
     vector<int> N;
@@ -39,13 +39,13 @@ private:
     double q;
     double minP;
 public:
-    model_psyip(stan::io::var_context& context__,
+    model_psiip(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyip(stan::io::var_context& context__,
+    model_psiip(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -61,7 +61,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyip_namespace::model_psyip";
+        static const char* function__ = "model_psiip_namespace::model_psiip";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -133,12 +133,12 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
         ++num_params_r__;
     }
 
-    ~model_psyip() { }
+    ~model_psiip() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -151,20 +151,20 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
         if (!(context__.contains_r("p")))
@@ -211,12 +211,12 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
         T__ p;
         (void) p;  // dummy to suppress unused var warning
@@ -247,7 +247,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 27;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -280,7 +280,7 @@ public:
             current_statement_begin__ = 39;
             lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
             current_statement_begin__ = 42;
-            lp_accum__.add(beta_log(psy_Sampled,0.5,0.5));
+            lp_accum__.add(beta_log(psi_Sampled,0.5,0.5));
             current_statement_begin__ = 45;
             lp_accum__.add(lLh_cell);
         } catch (const std::exception& e) {
@@ -308,14 +308,14 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
+        names__.push_back("psi_Sampled");
         names__.push_back("p");
         names__.push_back("qRate");
         names__.push_back("lLh_cell");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -389,13 +389,13 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyip_namespace::write_array";
+        static const char* function__ = "model_psiip_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
         double p = in__.scalar_lub_constrain(stan::math::fmax(minP,q),1);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         vars__.push_back(p);
 
@@ -428,7 +428,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 27;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -457,11 +457,11 @@ public:
         validate_non_negative_index("sim_false_y", "nSampledCells", nSampledCells);
         vector<int> sim_false_y(nSampledCells, 0);
         stan::math::fill(sim_false_y, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "nSampledCells", nSampledCells);
         vector<double> cellpres_i(nSampledCells, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -528,14 +528,14 @@ public:
             current_statement_begin__ = 78;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 81;
-            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 82;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 84;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
                 current_statement_begin__ = 86;
-                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psi_Sampled,ncell,"psi_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psi_Sampled,ncell,"psi_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 92;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
@@ -562,7 +562,7 @@ public:
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
             current_statement_begin__ = 109;
-            stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
+            stan::math::assign(psi, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -579,8 +579,8 @@ public:
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -602,7 +602,7 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(sim_false_y[k_0__]);
         }
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -643,7 +643,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyip";
+        return "model_psiip";
     }
 
 
@@ -653,7 +653,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -687,7 +687,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -736,7 +736,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -770,7 +770,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -823,7 +823,7 @@ public:
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyip_CAR_namespace {
+namespace model_psiip_CAR_namespace {
 
 using std::istream;
 using std::string;
@@ -842,8 +842,8 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyip_CAR");
-    reader.add_event(187, 187, "end", "model_psyip_CAR");
+    reader.add_event(0, 0, "start", "model_psiip_CAR");
+    reader.add_event(187, 187, "end", "model_psiip_CAR");
     return reader;
 }
 
@@ -942,7 +942,7 @@ struct sparse_car_lpdf_functor__ {
     }
 };
 
-class model_psyip_CAR : public prob_grad {
+class model_psiip_CAR : public prob_grad {
 private:
     int nSampledCells;
     vector<int> sampledId;
@@ -958,13 +958,13 @@ private:
     double q;
     double minP;
 public:
-    model_psyip_CAR(stan::io::var_context& context__,
+    model_psiip_CAR(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyip_CAR(stan::io::var_context& context__,
+    model_psiip_CAR(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -980,7 +980,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyip_CAR_namespace::model_psyip_CAR";
+        static const char* function__ = "model_psiip_CAR_namespace::model_psiip_CAR";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -1137,16 +1137,16 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
         num_params_r__ += nNotSampled;
         ++num_params_r__;
         ++num_params_r__;
         ++num_params_r__;
     }
 
-    ~model_psyip_CAR() { }
+    ~model_psiip_CAR() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -1159,36 +1159,36 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
-        if (!(context__.contains_r("psy_NotSampled")))
-            throw std::runtime_error("variable psy_NotSampled missing");
-        vals_r__ = context__.vals_r("psy_NotSampled");
+        if (!(context__.contains_r("psi_NotSampled")))
+            throw std::runtime_error("variable psi_NotSampled missing");
+        vals_r__ = context__.vals_r("psi_NotSampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
-        context__.validate_dims("initialization", "psy_NotSampled", "vector_d", context__.to_vec(nNotSampled));
-        // generate_declaration psy_NotSampled
-        vector_d psy_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
+        context__.validate_dims("initialization", "psi_NotSampled", "vector_d", context__.to_vec(nNotSampled));
+        // generate_declaration psi_NotSampled
+        vector_d psi_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
         for (int j1__ = 0U; j1__ < nNotSampled; ++j1__)
-            psy_NotSampled(j1__) = vals_r__[pos__++];
+            psi_NotSampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_NotSampled);
+            writer__.vector_lub_unconstrain(0,1,psi_NotSampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_NotSampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_NotSampled: ") + e.what());
         }
 
         if (!(context__.contains_r("p")))
@@ -1263,19 +1263,19 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_NotSampled;
-        (void) psy_NotSampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_NotSampled;
+        (void) psi_NotSampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
         else
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
 
         T__ p;
         (void) p;  // dummy to suppress unused var warning
@@ -1300,12 +1300,12 @@ public:
 
 
         // transformed parameters
-        validate_non_negative_index("psy_i", "n", n);
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, DUMMY_VAR__);
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, DUMMY_VAR__);
+        stan::math::fill(psi_i,DUMMY_VAR__);
         T__ qRate;
         (void) qRate;  // dummy to suppress unused var warning
 
@@ -1321,22 +1321,22 @@ public:
 
         try {
             current_statement_begin__ = 76;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 77;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 78;
             stan::math::assign(qRate, (q / p));
             current_statement_begin__ = 80;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 82;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -1346,9 +1346,9 @@ public:
 
         // validate transformed parameters
         for (int i0__ = 0; i0__ < n; ++i0__) {
-            if (stan::math::is_uninitialized(psy_i(i0__))) {
+            if (stan::math::is_uninitialized(psi_i(i0__))) {
                 std::stringstream msg__;
-                msg__ << "Undefined transformed parameter: psy_i" << '[' << i0__ << ']';
+                msg__ << "Undefined transformed parameter: psi_i" << '[' << i0__ << ']';
                 throw std::runtime_error(msg__.str());
             }
         }
@@ -1367,8 +1367,8 @@ public:
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"qRate",qRate,0);
         check_less_or_equal(function__,"qRate",qRate,1);
 
@@ -1378,13 +1378,13 @@ public:
             current_statement_begin__ = 97;
             lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
             current_statement_begin__ = 100;
-            lp_accum__.add(beta_log(psy_i,0.5,0.5));
+            lp_accum__.add(beta_log(psi_i,0.5,0.5));
             current_statement_begin__ = 101;
             lp_accum__.add(gamma_log(tau,2,2));
             current_statement_begin__ = 104;
             lp_accum__.add(lLh_cell);
             current_statement_begin__ = 112;
-            lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
+            lp_accum__.add(sparse_car_lpdf(psi_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -1410,19 +1410,19 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
-        names__.push_back("psy_NotSampled");
+        names__.push_back("psi_Sampled");
+        names__.push_back("psi_NotSampled");
         names__.push_back("p");
         names__.push_back("tau");
         names__.push_back("alpha");
-        names__.push_back("psy_i");
+        names__.push_back("psi_i");
         names__.push_back("qRate");
         names__.push_back("lLh_cell");
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
         names__.push_back("cell");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -1508,19 +1508,19 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyip_CAR_namespace::write_array";
+        static const char* function__ = "model_psiip_CAR_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
-        vector_d psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
         double p = in__.scalar_lub_constrain(stan::math::fmax(minP,q),1);
         double tau = in__.scalar_lb_constrain(0);
         double alpha = in__.scalar_lub_constrain(0,1);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nNotSampled; ++k_0__) {
-            vars__.push_back(psy_NotSampled[k_0__]);
+            vars__.push_back(psi_NotSampled[k_0__]);
         }
         vars__.push_back(p);
         vars__.push_back(tau);
@@ -1535,12 +1535,12 @@ public:
         double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
         (void) DUMMY_VAR__;  // suppress unused var warning
 
-        validate_non_negative_index("psy_i", "n", n);
-        vector_d psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        vector_d psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi_i,DUMMY_VAR__);
         double qRate(0.0);
         (void) qRate;  // dummy to suppress unused var warning
 
@@ -1556,22 +1556,22 @@ public:
 
         try {
             current_statement_begin__ = 76;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 77;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 78;
             stan::math::assign(qRate, (q / p));
             current_statement_begin__ = 80;
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 82;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -1580,14 +1580,14 @@ public:
         }
 
         // validate transformed parameters
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"qRate",qRate,0);
         check_less_or_equal(function__,"qRate",qRate,1);
 
         // write transformed parameters
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
-            vars__.push_back(psy_i[k_0__]);
+            vars__.push_back(psi_i[k_0__]);
         }
         vars__.push_back(qRate);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
@@ -1609,11 +1609,11 @@ public:
         (void) cell;  // dummy to suppress unused var warning
 
         stan::math::fill(cell, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "n", n);
         vector<double> cellpres_i(n, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -1678,7 +1678,7 @@ public:
             current_statement_begin__ = 143;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 146;
-            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 147;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 150;
@@ -1687,7 +1687,7 @@ public:
                 current_statement_begin__ = 152;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
                 current_statement_begin__ = 153;
-                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psi_i,cell,"psi_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psi_i,cell,"psi_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 159;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
@@ -1716,7 +1716,7 @@ public:
             current_statement_begin__ = 176;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
+                        stan::model::rvalue(psi_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psi_i"), 
                         "assigning variable pp");
             current_statement_begin__ = 178;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
@@ -1727,7 +1727,7 @@ public:
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
             current_statement_begin__ = 184;
-            stan::math::assign(psy, (sum(cellpres_i) / n));
+            stan::math::assign(psi, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -1745,8 +1745,8 @@ public:
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
         check_greater_or_equal(function__,"cell",cell,1);
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < n; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -1769,7 +1769,7 @@ public:
             vars__.push_back(sim_false_y[k_0__]);
         }
         vars__.push_back(cell);
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -1810,7 +1810,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyip_CAR";
+        return "model_psiip_CAR";
     }
 
 
@@ -1820,12 +1820,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -1841,7 +1841,7 @@ public:
         if (!include_gqs__ && !include_tparams__) return;
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -1873,7 +1873,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -1922,12 +1922,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -1943,7 +1943,7 @@ public:
         if (!include_gqs__ && !include_tparams__) return;
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -1975,7 +1975,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -2028,7 +2028,7 @@ public:
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyipi_namespace {
+namespace model_psiipi_namespace {
 
 using std::istream;
 using std::string;
@@ -2047,12 +2047,12 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyipi");
-    reader.add_event(129, 129, "end", "model_psyipi");
+    reader.add_event(0, 0, "start", "model_psiipi");
+    reader.add_event(129, 129, "end", "model_psiipi");
     return reader;
 }
 
-class model_psyipi : public prob_grad {
+class model_psiipi : public prob_grad {
 private:
     int nSampledCells;
     vector<int> N;
@@ -2060,13 +2060,13 @@ private:
     double q;
     double minP;
 public:
-    model_psyipi(stan::io::var_context& context__,
+    model_psiipi(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyipi(stan::io::var_context& context__,
+    model_psiipi(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -2082,7 +2082,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyipi_namespace::model_psyipi";
+        static const char* function__ = "model_psiipi_namespace::model_psiipi";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -2154,7 +2154,7 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
         validate_non_negative_index("p_raw", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
@@ -2162,7 +2162,7 @@ public:
         num_params_r__ += 2;
     }
 
-    ~model_psyipi() { }
+    ~model_psiipi() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -2175,20 +2175,20 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
         if (!(context__.contains_r("p_raw")))
@@ -2253,12 +2253,12 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
         Eigen::Matrix<T__,Eigen::Dynamic,1>  p_raw;
         (void) p_raw;  // dummy to suppress unused var warning
@@ -2325,7 +2325,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 42;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -2396,7 +2396,7 @@ public:
             current_statement_begin__ = 60;
             lp_accum__.add(normal_log(pmax,0.5,0.25));
             current_statement_begin__ = 62;
-            lp_accum__.add(beta_log(psy_Sampled,0.5,0.5));
+            lp_accum__.add(beta_log(psi_Sampled,0.5,0.5));
             current_statement_begin__ = 64;
             lp_accum__.add(lLh_cell);
         } catch (const std::exception& e) {
@@ -2424,7 +2424,7 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
+        names__.push_back("psi_Sampled");
         names__.push_back("p_raw");
         names__.push_back("odds");
         names__.push_back("pRange");
@@ -2436,7 +2436,7 @@ public:
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -2523,14 +2523,14 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyipi_namespace::write_array";
+        static const char* function__ = "model_psiipi_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
         vector_d p_raw = in__.vector_lub_constrain(0,1,nSampledCells);
         vector_d odds = in__.ordered_constrain(2);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(p_raw[k_0__]);
@@ -2597,7 +2597,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 42;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -2640,11 +2640,11 @@ public:
         validate_non_negative_index("sim_false_y", "nSampledCells", nSampledCells);
         vector<int> sim_false_y(nSampledCells, 0);
         stan::math::fill(sim_false_y, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "nSampledCells", nSampledCells);
         vector<double> cellpres_i(nSampledCells, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -2709,14 +2709,14 @@ public:
             current_statement_begin__ = 94;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 97;
-            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 98;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 101;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
                 current_statement_begin__ = 103;
-                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psi_Sampled,ncell,"psi_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_Sampled,ncell,"psi_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 109;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
@@ -2743,7 +2743,7 @@ public:
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
             current_statement_begin__ = 126;
-            stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
+            stan::math::assign(psi, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -2760,8 +2760,8 @@ public:
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -2783,7 +2783,7 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(sim_false_y[k_0__]);
         }
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -2824,7 +2824,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyipi";
+        return "model_psiipi";
     }
 
 
@@ -2834,7 +2834,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -2889,7 +2889,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -2938,7 +2938,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -2993,7 +2993,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -3046,7 +3046,7 @@ public:
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyipi_CAR_namespace {
+namespace model_psiipi_CAR_namespace {
 
 using std::istream;
 using std::string;
@@ -3065,8 +3065,8 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyipi_CAR");
-    reader.add_event(202, 202, "end", "model_psyipi_CAR");
+    reader.add_event(0, 0, "start", "model_psiipi_CAR");
+    reader.add_event(202, 202, "end", "model_psiipi_CAR");
     return reader;
 }
 
@@ -3165,7 +3165,7 @@ struct sparse_car_lpdf_functor__ {
     }
 };
 
-class model_psyipi_CAR : public prob_grad {
+class model_psiipi_CAR : public prob_grad {
 private:
     int nSampledCells;
     vector<int> sampledId;
@@ -3181,13 +3181,13 @@ private:
     double q;
     double minP;
 public:
-    model_psyipi_CAR(stan::io::var_context& context__,
+    model_psiipi_CAR(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyipi_CAR(stan::io::var_context& context__,
+    model_psiipi_CAR(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -3203,7 +3203,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyipi_CAR_namespace::model_psyipi_CAR";
+        static const char* function__ = "model_psiipi_CAR_namespace::model_psiipi_CAR";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -3360,9 +3360,9 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
         num_params_r__ += nNotSampled;
         validate_non_negative_index("p_raw", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
@@ -3372,7 +3372,7 @@ public:
         num_params_r__ += 2;
     }
 
-    ~model_psyipi_CAR() { }
+    ~model_psiipi_CAR() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -3385,36 +3385,36 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
-        if (!(context__.contains_r("psy_NotSampled")))
-            throw std::runtime_error("variable psy_NotSampled missing");
-        vals_r__ = context__.vals_r("psy_NotSampled");
+        if (!(context__.contains_r("psi_NotSampled")))
+            throw std::runtime_error("variable psi_NotSampled missing");
+        vals_r__ = context__.vals_r("psi_NotSampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
-        context__.validate_dims("initialization", "psy_NotSampled", "vector_d", context__.to_vec(nNotSampled));
-        // generate_declaration psy_NotSampled
-        vector_d psy_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
+        context__.validate_dims("initialization", "psi_NotSampled", "vector_d", context__.to_vec(nNotSampled));
+        // generate_declaration psi_NotSampled
+        vector_d psi_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
         for (int j1__ = 0U; j1__ < nNotSampled; ++j1__)
-            psy_NotSampled(j1__) = vals_r__[pos__++];
+            psi_NotSampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_NotSampled);
+            writer__.vector_lub_unconstrain(0,1,psi_NotSampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_NotSampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_NotSampled: ") + e.what());
         }
 
         if (!(context__.contains_r("p_raw")))
@@ -3507,19 +3507,19 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_NotSampled;
-        (void) psy_NotSampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_NotSampled;
+        (void) psi_NotSampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
         else
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
 
         Eigen::Matrix<T__,Eigen::Dynamic,1>  p_raw;
         (void) p_raw;  // dummy to suppress unused var warning
@@ -3561,12 +3561,12 @@ public:
 
         stan::math::initialize(pRange, DUMMY_VAR__);
         stan::math::fill(pRange,DUMMY_VAR__);
-        validate_non_negative_index("psy_i", "n", n);
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, DUMMY_VAR__);
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, DUMMY_VAR__);
+        stan::math::fill(psi_i,DUMMY_VAR__);
         validate_non_negative_index("p", "nSampledCells", nSampledCells);
         Eigen::Matrix<T__,Eigen::Dynamic,1>  p(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         (void) p;  // dummy to suppress unused var warning
@@ -3597,15 +3597,15 @@ public:
             current_statement_begin__ = 81;
             stan::math::assign(pmax, ((inv_logit(get_base1(odds,2,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
             current_statement_begin__ = 83;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 84;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 85;
             stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 86;
@@ -3616,7 +3616,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 93;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -3636,9 +3636,9 @@ public:
             throw std::runtime_error(msg__.str());
         }
         for (int i0__ = 0; i0__ < n; ++i0__) {
-            if (stan::math::is_uninitialized(psy_i(i0__))) {
+            if (stan::math::is_uninitialized(psi_i(i0__))) {
                 std::stringstream msg__;
-                msg__ << "Undefined transformed parameter: psy_i" << '[' << i0__ << ']';
+                msg__ << "Undefined transformed parameter: psi_i" << '[' << i0__ << ']';
                 throw std::runtime_error(msg__.str());
             }
         }
@@ -3673,8 +3673,8 @@ public:
         check_less_or_equal(function__,"qRate",qRate,1);
         check_greater_or_equal(function__,"pRange",pRange,0);
         check_less_or_equal(function__,"pRange",pRange,1);
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"p",p,0);
         check_less_or_equal(function__,"p",p,1);
         check_greater_or_equal(function__,"pmax",pmax,stan::math::fmax(minP,q));
@@ -3696,13 +3696,13 @@ public:
             current_statement_begin__ = 113;
             lp_accum__.add(normal_log(pmax,0.5,0.25));
             current_statement_begin__ = 115;
-            lp_accum__.add(beta_log(psy_i,0.5,0.5));
+            lp_accum__.add(beta_log(psi_i,0.5,0.5));
             current_statement_begin__ = 116;
             lp_accum__.add(gamma_log(tau,2,2));
             current_statement_begin__ = 120;
             lp_accum__.add(lLh_cell);
             current_statement_begin__ = 127;
-            lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
+            lp_accum__.add(sparse_car_lpdf(psi_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -3728,15 +3728,15 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
-        names__.push_back("psy_NotSampled");
+        names__.push_back("psi_Sampled");
+        names__.push_back("psi_NotSampled");
         names__.push_back("p_raw");
         names__.push_back("tau");
         names__.push_back("alpha");
         names__.push_back("odds");
         names__.push_back("qRate");
         names__.push_back("pRange");
-        names__.push_back("psy_i");
+        names__.push_back("psi_i");
         names__.push_back("p");
         names__.push_back("pmax");
         names__.push_back("pmin");
@@ -3745,7 +3745,7 @@ public:
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
         names__.push_back("cell");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -3844,20 +3844,20 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyipi_CAR_namespace::write_array";
+        static const char* function__ = "model_psiipi_CAR_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
-        vector_d psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
         vector_d p_raw = in__.vector_lub_constrain(0,1,nSampledCells);
         double tau = in__.scalar_lb_constrain(0);
         double alpha = in__.scalar_lub_constrain(0,1);
         vector_d odds = in__.ordered_constrain(2);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nNotSampled; ++k_0__) {
-            vars__.push_back(psy_NotSampled[k_0__]);
+            vars__.push_back(psi_NotSampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(p_raw[k_0__]);
@@ -3887,12 +3887,12 @@ public:
 
         stan::math::initialize(pRange, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pRange,DUMMY_VAR__);
-        validate_non_negative_index("psy_i", "n", n);
-        vector_d psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        vector_d psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi_i,DUMMY_VAR__);
         validate_non_negative_index("p", "nSampledCells", nSampledCells);
         vector_d p(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         (void) p;  // dummy to suppress unused var warning
@@ -3923,15 +3923,15 @@ public:
             current_statement_begin__ = 81;
             stan::math::assign(pmax, ((inv_logit(get_base1(odds,2,"odds",1)) * (1 - stan::math::fmax(minP,q))) + stan::math::fmax(minP,q)));
             current_statement_begin__ = 83;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 84;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 85;
             stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 86;
@@ -3942,7 +3942,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 93;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -3955,8 +3955,8 @@ public:
         check_less_or_equal(function__,"qRate",qRate,1);
         check_greater_or_equal(function__,"pRange",pRange,0);
         check_less_or_equal(function__,"pRange",pRange,1);
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"p",p,0);
         check_less_or_equal(function__,"p",p,1);
         check_greater_or_equal(function__,"pmax",pmax,stan::math::fmax(minP,q));
@@ -3968,7 +3968,7 @@ public:
         vars__.push_back(qRate);
         vars__.push_back(pRange);
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
-            vars__.push_back(psy_i[k_0__]);
+            vars__.push_back(psi_i[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(p[k_0__]);
@@ -3994,11 +3994,11 @@ public:
         (void) cell;  // dummy to suppress unused var warning
 
         stan::math::fill(cell, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "n", n);
         vector<double> cellpres_i(n, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -4063,7 +4063,7 @@ public:
             current_statement_begin__ = 158;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 161;
-            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 162;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 165;
@@ -4072,7 +4072,7 @@ public:
                 current_statement_begin__ = 167;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
                 current_statement_begin__ = 168;
-                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psi_i,cell,"psi_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_i,cell,"psi_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 174;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
@@ -4101,7 +4101,7 @@ public:
             current_statement_begin__ = 191;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
+                        stan::model::rvalue(psi_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psi_i"), 
                         "assigning variable pp");
             current_statement_begin__ = 193;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
@@ -4112,7 +4112,7 @@ public:
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
             current_statement_begin__ = 199;
-            stan::math::assign(psy, (sum(cellpres_i) / n));
+            stan::math::assign(psi, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -4130,8 +4130,8 @@ public:
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
         check_greater_or_equal(function__,"cell",cell,1);
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < n; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -4154,7 +4154,7 @@ public:
             vars__.push_back(sim_false_y[k_0__]);
         }
         vars__.push_back(cell);
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -4195,7 +4195,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyipi_CAR";
+        return "model_psiipi_CAR";
     }
 
 
@@ -4205,12 +4205,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -4239,7 +4239,7 @@ public:
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -4279,7 +4279,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -4328,12 +4328,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -4362,7 +4362,7 @@ public:
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -4402,7 +4402,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -4455,7 +4455,7 @@ public:
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyipiq_namespace {
+namespace model_psiipiq_namespace {
 
 using std::istream;
 using std::string;
@@ -4474,25 +4474,25 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyipiq");
-    reader.add_event(130, 130, "end", "model_psyipiq");
+    reader.add_event(0, 0, "start", "model_psiipiq");
+    reader.add_event(130, 130, "end", "model_psiipiq");
     return reader;
 }
 
-class model_psyipiq : public prob_grad {
+class model_psiipiq : public prob_grad {
 private:
     int nSampledCells;
     vector<int> N;
     vector<int> y;
     double minP;
 public:
-    model_psyipiq(stan::io::var_context& context__,
+    model_psiipiq(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyipiq(stan::io::var_context& context__,
+    model_psiipiq(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -4508,7 +4508,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyipiq_namespace::model_psyipiq";
+        static const char* function__ = "model_psiipiq_namespace::model_psiipiq";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -4573,7 +4573,7 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
         validate_non_negative_index("p_raw", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
@@ -4581,7 +4581,7 @@ public:
         num_params_r__ += 3;
     }
 
-    ~model_psyipiq() { }
+    ~model_psiipiq() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -4594,20 +4594,20 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
         if (!(context__.contains_r("p_raw")))
@@ -4672,12 +4672,12 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
         Eigen::Matrix<T__,Eigen::Dynamic,1>  p_raw;
         (void) p_raw;  // dummy to suppress unused var warning
@@ -4751,7 +4751,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 40;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -4829,7 +4829,7 @@ public:
             current_statement_begin__ = 60;
             lp_accum__.add(normal_log(pmax,0.5,0.25));
             current_statement_begin__ = 62;
-            lp_accum__.add(beta_log(psy_Sampled,0.5,0.5));
+            lp_accum__.add(beta_log(psi_Sampled,0.5,0.5));
             current_statement_begin__ = 64;
             lp_accum__.add(lLh_cell);
         } catch (const std::exception& e) {
@@ -4857,7 +4857,7 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
+        names__.push_back("psi_Sampled");
         names__.push_back("p_raw");
         names__.push_back("odds");
         names__.push_back("q");
@@ -4870,7 +4870,7 @@ public:
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -4959,14 +4959,14 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyipiq_namespace::write_array";
+        static const char* function__ = "model_psiipiq_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
         vector_d p_raw = in__.vector_lub_constrain(0,1,nSampledCells);
         vector_d odds = in__.ordered_constrain(3);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(p_raw[k_0__]);
@@ -5040,7 +5040,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 40;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5086,11 +5086,11 @@ public:
         validate_non_negative_index("sim_false_y", "nSampledCells", nSampledCells);
         vector<int> sim_false_y(nSampledCells, 0);
         stan::math::fill(sim_false_y, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "nSampledCells", nSampledCells);
         vector<double> cellpres_i(nSampledCells, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -5155,14 +5155,14 @@ public:
             current_statement_begin__ = 95;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 98;
-            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 99;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 102;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
                 current_statement_begin__ = 104;
-                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psi_Sampled,ncell,"psi_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_Sampled,ncell,"psi_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 110;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
@@ -5189,7 +5189,7 @@ public:
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
             current_statement_begin__ = 127;
-            stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
+            stan::math::assign(psi, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -5206,8 +5206,8 @@ public:
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -5229,7 +5229,7 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(sim_false_y[k_0__]);
         }
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -5270,7 +5270,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyipiq";
+        return "model_psiipiq";
     }
 
 
@@ -5280,7 +5280,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -5338,7 +5338,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -5387,7 +5387,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -5445,7 +5445,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -5498,7 +5498,7 @@ public:
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyipiq_CAR_namespace {
+namespace model_psiipiq_CAR_namespace {
 
 using std::istream;
 using std::string;
@@ -5517,8 +5517,8 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyipiq_CAR");
-    reader.add_event(199, 199, "end", "model_psyipiq_CAR");
+    reader.add_event(0, 0, "start", "model_psiipiq_CAR");
+    reader.add_event(199, 199, "end", "model_psiipiq_CAR");
     return reader;
 }
 
@@ -5617,7 +5617,7 @@ struct sparse_car_lpdf_functor__ {
     }
 };
 
-class model_psyipiq_CAR : public prob_grad {
+class model_psiipiq_CAR : public prob_grad {
 private:
     int nSampledCells;
     vector<int> sampledId;
@@ -5632,13 +5632,13 @@ private:
     vector<int> y;
     double minP;
 public:
-    model_psyipiq_CAR(stan::io::var_context& context__,
+    model_psiipiq_CAR(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyipiq_CAR(stan::io::var_context& context__,
+    model_psiipiq_CAR(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -5654,7 +5654,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyipiq_CAR_namespace::model_psyipiq_CAR";
+        static const char* function__ = "model_psiipiq_CAR_namespace::model_psiipiq_CAR";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -5804,9 +5804,9 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
         num_params_r__ += nNotSampled;
         validate_non_negative_index("p_raw", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
@@ -5816,7 +5816,7 @@ public:
         num_params_r__ += 3;
     }
 
-    ~model_psyipiq_CAR() { }
+    ~model_psiipiq_CAR() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -5829,36 +5829,36 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
-        if (!(context__.contains_r("psy_NotSampled")))
-            throw std::runtime_error("variable psy_NotSampled missing");
-        vals_r__ = context__.vals_r("psy_NotSampled");
+        if (!(context__.contains_r("psi_NotSampled")))
+            throw std::runtime_error("variable psi_NotSampled missing");
+        vals_r__ = context__.vals_r("psi_NotSampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
-        context__.validate_dims("initialization", "psy_NotSampled", "vector_d", context__.to_vec(nNotSampled));
-        // generate_declaration psy_NotSampled
-        vector_d psy_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
+        context__.validate_dims("initialization", "psi_NotSampled", "vector_d", context__.to_vec(nNotSampled));
+        // generate_declaration psi_NotSampled
+        vector_d psi_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
         for (int j1__ = 0U; j1__ < nNotSampled; ++j1__)
-            psy_NotSampled(j1__) = vals_r__[pos__++];
+            psi_NotSampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_NotSampled);
+            writer__.vector_lub_unconstrain(0,1,psi_NotSampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_NotSampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_NotSampled: ") + e.what());
         }
 
         if (!(context__.contains_r("p_raw")))
@@ -5951,19 +5951,19 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_NotSampled;
-        (void) psy_NotSampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_NotSampled;
+        (void) psi_NotSampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
         else
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
 
         Eigen::Matrix<T__,Eigen::Dynamic,1>  p_raw;
         (void) p_raw;  // dummy to suppress unused var warning
@@ -6015,12 +6015,12 @@ public:
 
         stan::math::initialize(pRange, DUMMY_VAR__);
         stan::math::fill(pRange,DUMMY_VAR__);
-        validate_non_negative_index("psy_i", "n", n);
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, DUMMY_VAR__);
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, DUMMY_VAR__);
+        stan::math::fill(psi_i,DUMMY_VAR__);
         validate_non_negative_index("p", "nSampledCells", nSampledCells);
         Eigen::Matrix<T__,Eigen::Dynamic,1>  p(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         (void) p;  // dummy to suppress unused var warning
@@ -6048,15 +6048,15 @@ public:
             current_statement_begin__ = 81;
             stan::math::assign(pmax, inv_logit(get_base1(odds,3,"odds",1)));
             current_statement_begin__ = 84;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 85;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 86;
             stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 87;
@@ -6067,7 +6067,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 93;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -6097,9 +6097,9 @@ public:
             throw std::runtime_error(msg__.str());
         }
         for (int i0__ = 0; i0__ < n; ++i0__) {
-            if (stan::math::is_uninitialized(psy_i(i0__))) {
+            if (stan::math::is_uninitialized(psi_i(i0__))) {
                 std::stringstream msg__;
-                msg__ << "Undefined transformed parameter: psy_i" << '[' << i0__ << ']';
+                msg__ << "Undefined transformed parameter: psi_i" << '[' << i0__ << ']';
                 throw std::runtime_error(msg__.str());
             }
         }
@@ -6133,8 +6133,8 @@ public:
         check_less_or_equal(function__,"pmin",pmin,1);
         check_greater_or_equal(function__,"pRange",pRange,0);
         check_less_or_equal(function__,"pRange",pRange,1);
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"p",p,0);
         check_less_or_equal(function__,"p",p,1);
         check_greater_or_equal(function__,"qRate",qRate,0);
@@ -6150,13 +6150,13 @@ public:
             current_statement_begin__ = 111;
             lp_accum__.add(normal_log(p_raw,1,0.25));
             current_statement_begin__ = 114;
-            lp_accum__.add(beta_log(psy_i,0.5,0.5));
+            lp_accum__.add(beta_log(psi_i,0.5,0.5));
             current_statement_begin__ = 115;
             lp_accum__.add(gamma_log(tau,2,2));
             current_statement_begin__ = 118;
             lp_accum__.add(lLh_cell);
             current_statement_begin__ = 125;
-            lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
+            lp_accum__.add(sparse_car_lpdf(psi_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -6182,8 +6182,8 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
-        names__.push_back("psy_NotSampled");
+        names__.push_back("psi_Sampled");
+        names__.push_back("psi_NotSampled");
         names__.push_back("p_raw");
         names__.push_back("tau");
         names__.push_back("alpha");
@@ -6192,7 +6192,7 @@ public:
         names__.push_back("pmax");
         names__.push_back("pmin");
         names__.push_back("pRange");
-        names__.push_back("psy_i");
+        names__.push_back("psi_i");
         names__.push_back("p");
         names__.push_back("qRate");
         names__.push_back("lLh_cell");
@@ -6200,7 +6200,7 @@ public:
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
         names__.push_back("cell");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -6301,20 +6301,20 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyipiq_CAR_namespace::write_array";
+        static const char* function__ = "model_psiipiq_CAR_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
-        vector_d psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
         vector_d p_raw = in__.vector_lub_constrain(0,1,nSampledCells);
         double tau = in__.scalar_lb_constrain(0);
         double alpha = in__.scalar_lub_constrain(0,1);
         vector_d odds = in__.ordered_constrain(3);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nNotSampled; ++k_0__) {
-            vars__.push_back(psy_NotSampled[k_0__]);
+            vars__.push_back(psi_NotSampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(p_raw[k_0__]);
@@ -6354,12 +6354,12 @@ public:
 
         stan::math::initialize(pRange, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(pRange,DUMMY_VAR__);
-        validate_non_negative_index("psy_i", "n", n);
-        vector_d psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        vector_d psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi_i,DUMMY_VAR__);
         validate_non_negative_index("p", "nSampledCells", nSampledCells);
         vector_d p(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         (void) p;  // dummy to suppress unused var warning
@@ -6387,15 +6387,15 @@ public:
             current_statement_begin__ = 81;
             stan::math::assign(pmax, inv_logit(get_base1(odds,3,"odds",1)));
             current_statement_begin__ = 84;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 85;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 86;
             stan::math::assign(pRange, (pmax - pmin));
             current_statement_begin__ = 87;
@@ -6406,7 +6406,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 93;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),get_base1(p,cell,"p",1)),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -6423,8 +6423,8 @@ public:
         check_less_or_equal(function__,"pmin",pmin,1);
         check_greater_or_equal(function__,"pRange",pRange,0);
         check_less_or_equal(function__,"pRange",pRange,1);
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"p",p,0);
         check_less_or_equal(function__,"p",p,1);
         check_greater_or_equal(function__,"qRate",qRate,0);
@@ -6436,7 +6436,7 @@ public:
         vars__.push_back(pmin);
         vars__.push_back(pRange);
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
-            vars__.push_back(psy_i[k_0__]);
+            vars__.push_back(psi_i[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(p[k_0__]);
@@ -6461,11 +6461,11 @@ public:
         (void) cell;  // dummy to suppress unused var warning
 
         stan::math::fill(cell, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "n", n);
         vector<double> cellpres_i(n, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -6530,7 +6530,7 @@ public:
             current_statement_begin__ = 155;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 158;
-            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 159;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 162;
@@ -6539,7 +6539,7 @@ public:
                 current_statement_begin__ = 164;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
                 current_statement_begin__ = 165;
-                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psi_i,cell,"psi_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_i,cell,"psi_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 171;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
@@ -6568,7 +6568,7 @@ public:
             current_statement_begin__ = 188;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
+                        stan::model::rvalue(psi_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psi_i"), 
                         "assigning variable pp");
             current_statement_begin__ = 190;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
@@ -6579,7 +6579,7 @@ public:
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
             current_statement_begin__ = 196;
-            stan::math::assign(psy, (sum(cellpres_i) / n));
+            stan::math::assign(psi, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -6597,8 +6597,8 @@ public:
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
         check_greater_or_equal(function__,"cell",cell,1);
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < n; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -6621,7 +6621,7 @@ public:
             vars__.push_back(sim_false_y[k_0__]);
         }
         vars__.push_back(cell);
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -6662,7 +6662,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyipiq_CAR";
+        return "model_psiipiq_CAR";
     }
 
 
@@ -6672,12 +6672,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -6712,7 +6712,7 @@ public:
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -6749,7 +6749,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -6798,12 +6798,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -6838,7 +6838,7 @@ public:
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
@@ -6875,7 +6875,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -6928,7 +6928,7 @@ public:
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyipq_namespace {
+namespace model_psiipq_namespace {
 
 using std::istream;
 using std::string;
@@ -6947,25 +6947,25 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyipq");
-    reader.add_event(115, 115, "end", "model_psyipq");
+    reader.add_event(0, 0, "start", "model_psiipq");
+    reader.add_event(115, 115, "end", "model_psiipq");
     return reader;
 }
 
-class model_psyipq : public prob_grad {
+class model_psiipq : public prob_grad {
 private:
     int nSampledCells;
     vector<int> N;
     vector<int> y;
     double minP;
 public:
-    model_psyipq(stan::io::var_context& context__,
+    model_psiipq(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyipq(stan::io::var_context& context__,
+    model_psiipq(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -6981,7 +6981,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyipq_namespace::model_psyipq";
+        static const char* function__ = "model_psiipq_namespace::model_psiipq";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -7046,13 +7046,13 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
         validate_non_negative_index("odds", "2", 2);
         num_params_r__ += 2;
     }
 
-    ~model_psyipq() { }
+    ~model_psiipq() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -7065,20 +7065,20 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
         if (!(context__.contains_r("odds")))
@@ -7127,12 +7127,12 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
         Eigen::Matrix<T__,Eigen::Dynamic,1>  odds;
         (void) odds;  // dummy to suppress unused var warning
@@ -7177,7 +7177,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 31;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -7224,7 +7224,7 @@ public:
             current_statement_begin__ = 45;
             lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
             current_statement_begin__ = 47;
-            lp_accum__.add(beta_log(psy_Sampled,0.5,0.5));
+            lp_accum__.add(beta_log(psi_Sampled,0.5,0.5));
             current_statement_begin__ = 49;
             lp_accum__.add(lLh_cell);
         } catch (const std::exception& e) {
@@ -7252,7 +7252,7 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
+        names__.push_back("psi_Sampled");
         names__.push_back("odds");
         names__.push_back("q");
         names__.push_back("p");
@@ -7261,7 +7261,7 @@ public:
         names__.push_back("sim_y");
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -7340,13 +7340,13 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyipq_namespace::write_array";
+        static const char* function__ = "model_psiipq_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
         vector_d odds = in__.ordered_constrain(2);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < 2; ++k_0__) {
             vars__.push_back(odds[k_0__]);
@@ -7395,7 +7395,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 31;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -7430,11 +7430,11 @@ public:
         validate_non_negative_index("sim_false_y", "nSampledCells", nSampledCells);
         vector<int> sim_false_y(nSampledCells, 0);
         stan::math::fill(sim_false_y, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "nSampledCells", nSampledCells);
         vector<double> cellpres_i(nSampledCells, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -7499,14 +7499,14 @@ public:
             current_statement_begin__ = 80;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 83;
-            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 84;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 87;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
                 current_statement_begin__ = 89;
-                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psy_Sampled,ncell,"psy_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_Sampled,ncell,"psy_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psi_Sampled,ncell,"psi_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psi_Sampled,ncell,"psi_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 95;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
@@ -7533,7 +7533,7 @@ public:
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
             current_statement_begin__ = 112;
-            stan::math::assign(psy, (sum(cellpres_i) / nSampledCells));
+            stan::math::assign(psi, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -7550,8 +7550,8 @@ public:
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < nSampledCells; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -7573,7 +7573,7 @@ public:
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(sim_false_y[k_0__]);
         }
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -7614,7 +7614,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyipq";
+        return "model_psiipq";
     }
 
 
@@ -7624,7 +7624,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= 2; ++k_0__) {
@@ -7666,7 +7666,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -7715,7 +7715,7 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= 2; ++k_0__) {
@@ -7757,7 +7757,7 @@ public:
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -7810,7 +7810,7 @@ public:
 
 #include <stan/model/model_header.hpp>
 
-namespace model_psyipq_CAR_namespace {
+namespace model_psiipq_CAR_namespace {
 
 using std::istream;
 using std::string;
@@ -7829,8 +7829,8 @@ static int current_statement_begin__;
 
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
-    reader.add_event(0, 0, "start", "model_psyipq_CAR");
-    reader.add_event(180, 180, "end", "model_psyipq_CAR");
+    reader.add_event(0, 0, "start", "model_psiipq_CAR");
+    reader.add_event(180, 180, "end", "model_psiipq_CAR");
     return reader;
 }
 
@@ -7929,7 +7929,7 @@ struct sparse_car_lpdf_functor__ {
     }
 };
 
-class model_psyipq_CAR : public prob_grad {
+class model_psiipq_CAR : public prob_grad {
 private:
     int nSampledCells;
     vector<int> sampledId;
@@ -7944,13 +7944,13 @@ private:
     vector<int> y;
     double minP;
 public:
-    model_psyipq_CAR(stan::io::var_context& context__,
+    model_psiipq_CAR(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
         ctor_body(context__, 0, pstream__);
     }
 
-    model_psyipq_CAR(stan::io::var_context& context__,
+    model_psiipq_CAR(stan::io::var_context& context__,
         unsigned int random_seed__,
         std::ostream* pstream__ = 0)
         : prob_grad(0) {
@@ -7966,7 +7966,7 @@ public:
 
         current_statement_begin__ = -1;
 
-        static const char* function__ = "model_psyipq_CAR_namespace::model_psyipq_CAR";
+        static const char* function__ = "model_psiipq_CAR_namespace::model_psiipq_CAR";
         (void) function__;  // dummy to suppress unused var warning
         size_t pos__;
         (void) pos__;  // dummy to suppress unused var warning
@@ -8116,9 +8116,9 @@ public:
         // validate, set parameter ranges
         num_params_r__ = 0U;
         param_ranges_i__.clear();
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
         num_params_r__ += nSampledCells;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
         num_params_r__ += nNotSampled;
         ++num_params_r__;
         ++num_params_r__;
@@ -8126,7 +8126,7 @@ public:
         num_params_r__ += 2;
     }
 
-    ~model_psyipq_CAR() { }
+    ~model_psiipq_CAR() { }
 
 
     void transform_inits(const stan::io::var_context& context__,
@@ -8139,36 +8139,36 @@ public:
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("psy_Sampled")))
-            throw std::runtime_error("variable psy_Sampled missing");
-        vals_r__ = context__.vals_r("psy_Sampled");
+        if (!(context__.contains_r("psi_Sampled")))
+            throw std::runtime_error("variable psi_Sampled missing");
+        vals_r__ = context__.vals_r("psi_Sampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_Sampled", "nSampledCells", nSampledCells);
-        context__.validate_dims("initialization", "psy_Sampled", "vector_d", context__.to_vec(nSampledCells));
-        // generate_declaration psy_Sampled
-        vector_d psy_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
+        validate_non_negative_index("psi_Sampled", "nSampledCells", nSampledCells);
+        context__.validate_dims("initialization", "psi_Sampled", "vector_d", context__.to_vec(nSampledCells));
+        // generate_declaration psi_Sampled
+        vector_d psi_Sampled(static_cast<Eigen::VectorXd::Index>(nSampledCells));
         for (int j1__ = 0U; j1__ < nSampledCells; ++j1__)
-            psy_Sampled(j1__) = vals_r__[pos__++];
+            psi_Sampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_Sampled);
+            writer__.vector_lub_unconstrain(0,1,psi_Sampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_Sampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_Sampled: ") + e.what());
         }
 
-        if (!(context__.contains_r("psy_NotSampled")))
-            throw std::runtime_error("variable psy_NotSampled missing");
-        vals_r__ = context__.vals_r("psy_NotSampled");
+        if (!(context__.contains_r("psi_NotSampled")))
+            throw std::runtime_error("variable psi_NotSampled missing");
+        vals_r__ = context__.vals_r("psi_NotSampled");
         pos__ = 0U;
-        validate_non_negative_index("psy_NotSampled", "nNotSampled", nNotSampled);
-        context__.validate_dims("initialization", "psy_NotSampled", "vector_d", context__.to_vec(nNotSampled));
-        // generate_declaration psy_NotSampled
-        vector_d psy_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
+        validate_non_negative_index("psi_NotSampled", "nNotSampled", nNotSampled);
+        context__.validate_dims("initialization", "psi_NotSampled", "vector_d", context__.to_vec(nNotSampled));
+        // generate_declaration psi_NotSampled
+        vector_d psi_NotSampled(static_cast<Eigen::VectorXd::Index>(nNotSampled));
         for (int j1__ = 0U; j1__ < nNotSampled; ++j1__)
-            psy_NotSampled(j1__) = vals_r__[pos__++];
+            psi_NotSampled(j1__) = vals_r__[pos__++];
         try {
-            writer__.vector_lub_unconstrain(0,1,psy_NotSampled);
+            writer__.vector_lub_unconstrain(0,1,psi_NotSampled);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable psy_NotSampled: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable psi_NotSampled: ") + e.what());
         }
 
         if (!(context__.contains_r("tau")))
@@ -8245,19 +8245,19 @@ public:
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_Sampled;
-        (void) psy_Sampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_Sampled;
+        (void) psi_Sampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells,lp__);
         else
-            psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+            psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
 
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_NotSampled;
-        (void) psy_NotSampled;  // dummy to suppress unused var warning
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_NotSampled;
+        (void) psi_NotSampled;  // dummy to suppress unused var warning
         if (jacobian__)
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled,lp__);
         else
-            psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+            psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
 
         T__ tau;
         (void) tau;  // dummy to suppress unused var warning
@@ -8282,12 +8282,12 @@ public:
 
 
         // transformed parameters
-        validate_non_negative_index("psy_i", "n", n);
-        Eigen::Matrix<T__,Eigen::Dynamic,1>  psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        Eigen::Matrix<T__,Eigen::Dynamic,1>  psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, DUMMY_VAR__);
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, DUMMY_VAR__);
+        stan::math::fill(psi_i,DUMMY_VAR__);
         T__ q;
         (void) q;  // dummy to suppress unused var warning
 
@@ -8313,15 +8313,15 @@ public:
 
         try {
             current_statement_begin__ = 77;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 78;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 79;
             stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
             current_statement_begin__ = 80;
@@ -8332,7 +8332,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 85;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -8342,9 +8342,9 @@ public:
 
         // validate transformed parameters
         for (int i0__ = 0; i0__ < n; ++i0__) {
-            if (stan::math::is_uninitialized(psy_i(i0__))) {
+            if (stan::math::is_uninitialized(psi_i(i0__))) {
                 std::stringstream msg__;
-                msg__ << "Undefined transformed parameter: psy_i" << '[' << i0__ << ']';
+                msg__ << "Undefined transformed parameter: psi_i" << '[' << i0__ << ']';
                 throw std::runtime_error(msg__.str());
             }
         }
@@ -8373,8 +8373,8 @@ public:
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"q",q,0);
         check_less_or_equal(function__,"q",q,1);
         check_greater_or_equal(function__,"p",p,minP);
@@ -8388,13 +8388,13 @@ public:
             current_statement_begin__ = 99;
             lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
             current_statement_begin__ = 100;
-            lp_accum__.add(beta_log(psy_i,0.5,0.5));
+            lp_accum__.add(beta_log(psi_i,0.5,0.5));
             current_statement_begin__ = 101;
             lp_accum__.add(gamma_log(tau,2,2));
             current_statement_begin__ = 104;
             lp_accum__.add(lLh_cell);
             current_statement_begin__ = 106;
-            lp_accum__.add(sparse_car_lpdf(psy_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
+            lp_accum__.add(sparse_car_lpdf(psi_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -8420,12 +8420,12 @@ public:
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("psy_Sampled");
-        names__.push_back("psy_NotSampled");
+        names__.push_back("psi_Sampled");
+        names__.push_back("psi_NotSampled");
         names__.push_back("tau");
         names__.push_back("alpha");
         names__.push_back("odds");
-        names__.push_back("psy_i");
+        names__.push_back("psi_i");
         names__.push_back("q");
         names__.push_back("p");
         names__.push_back("qRate");
@@ -8434,7 +8434,7 @@ public:
         names__.push_back("sim_true_y");
         names__.push_back("sim_false_y");
         names__.push_back("cell");
-        names__.push_back("psy");
+        names__.push_back("psi");
         names__.push_back("cellpres_i");
         names__.push_back("pCorr");
         names__.push_back("pp");
@@ -8525,19 +8525,19 @@ public:
                      std::ostream* pstream__ = 0) const {
         vars__.resize(0);
         stan::io::reader<double> in__(params_r__,params_i__);
-        static const char* function__ = "model_psyipq_CAR_namespace::write_array";
+        static const char* function__ = "model_psiipq_CAR_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        vector_d psy_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
-        vector_d psy_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
+        vector_d psi_Sampled = in__.vector_lub_constrain(0,1,nSampledCells);
+        vector_d psi_NotSampled = in__.vector_lub_constrain(0,1,nNotSampled);
         double tau = in__.scalar_lb_constrain(0);
         double alpha = in__.scalar_lub_constrain(0,1);
         vector_d odds = in__.ordered_constrain(2);
         for (int k_0__ = 0; k_0__ < nSampledCells; ++k_0__) {
-            vars__.push_back(psy_Sampled[k_0__]);
+            vars__.push_back(psi_Sampled[k_0__]);
         }
         for (int k_0__ = 0; k_0__ < nNotSampled; ++k_0__) {
-            vars__.push_back(psy_NotSampled[k_0__]);
+            vars__.push_back(psi_NotSampled[k_0__]);
         }
         vars__.push_back(tau);
         vars__.push_back(alpha);
@@ -8554,12 +8554,12 @@ public:
         double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
         (void) DUMMY_VAR__;  // suppress unused var warning
 
-        validate_non_negative_index("psy_i", "n", n);
-        vector_d psy_i(static_cast<Eigen::VectorXd::Index>(n));
-        (void) psy_i;  // dummy to suppress unused var warning
+        validate_non_negative_index("psi_i", "n", n);
+        vector_d psi_i(static_cast<Eigen::VectorXd::Index>(n));
+        (void) psi_i;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy_i, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy_i,DUMMY_VAR__);
+        stan::math::initialize(psi_i, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi_i,DUMMY_VAR__);
         double q(0.0);
         (void) q;  // dummy to suppress unused var warning
 
@@ -8585,15 +8585,15 @@ public:
 
         try {
             current_statement_begin__ = 77;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(sampledId), stan::model::nil_index_list()), 
-                        psy_Sampled, 
-                        "assigning variable psy_i");
+                        psi_Sampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 78;
-            stan::model::assign(psy_i, 
+            stan::model::assign(psi_i, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        psy_NotSampled, 
-                        "assigning variable psy_i");
+                        psi_NotSampled, 
+                        "assigning variable psi_i");
             current_statement_begin__ = 79;
             stan::math::assign(q, inv_logit(get_base1(odds,1,"odds",1)));
             current_statement_begin__ = 80;
@@ -8604,7 +8604,7 @@ public:
             for (int cell = 1; cell <= nSampledCells; ++cell) {
 
                 current_statement_begin__ = 85;
-                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psy_Sampled,cell,"psy_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
+                stan::math::assign(get_base1_lhs(lLh_cell,cell,"lLh_cell",1), log_mix(get_base1(psi_Sampled,cell,"psi_Sampled",1),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),p),binomial_log(get_base1(y,cell,"y",1),get_base1(N,cell,"N",1),q)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -8613,8 +8613,8 @@ public:
         }
 
         // validate transformed parameters
-        check_greater_or_equal(function__,"psy_i",psy_i,0);
-        check_less_or_equal(function__,"psy_i",psy_i,1);
+        check_greater_or_equal(function__,"psi_i",psi_i,0);
+        check_less_or_equal(function__,"psi_i",psi_i,1);
         check_greater_or_equal(function__,"q",q,0);
         check_less_or_equal(function__,"q",q,1);
         check_greater_or_equal(function__,"p",p,minP);
@@ -8624,7 +8624,7 @@ public:
 
         // write transformed parameters
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
-            vars__.push_back(psy_i[k_0__]);
+            vars__.push_back(psi_i[k_0__]);
         }
         vars__.push_back(q);
         vars__.push_back(p);
@@ -8648,11 +8648,11 @@ public:
         (void) cell;  // dummy to suppress unused var warning
 
         stan::math::fill(cell, std::numeric_limits<int>::min());
-        double psy(0.0);
-        (void) psy;  // dummy to suppress unused var warning
+        double psi(0.0);
+        (void) psi;  // dummy to suppress unused var warning
 
-        stan::math::initialize(psy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(psy,DUMMY_VAR__);
+        stan::math::initialize(psi, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(psi,DUMMY_VAR__);
         validate_non_negative_index("cellpres_i", "n", n);
         vector<double> cellpres_i(n, 0.0);
         stan::math::initialize(cellpres_i, std::numeric_limits<double>::quiet_NaN());
@@ -8717,7 +8717,7 @@ public:
             current_statement_begin__ = 137;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
             current_statement_begin__ = 139;
-            stan::math::assign(expRec, add(multiply(elt_multiply(psy_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psy_Sampled),to_vector(N)),q)));
+            stan::math::assign(expRec, add(multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 140;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
             current_statement_begin__ = 143;
@@ -8726,7 +8726,7 @@ public:
                 current_statement_begin__ = 145;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
                 current_statement_begin__ = 146;
-                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psy_i,cell,"psy_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psy_i,cell,"psy_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
+                stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psi_i,cell,"psi_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p)) - log_mix(get_base1(psi_i,cell,"psi_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),p),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
                 current_statement_begin__ = 152;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
@@ -8755,7 +8755,7 @@ public:
             current_statement_begin__ = 169;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
-                        stan::model::rvalue(psy_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psy_i"), 
+                        stan::model::rvalue(psi_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psi_i"), 
                         "assigning variable pp");
             current_statement_begin__ = 171;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
@@ -8766,7 +8766,7 @@ public:
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
             current_statement_begin__ = 177;
-            stan::math::assign(psy, (sum(cellpres_i) / n));
+            stan::math::assign(psi, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -8784,8 +8784,8 @@ public:
             check_greater_or_equal(function__,"sim_false_y[k0__]",sim_false_y[k0__],0);
         }
         check_greater_or_equal(function__,"cell",cell,1);
-        check_greater_or_equal(function__,"psy",psy,0);
-        check_less_or_equal(function__,"psy",psy,1);
+        check_greater_or_equal(function__,"psi",psi,0);
+        check_less_or_equal(function__,"psi",psi,1);
         for (int k0__ = 0; k0__ < n; ++k0__) {
             check_greater_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],0);
             check_less_or_equal(function__,"cellpres_i[k0__]",cellpres_i[k0__],1);
@@ -8808,7 +8808,7 @@ public:
             vars__.push_back(sim_false_y[k_0__]);
         }
         vars__.push_back(cell);
-        vars__.push_back(psy);
+        vars__.push_back(psi);
         for (int k_0__ = 0; k_0__ < n; ++k_0__) {
             vars__.push_back(cellpres_i[k_0__]);
         }
@@ -8849,7 +8849,7 @@ public:
     }
 
     static std::string model_name() {
-        return "model_psyipq_CAR";
+        return "model_psiipq_CAR";
     }
 
 
@@ -8859,12 +8859,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -8882,7 +8882,7 @@ public:
         if (!include_gqs__ && !include_tparams__) return;
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -8920,7 +8920,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
@@ -8969,12 +8969,12 @@ public:
         std::stringstream param_name_stream__;
         for (int k_0__ = 1; k_0__ <= nSampledCells; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_Sampled" << '.' << k_0__;
+            param_name_stream__ << "psi_Sampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         for (int k_0__ = 1; k_0__ <= nNotSampled; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_NotSampled" << '.' << k_0__;
+            param_name_stream__ << "psi_NotSampled" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -8992,7 +8992,7 @@ public:
         if (!include_gqs__ && !include_tparams__) return;
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
-            param_name_stream__ << "psy_i" << '.' << k_0__;
+            param_name_stream__ << "psi_i" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
         param_name_stream__.str(std::string());
@@ -9030,7 +9030,7 @@ public:
         param_name_stream__ << "cell";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "psy";
+        param_name_stream__ << "psi";
         param_names__.push_back(param_name_stream__.str());
         for (int k_0__ = 1; k_0__ <= n; ++k_0__) {
             param_name_stream__.str(std::string());
