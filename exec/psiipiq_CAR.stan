@@ -107,8 +107,9 @@ model
     target += normal_lpdf(qRate | 0,0.05);
     target += normal_lpdf(pRange | 0,0.1);
 
-
+    target += normal_lpdf(pmin | 0.5, 0.25);
     target += normal_lpdf(p_raw | 1, 0.25);
+    target += normal_lpdf(pmax | 0.5, 0.25);
 
 
     target += beta_lpdf(psi_i | 0.5, 0.5);

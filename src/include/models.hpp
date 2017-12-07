@@ -2048,7 +2048,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psiipi");
-    reader.add_event(129, 129, "end", "model_psiipi");
+    reader.add_event(128, 128, "end", "model_psiipi");
     return reader;
 }
 
@@ -2393,11 +2393,11 @@ public:
             lp_accum__.add(normal_log(pmin,0.5,0.25));
             current_statement_begin__ = 58;
             lp_accum__.add(normal_log(p_raw,1,0.25));
-            current_statement_begin__ = 60;
+            current_statement_begin__ = 59;
             lp_accum__.add(normal_log(pmax,0.5,0.25));
-            current_statement_begin__ = 62;
+            current_statement_begin__ = 61;
             lp_accum__.add(beta_log(psi_Sampled,0.5,0.5));
-            current_statement_begin__ = 64;
+            current_statement_begin__ = 63;
             lp_accum__.add(lLh_cell);
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -2698,51 +2698,51 @@ public:
 
 
         try {
-            current_statement_begin__ = 89;
+            current_statement_begin__ = 88;
             stan::math::assign(npars, ((nSampledCells + nSampledCells) + 2));
-            current_statement_begin__ = 91;
+            current_statement_begin__ = 90;
             stan::math::assign(lLh, sum(lLh_cell));
-            current_statement_begin__ = 92;
+            current_statement_begin__ = 91;
             stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
-            current_statement_begin__ = 93;
+            current_statement_begin__ = 92;
             stan::math::assign(AICc, (AIC + (((2 * npars) * (npars + 1)) / ((nSampledCells - npars) - 1))));
-            current_statement_begin__ = 94;
+            current_statement_begin__ = 93;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
-            current_statement_begin__ = 97;
+            current_statement_begin__ = 96;
             stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
-            current_statement_begin__ = 98;
+            current_statement_begin__ = 97;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
-            current_statement_begin__ = 101;
+            current_statement_begin__ = 100;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 103;
+                current_statement_begin__ = 102;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psi_Sampled,ncell,"psi_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_Sampled,ncell,"psi_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 109;
+                current_statement_begin__ = 108;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 110;
+                    current_statement_begin__ = 109;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 111;
+                    current_statement_begin__ = 110;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 112;
+                    current_statement_begin__ = 111;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 113;
+                    current_statement_begin__ = 112;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 116;
+                    current_statement_begin__ = 115;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 117;
+                    current_statement_begin__ = 116;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 118;
+                    current_statement_begin__ = 117;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 119;
+                    current_statement_begin__ = 118;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 122;
+                current_statement_begin__ = 121;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 126;
+            current_statement_begin__ = 125;
             stan::math::assign(psi, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -3066,7 +3066,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psiipi_CAR");
-    reader.add_event(202, 202, "end", "model_psiipi_CAR");
+    reader.add_event(201, 201, "end", "model_psiipi_CAR");
     return reader;
 }
 
@@ -3693,15 +3693,15 @@ public:
             lp_accum__.add(normal_log(pmin,0.5,0.25));
             current_statement_begin__ = 111;
             lp_accum__.add(normal_log(p_raw,1,0.25));
-            current_statement_begin__ = 113;
+            current_statement_begin__ = 112;
             lp_accum__.add(normal_log(pmax,0.5,0.25));
-            current_statement_begin__ = 115;
+            current_statement_begin__ = 114;
             lp_accum__.add(beta_log(psi_i,0.5,0.5));
-            current_statement_begin__ = 116;
+            current_statement_begin__ = 115;
             lp_accum__.add(gamma_log(tau,2,2));
-            current_statement_begin__ = 120;
+            current_statement_begin__ = 119;
             lp_accum__.add(lLh_cell);
-            current_statement_begin__ = 127;
+            current_statement_begin__ = 126;
             lp_accum__.add(sparse_car_lpdf(psi_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -4052,66 +4052,66 @@ public:
 
 
         try {
-            current_statement_begin__ = 152;
+            current_statement_begin__ = 151;
             stan::math::assign(npars, (((((nSampledCells + nNotSampled) + nSampledCells) + 1) + 1) + 2));
-            current_statement_begin__ = 155;
+            current_statement_begin__ = 154;
             stan::math::assign(lLh, sum(lLh_cell));
-            current_statement_begin__ = 156;
+            current_statement_begin__ = 155;
             stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
-            current_statement_begin__ = 157;
+            current_statement_begin__ = 156;
             stan::math::assign(AICc, (AIC + (((2 * npars) * (npars + 1)) / ((nSampledCells - npars) - 1))));
-            current_statement_begin__ = 158;
+            current_statement_begin__ = 157;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
-            current_statement_begin__ = 161;
+            current_statement_begin__ = 160;
             stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
-            current_statement_begin__ = 162;
+            current_statement_begin__ = 161;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
-            current_statement_begin__ = 165;
+            current_statement_begin__ = 164;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 167;
+                current_statement_begin__ = 166;
                 stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
-                current_statement_begin__ = 168;
+                current_statement_begin__ = 167;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psi_i,cell,"psi_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_i,cell,"psi_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 174;
+                current_statement_begin__ = 173;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 175;
+                    current_statement_begin__ = 174;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 176;
+                    current_statement_begin__ = 175;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 177;
+                    current_statement_begin__ = 176;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 178;
+                    current_statement_begin__ = 177;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 181;
+                    current_statement_begin__ = 180;
                     stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 182;
+                    current_statement_begin__ = 181;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 183;
+                    current_statement_begin__ = 182;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 184;
+                    current_statement_begin__ = 183;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 187;
+                current_statement_begin__ = 186;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 191;
+            current_statement_begin__ = 190;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psi_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psi_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 193;
+            current_statement_begin__ = 192;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 194;
+                current_statement_begin__ = 193;
                 stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
-                current_statement_begin__ = 195;
+                current_statement_begin__ = 194;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 199;
+            current_statement_begin__ = 198;
             stan::math::assign(psi, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -4475,7 +4475,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psiipiq");
-    reader.add_event(130, 130, "end", "model_psiipiq");
+    reader.add_event(128, 128, "end", "model_psiipiq");
     return reader;
 }
 
@@ -4822,15 +4822,15 @@ public:
             lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
             current_statement_begin__ = 54;
             lp_accum__.add(normal_log(pRange,0,0.10000000000000001));
-            current_statement_begin__ = 57;
+            current_statement_begin__ = 56;
             lp_accum__.add(normal_log(pmin,0.5,0.25));
-            current_statement_begin__ = 58;
+            current_statement_begin__ = 57;
             lp_accum__.add(normal_log(p_raw,1,0.25));
-            current_statement_begin__ = 60;
+            current_statement_begin__ = 58;
             lp_accum__.add(normal_log(pmax,0.5,0.25));
-            current_statement_begin__ = 62;
+            current_statement_begin__ = 60;
             lp_accum__.add(beta_log(psi_Sampled,0.5,0.5));
-            current_statement_begin__ = 64;
+            current_statement_begin__ = 62;
             lp_accum__.add(lLh_cell);
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5144,51 +5144,51 @@ public:
 
 
         try {
-            current_statement_begin__ = 89;
+            current_statement_begin__ = 87;
             stan::math::assign(npars, ((nSampledCells + nSampledCells) + 3));
-            current_statement_begin__ = 92;
+            current_statement_begin__ = 90;
             stan::math::assign(lLh, sum(lLh_cell));
-            current_statement_begin__ = 93;
+            current_statement_begin__ = 91;
             stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
-            current_statement_begin__ = 94;
+            current_statement_begin__ = 92;
             stan::math::assign(AICc, (AIC + (((2 * npars) * (npars + 1)) / ((nSampledCells - npars) - 1))));
-            current_statement_begin__ = 95;
+            current_statement_begin__ = 93;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
-            current_statement_begin__ = 98;
+            current_statement_begin__ = 96;
             stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
-            current_statement_begin__ = 99;
+            current_statement_begin__ = 97;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
-            current_statement_begin__ = 102;
+            current_statement_begin__ = 100;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 104;
+                current_statement_begin__ = 102;
                 stan::math::assign(get_base1_lhs(pp,ncell,"pp",1), exp(((log(get_base1(psi_Sampled,ncell,"psi_Sampled",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_Sampled,ncell,"psi_Sampled",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 110;
+                current_statement_begin__ = 108;
                 if (as_bool(bernoulli_rng(get_base1(pp,ncell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 111;
+                    current_statement_begin__ = 109;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 1);
-                    current_statement_begin__ = 112;
+                    current_statement_begin__ = 110;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
-                    current_statement_begin__ = 113;
+                    current_statement_begin__ = 111;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
-                    current_statement_begin__ = 114;
+                    current_statement_begin__ = 112;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 117;
+                    current_statement_begin__ = 115;
                     stan::math::assign(get_base1_lhs(cellpres_i,ncell,"cellpres_i",1), 0);
-                    current_statement_begin__ = 118;
+                    current_statement_begin__ = 116;
                     stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
-                    current_statement_begin__ = 119;
+                    current_statement_begin__ = 117;
                     stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
-                    current_statement_begin__ = 120;
+                    current_statement_begin__ = 118;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 123;
+                current_statement_begin__ = 121;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 127;
+            current_statement_begin__ = 125;
             stan::math::assign(psi, (sum(cellpres_i) / nSampledCells));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -5518,7 +5518,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_psiipiq_CAR");
-    reader.add_event(199, 199, "end", "model_psiipiq_CAR");
+    reader.add_event(200, 200, "end", "model_psiipiq_CAR");
     return reader;
 }
 
@@ -6147,15 +6147,19 @@ public:
             lp_accum__.add(normal_log(qRate,0,0.050000000000000003));
             current_statement_begin__ = 108;
             lp_accum__.add(normal_log(pRange,0,0.10000000000000001));
+            current_statement_begin__ = 110;
+            lp_accum__.add(normal_log(pmin,0.5,0.25));
             current_statement_begin__ = 111;
             lp_accum__.add(normal_log(p_raw,1,0.25));
-            current_statement_begin__ = 114;
-            lp_accum__.add(beta_log(psi_i,0.5,0.5));
+            current_statement_begin__ = 112;
+            lp_accum__.add(normal_log(pmax,0.5,0.25));
             current_statement_begin__ = 115;
+            lp_accum__.add(beta_log(psi_i,0.5,0.5));
+            current_statement_begin__ = 116;
             lp_accum__.add(gamma_log(tau,2,2));
-            current_statement_begin__ = 118;
+            current_statement_begin__ = 119;
             lp_accum__.add(lLh_cell);
-            current_statement_begin__ = 125;
+            current_statement_begin__ = 126;
             lp_accum__.add(sparse_car_lpdf(psi_i,tau,alpha,W_sparse,D_sparse,lambda,n,W_n, pstream__));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -6519,66 +6523,66 @@ public:
 
 
         try {
-            current_statement_begin__ = 150;
+            current_statement_begin__ = 151;
             stan::math::assign(npars, (((((nSampledCells + nNotSampled) + nSampledCells) + 1) + 1) + 3));
-            current_statement_begin__ = 152;
-            stan::math::assign(lLh, sum(lLh_cell));
             current_statement_begin__ = 153;
-            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
+            stan::math::assign(lLh, sum(lLh_cell));
             current_statement_begin__ = 154;
-            stan::math::assign(AICc, (AIC + (((2 * npars) * (npars + 1)) / ((nSampledCells - npars) - 1))));
+            stan::math::assign(AIC, ((2 * npars) - (2 * lLh)));
             current_statement_begin__ = 155;
+            stan::math::assign(AICc, (AIC + (((2 * npars) * (npars + 1)) / ((nSampledCells - npars) - 1))));
+            current_statement_begin__ = 156;
             stan::math::assign(bAIC, ((log(nSampledCells) * npars) - (2 * lLh)));
-            current_statement_begin__ = 158;
-            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
             current_statement_begin__ = 159;
+            stan::math::assign(expRec, add(elt_multiply(elt_multiply(psi_Sampled,to_vector(N)),p),multiply(elt_multiply(subtract(1,psi_Sampled),to_vector(N)),q)));
+            current_statement_begin__ = 160;
             stan::math::assign(chi_sq, sum(elt_divide(elt_multiply(subtract(expRec,to_vector(y)),subtract(expRec,to_vector(y))),expRec)));
-            current_statement_begin__ = 162;
+            current_statement_begin__ = 163;
             for (int ncell = 1; ncell <= nSampledCells; ++ncell) {
 
-                current_statement_begin__ = 164;
-                stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
                 current_statement_begin__ = 165;
+                stan::math::assign(cell, get_base1(sampledId,ncell,"sampledId",1));
+                current_statement_begin__ = 166;
                 stan::math::assign(get_base1_lhs(pp,cell,"pp",1), exp(((log(get_base1(psi_i,cell,"psi_i",1)) + binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1))) - log_mix(get_base1(psi_i,cell,"psi_i",1),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1)),binomial_log(get_base1(y,ncell,"y",1),get_base1(N,ncell,"N",1),q)))));
-                current_statement_begin__ = 171;
+                current_statement_begin__ = 172;
                 if (as_bool(bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__))) {
 
-                    current_statement_begin__ = 172;
-                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
                     current_statement_begin__ = 173;
-                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
+                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 1);
                     current_statement_begin__ = 174;
-                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
+                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), get_base1(p,ncell,"p",1));
                     current_statement_begin__ = 175;
+                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), binomial_rng(get_base1(N,ncell,"N",1),get_base1(p,ncell,"p",1), base_rng__));
+                    current_statement_begin__ = 176;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), 0);
                 } else {
 
-                    current_statement_begin__ = 178;
-                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
                     current_statement_begin__ = 179;
-                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
+                    stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), 0);
                     current_statement_begin__ = 180;
-                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
+                    stan::math::assign(get_base1_lhs(pCorr,ncell,"pCorr",1), 0);
                     current_statement_begin__ = 181;
+                    stan::math::assign(get_base1_lhs(sim_true_y,ncell,"sim_true_y",1), 0);
+                    current_statement_begin__ = 182;
                     stan::math::assign(get_base1_lhs(sim_false_y,ncell,"sim_false_y",1), binomial_rng(get_base1(N,ncell,"N",1),q, base_rng__));
                 }
-                current_statement_begin__ = 184;
+                current_statement_begin__ = 185;
                 stan::math::assign(get_base1_lhs(sim_y,ncell,"sim_y",1), (get_base1(sim_true_y,ncell,"sim_true_y",1) + get_base1(sim_false_y,ncell,"sim_false_y",1)));
             }
-            current_statement_begin__ = 188;
+            current_statement_begin__ = 189;
             stan::model::assign(pp, 
                         stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), 
                         stan::model::rvalue(psi_i, stan::model::cons_list(stan::model::index_multi(notSampledId), stan::model::nil_index_list()), "psi_i"), 
                         "assigning variable pp");
-            current_statement_begin__ = 190;
+            current_statement_begin__ = 191;
             for (int ncell = 1; ncell <= nNotSampled; ++ncell) {
 
-                current_statement_begin__ = 191;
-                stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
                 current_statement_begin__ = 192;
+                stan::math::assign(cell, get_base1(notSampledId,ncell,"notSampledId",1));
+                current_statement_begin__ = 193;
                 stan::math::assign(get_base1_lhs(cellpres_i,cell,"cellpres_i",1), bernoulli_rng(get_base1(pp,cell,"pp",1), base_rng__));
             }
-            current_statement_begin__ = 196;
+            current_statement_begin__ = 197;
             stan::math::assign(psi, (sum(cellpres_i) / n));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
