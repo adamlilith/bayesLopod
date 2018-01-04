@@ -13,7 +13,7 @@ lopodShape(LopodModel, param, extrapolate = T, metric = NULL, quant = 0.5)
 
 \item{extrapolate}{Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psi_i", "pp" and, "cellpres_i".}
 
-\item{metric}{"mean" or "sd". Plots the mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.}
+\item{metric}{"Rhat", "mean", or "sd". Plots the Rhat, mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.}
 
 \item{quant}{Returns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL}
 }
