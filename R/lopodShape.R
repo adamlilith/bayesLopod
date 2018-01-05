@@ -1,12 +1,12 @@
 #' Crate Shape object for a parameter estimated in a LopodModel
 #'
-#' @param LopodModel A LopodModel object
+#' @param LopodModel A \linkS4class{LopodModel} object
 #' @param param Unit-level model parameter to be mapped. Values "psi_Sampled" can be mapped for models without CAR analyses, "psi_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.
 #' @param extrapolate Boolean. If True, parameters are mapped for cells that have not been sampled, this can only be done in LopodModels with CAR analysis. Only plotted for "psi_i", "pp" and, "cellpres_i".
 #' @param metric "Rhat", "mean", or "sd". Plots the Rhat, mean or standard deviation of the posterior distribution. If NULL, the value in quant is used.
 #' @param quant Returns the raster for a given quantile of the Posterior Distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL
 #' @export
-#' @return A Raster object.
+#' @return A \linkS4class{SpatialPolygonsDataFrame} object.
 #' @examples
 #' \dontrun{
 #' data("Andropogon_shape", package = "bayesLopod")

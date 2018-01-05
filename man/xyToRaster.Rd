@@ -8,9 +8,9 @@ xyToRaster(xyRecords, xySamplingEffort, nrows = 50, extentExpansion = 0.1,
   extent = NULL, basemap = getData("worldclim", var = "alt", res = 10))
 }
 \arguments{
-\item{xyRecords}{Object of class SpatialPoints or SpatialPointsDataFrame with the locality-records of the species.}
+\item{xyRecords}{Object of class \linkS4class{SpatialPoints} or \linkS4class{SpatialPointsDataFrame} with the locality-records of the species.}
 
-\item{xySamplingEffort}{Object of class SpatialPoints or SpatialPointsDataFrame with the coordinates of all sampling events (including those in which the species was found).}
+\item{xySamplingEffort}{Object of class \linkS4class{SpatialPoints} or \linkS4class{SpatialPointsDataFrame} with the coordinates of all sampling events (including those in which the species was found).}
 
 \item{nrows}{Number of rows that the final Raster will have. It will be use to determine its resolution.}
 

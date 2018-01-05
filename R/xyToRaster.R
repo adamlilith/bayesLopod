@@ -1,8 +1,8 @@
 #' Crate Shape object for a parameter estimated in a LopodModel
 #' @importClassesFrom sp SpatialPoints SpatialPointsDataFrame
 #' @importFrom raster getData rasterize resample
-#' @param xyRecords Object of class SpatialPoints or SpatialPointsDataFrame with the locality-records of the species.
-#' @param xySamplingEffort Object of class SpatialPoints or SpatialPointsDataFrame with the coordinates of all sampling events (including those in which the species was found).
+#' @param xyRecords Object of class \linkS4class{SpatialPoints} or \linkS4class{SpatialPointsDataFrame} with the locality-records of the species.
+#' @param xySamplingEffort Object of class \linkS4class{SpatialPoints} or \linkS4class{SpatialPointsDataFrame} with the coordinates of all sampling events (including those in which the species was found).
 #' @param nrows Number of rows that the final Raster will have. It will be use to determine its resolution.
 #' @param extentExpansion Factor by which the final extent should be expended. If 0 and extent is NULL, the final extent will be determined by the most extreme locality records. If extent is given, extentExpansion will be ignored.
 #' @param extent Object of class Extent delimiting the region to be included in the final raster

@@ -1,6 +1,6 @@
 #' Summary statistics for a LopodModel
 #'
-#' @param LopodModel A LopodModel object
+#' @param LopodModel A \linkS4class{LopodModel} object
 #' @param params Parameters to be plotted. Default is NULL, which plots all global parameters
 #' @param probs Quantiles to be estimated
 #' @return  Returns a dataframe which contain summaries for  all chains merged for the Global Parameters of a LopodModel. Included in the summary are quantiles, means, standard deviations (sd), effective sample sizes (n_eff), Monte Carlo standard errors (se_mean) and Rhats.

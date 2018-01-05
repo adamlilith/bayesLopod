@@ -7,7 +7,7 @@
 lopodTrace(LopodModel, params = "lp__", inc_warmup = FALSE)
 }
 \arguments{
-\item{LopodModel}{A LopodModel object}
+\item{LopodModel}{A \linkS4class{LopodModel} object}
 
 \item{params}{Parameters to be plotted. Default is "lp__" which plots the log posterior probability}
 

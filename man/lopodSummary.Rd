@@ -7,7 +7,7 @@
 lopodSummary(LopodModel, params = NULL, probs = c(0.05, 0.5, 0.95))
 }
 \arguments{
-\item{LopodModel}{A LopodModel object}
+\item{LopodModel}{A \linkS4class{LopodModel} object}
 
 \item{params}{Parameters to be plotted. Default is NULL, which plots all global parameters}
 

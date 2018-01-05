@@ -8,7 +8,7 @@ lopodRaster(LopodModel, param, extrapolate = T, metric = NULL,
   quant = 0.5)
 }
 \arguments{
-\item{LopodModel}{A LopodModel object}
+\item{LopodModel}{A \linkS4class{LopodModel} object}
 
 \item{param}{Unit-level model parameter to be mapped. Values "psi_Sampled" can be mapped for models without CAR analyses, "psi_i" for LopodModels with CAR analysis and "pp","cellpres_i", "pCorr","sim_y","sim_true_y","sim_false_y" for both.}
 
@@ -19,7 +19,7 @@ lopodRaster(LopodModel, param, extrapolate = T, metric = NULL,
 \item{quant}{Returns the raster for a given quantile of the posterior distribution. Default is 0.5 (the median of the posterior distribution). Not used if metric is other than NULL}
 }
 \value{
-A Raster object.
+A \linkS4class{Raster} object.
 }
 \description{
 Crate raster object for a parameter estimated in a LopodModel

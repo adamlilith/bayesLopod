@@ -7,7 +7,7 @@
 lopodDens(LopodModel, params = NULL)
 }
 \arguments{
-\item{LopodModel}{A LopodModel object}
+\item{LopodModel}{A \linkS4class{LopodModel} object}
 
 \item{params}{Parameters to be plotted. Default is NULL, which plots all global parameters}
 }

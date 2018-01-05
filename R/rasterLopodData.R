@@ -2,13 +2,13 @@
 #' @importFrom raster raster stack extent ncell distanceFromPoints distance xyFromCell adjacent
 #' @importFrom slam  as.simple_triplet_matrix simple_triplet_diag_matrix crossprod_simple_triplet_matrix
 #' @importFrom  rgeos gTouches
-#' @param rasterN Raster object with sampling effort (number of sampling events)in each cell.
-#' @param rasterY Raster object with number of detections in each cell.
+#' @param rasterN \linkS4class{Raster} object with sampling effort (number of sampling events)in each cell.
+#' @param rasterY \linkS4class{Raster} object with number of detections in each cell.
 #' @param Adjacency Boolean. If TRUE, and adjacency matrix is computed.
 #' @param extSample Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from a sampled cell that should be included in the study area. If 0, there is no extrapolation to not sampled cells.
 #' @param extDetection Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to not sampled cells.
 #' @export
-#' @return A LopodData object to be used in modelLopod.
+#' @return A \linkS4class{LopodData} object to be used in \code{\link{modelLopod}}.
 #' @examples
 #' data("simSpRecords", package = "bayesLopod")
 #' data("simSpSamplingEffort", package = "bayesLopod")

@@ -8,7 +8,7 @@ modelLopod(LopodData, varP = F, q = NULL, pmin = 0, CAR = F,
   nChains = 4, warmup = 2000, sampling = 1000, nCores = 4)
 }
 \arguments{
-\item{LopodData}{Object with the data to be used in the Model}
+\item{LopodData}{\linkS4class{LopodData} with the data to be used in the Model}
 
 \item{varP}{Boolean. If TRUE, detectability will vary across cells. If FALSE a global value for detectability will be estimated.}
 
@@ -27,10 +27,45 @@ modelLopod(LopodData, varP = F, q = NULL, pmin = 0, CAR = F,
 \item{nCores}{Number of cores to use when executing the chains in parallel.}
 }
 \value{
-A LopodModel object.
+A \linkS4class{LopodModel} object.
 }
 \description{
 Run a  Bayes inference of Landscape Occupancy from Presence-Only Data on Stan
+}
+\details{
+These parameters are estimated for the entire sampling area and affect all sampling units equally. These parameters can be examined using the \code{\link{lopodDens}}, \code{\link{lopodSummary}} and \code{\link{lopodTrace}} functions in bayesLopod.
+\itemize{
+  \item "psi": Average occupancy across the study area.
+  \item "p": (if varP = FALSE) Probability of detection for all sampling units.
+  \item "pmax": (if varP = TRUE) Maximum value of p.
+  \item "pmin": (if varP = TRUE) Minimum value of p.
+  \item "alpha": (if CAR = TRUE) alpha parameter of the conditional autoregressive model.
+  \item "tau": (if CAR = TRUE) tau parameter of the conditional autoregressive model.
+  \item "chi_sq"*: (EXPERIMENTAL) chi-square statistic for model.
+  \item "lLh"*: (EXPERIMENTAL) total log-likelihood for the pattern observed across all sampling units, given the parameters estimated in the model.
+  \item "AIC"*: (EXPERIMENTAL) Akaike information criterion value for the model.
+}
+
+\strong{Sampled sampling-units}:
+These parameters are estimated for each sampling unit that has at least one sampling event. These parameters can be retrieved to a Shapefile or Raster using the \code{\link{lopodRaster}} or \code{\link{lopodShape}}functions.
+\itemize{
+  \item "psi_Sampled": Probability of occurrence in each sampling unit.
+  \item "pCorr": (if varP = TRUE) probability of detection in each sampling unit that is occupied. This value is corrected to include unoccupied cells, in which case p = 0.
+  \item "sim_y": Simulated number of detections based on the number of sampling events and the model.
+  \item "sim_true_y": Simulated number of true detections based on the number of sampling events and the model.
+  \item "sim_false_y": Simulated number of false detections based on the number of sampling events and the model.
+  \item "pp": Probability of presence given a pattern of sampling effort/detections and the model.
+  \item "cellpres_i": Simulated presence/absence for each iteration based on model.
+  \item "expRec"*: (EXPERIMENTAL) Expected number of detections.
+  \item "lLh_cell"*: (EXPERIMENTAL) Likelihood of the pattern in a cell given the model.
+}
+
+\strong{All sampling-units}:
+These parameters are estimated for all sampling units only if a conditional autoregressive model  is implemented (CAR = TRUE). These parameters can be retrieved to a Shapefile or Raster using the \code{\link{lopodRaster}} or \code{\link{lopodShape}} functions.
+\itemize{
+  \item "psi_i":  Probability of occurrence in each sampling units. This is inferred for unsampled united using the CAR model. For sampled units, "psi_i" equals "psi_Sampled"
+}
+*EXPERIMENTAL VALUES SHOULD BE TAKEN CAREFULLY AND NOT USED NAIVELY TO DETERMINE WHICH MODELS ARE BETTER THAN OTHERS
 }
 \examples{
 data("simSpRecords", package = "bayesLopod")

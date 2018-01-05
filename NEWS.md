@@ -1,5 +1,6 @@
-bayesLopod 1.0.1
+bayesLopod 1.0.2
 
+More detailed docimentation. Particurally in modeLopod
 rhat can be plotted in shape and rasters
 
 

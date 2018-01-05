@@ -1,6 +1,6 @@
 #' Plots the values of model parameters for each chain across iterations
 #' @importFrom rstan stan_trace
-#' @param LopodModel A LopodModel object
+#' @param LopodModel A \linkS4class{LopodModel} object
 #' @param params Parameters to be plotted. Default is "lp__" which plots the log posterior probability
 #' @param inc_warmup Boolean. If true, warm-up iterations are plotted. Default is FALSE.
 #' @export

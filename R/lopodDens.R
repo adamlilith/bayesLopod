@@ -1,6 +1,6 @@
 #' Kernel density estimates of global occupancy model parameters.
 #' @importFrom rstan stan_dens
-#' @param LopodModel A LopodModel object
+#' @param LopodModel A \linkS4class{LopodModel} object
 #' @param params Parameters to be plotted. Default is NULL, which plots all global parameters
 #' @export
 #' @return A ggplot object.

@@ -8,7 +8,7 @@ shapeLopodData(Shapefile, fieldN = "sampEffort", fieldY = "detections",
   Adjacency = T, keepFields = T)
 }
 \arguments{
-\item{Shapefile}{SpatialPolygonsDataFrame Object with at least two Fields corresponding to sampling effort and number of detections in each feature}
+\item{Shapefile}{\linkS4class{SpatialPolygonsDataFrame} Object with at least two Fields corresponding to sampling effort and number of detections in each feature}
 
 \item{fieldN}{Field in Shapefile corresponding to sampling effort (number of sampling events)in each feature.}
 
@@ -19,7 +19,7 @@ shapeLopodData(Shapefile, fieldN = "sampEffort", fieldY = "detections",
 \item{keepFields}{Boolean. If TRUE, other fields of the Shapefile will be kept and "sampEffort" and "detections" will be added. If FALSE, only the "sampEffort" and "detections" will be kept in the LopodData Object.}
 }
 \value{
-A LopodData object to be used in modelLopod.
+A \linkS4class{LopodData} object to be used in \code{\link{modelLopod}}.
 }
 \description{
 Create a LopodData object from Raster data

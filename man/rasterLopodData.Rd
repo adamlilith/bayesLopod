@@ -8,9 +8,9 @@ rasterLopodData(rasterN, rasterY, Adjacency = T, extSample = 0.025,
   extDetection = 0.15)
 }
 \arguments{
-\item{rasterN}{Raster object with sampling effort (number of sampling events)in each cell.}
+\item{rasterN}{\linkS4class{Raster} object with sampling effort (number of sampling events)in each cell.}
 
-\item{rasterY}{Raster object with number of detections in each cell.}
+\item{rasterY}{\linkS4class{Raster} object with number of detections in each cell.}
 
 \item{Adjacency}{Boolean. If TRUE, and adjacency matrix is computed.}
 
@@ -19,7 +19,7 @@ rasterLopodData(rasterN, rasterY, Adjacency = T, extSample = 0.025,
 \item{extDetection}{Number between 0 and 1. Maximum distance (relative to the diagonal of the raster) from cell in which the species was detected that should be included in the study area. If 0, there is no extrapolation to not sampled cells.}
 }
 \value{
-A LopodData object to be used in modelLopod.
+A \linkS4class{LopodData} object to be used in \code{\link{modelLopod}}.
 }
 \description{
 Create a LopodData object from Raster data
