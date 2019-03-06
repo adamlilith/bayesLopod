@@ -4,8 +4,9 @@
 \alias{xyToRaster}
 \title{Crate Shape object for a parameter estimated in a LopodModel}
 \usage{
-xyToRaster(xyRecords, xySamplingEffort, nrows = 50, extentExpansion = 0.1,
-  extent = NULL, basemap = getData("worldclim", var = "alt", res = 10))
+xyToRaster(xyRecords, xySamplingEffort, nrows = 50,
+  extentExpansion = 0.1, extent = NULL,
+  basemap = getData("worldclim", var = "alt", res = 10))
 }
 \arguments{
 \item{xyRecords}{Object of class \linkS4class{SpatialPoints} or \linkS4class{SpatialPointsDataFrame} with the locality-records of the species.}

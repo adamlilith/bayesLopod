@@ -4,7 +4,8 @@
 \alias{rasterStudyArea}
 \title{Internal - Create a Raster object with Study Area from Raster data}
 \usage{
-rasterStudyArea(DistStak, maxDist, extSample = 0.025, extDetection = 0.15)
+rasterStudyArea(DistStak, maxDist, extSample = 0.025,
+  extDetection = 0.15)
 }
 \arguments{
 \item{DistStak}{Stack object distance to Sampled cells and detections (in that order).}

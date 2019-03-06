@@ -4,7 +4,8 @@
 \alias{lopodShape}
 \title{Crate Shape object for a parameter estimated in a LopodModel}
 \usage{
-lopodShape(LopodModel, param, extrapolate = T, metric = NULL, quant = 0.5)
+lopodShape(LopodModel, param, extrapolate = T, metric = NULL,
+  quant = 0.5)
 }
 \arguments{
 \item{LopodModel}{A \linkS4class{LopodModel} object}
