@@ -16,6 +16,8 @@
 #' @param @makeAdj Logical, if \code{TRUE} (default) and \code{x} is not "just" a data frame, the calculate an adjacency matrix to allow the \code{trainLopod} function to use conditional autoregression (CAR). This argument is ignored if \code{x} is a data frame. Note that cells/features with no neighbors will be dropped from the analysis. If \code{x} is a raster-type object, please see the help for \code{\link[raster]{adjacent}} for options you may want to use.
 #' @param keep Logical, if \code{TRUE} (default) then the lopodData object will retain a copy of the object in \code{x}.
 #' @param ... Additional arguments to pass to the function \code{adjacent} used by the \pck{raster} package if \code{x} is a raster.
+#' @return
+#' An list object that is also of class \code{lopodData}.
 #' @examples
 #' data(andropogon)
 #" data <- makeLopodData(andropogon, 'detections', 'effort', makeAdj=TRUE)
@@ -85,7 +87,8 @@ makeLopodData <- function(
 	if (keep) out$orig <- x
 	out$adj <- adj
 	out$data <- data.frame(detects = detects, efforts = efforts)
-		
+
+	class(out) <- c('lopoData', class(out))
 	out
 
 }
