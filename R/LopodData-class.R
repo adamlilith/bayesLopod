@@ -1,5 +1,4 @@
-setClassUnion("spatialObjectsUnion", members = c("RasterStack", "SpatialPolygonsDataFrame"))
-
+setClassUnion('spatialObjectsUnion', members = c('RasterStack', 'SpatialPolygonsDataFrame'))
 
 #' An S4 class to contain data to be input into a bayesLopod model.
 #' @importClassesFrom raster RasterStack RasterLayer
@@ -10,4 +9,12 @@ setClassUnion("spatialObjectsUnion", members = c("RasterStack", "SpatialPolygons
 #' @slot geoType Type of geographical data (Only rasters supported for now)
 #' @slot geoInfo Additional spatial information to be passed to modelLopod
 
-LopodData_Class = setClass("LopodData",contains = "spatialObjectsUnion", slots=c(geoDataObject = "spatialObjectsUnion", geoType = "character", geoInfo = "list" ) )
+LopodData_Class <- setClass(
+	'LopodData',
+	contains = 'spatialObjectsUnion',
+	slots=c(
+		geoDataObject = 'spatialObjectsUnion',
+		geoType = 'character',
+		geoInfo = 'list'
+	)
+)
