@@ -9,8 +9,6 @@ Natural history museums and herbaria collectively hold hundreds of millions of z
 
 ### `bayesLopod` as an occupancy model
 
-[BRIEF EXPLANATION OF OCCUPANCY MODELS, VARIATION ACROSS SAMPLING EVENTS USING BENULLI PROCESSES]
-
 `bayesLopod` assumes that on average, detectability is the same in a sampling unit, and therefore the probability of observing a certain sampling pattern (i.e. number of detection given a number of sampling events; `theta`), if the species occurs in a sampling unit, follows a binomial distribution:   
 
 ![Binomial Expanded](/gif/binomial_exp_eq.gif)
